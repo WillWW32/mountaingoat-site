@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mountain Goats | Investor Pitch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+            position: relative;
+            border-bottom: 1px solid rgba(232,168,73,0.15);
+        }
+
+        .slide-inner {
+            max-width: 960px;
+            width: 100%;
+        }
+
+        /* Navigation */
+        .slide-nav {
+            position: fixed;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .slide-nav a {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: block;
+            transition: all 0.3s;
+        }
+
+        .slide-nav a:hover,
+        .slide-nav a.active {
+            background: #e8a849;
+            transform: scale(1.3);
+        }
+
+        /* Slide 1: Title */
+        .slide-title {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1510 100%);
+            text-align: center;
+        }
+
+        .slide-title .hero-img {
+            width: 280px;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        h1.deck-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 0.95;
+            margin-bottom: 0.5rem;
+        }
+
+        .deck-subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: lowercase;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 2rem;
+        }
+
+        .deck-meta {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.1em;
+        }
+
+        /* Section Headers */
+        .section-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #e8a849;
+            margin-bottom: 1rem;
+        }
+
+        h2.slide-heading {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-body {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.75);
+            max-width: 700px;
+        }
+
+        .gold { color: #e8a849; }
+
+        /* Athlete Cards */
+        .athletes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .athlete-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .athlete-card:hover {
+            border-color: rgba(232,168,73,0.3);
+        }
+
+        .athlete-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(232,168,73,0.4);
+        }
+
+        .athlete-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .athlete-card .school {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #e8a849;
+            margin-bottom: 0.75rem;
+        }
+
+        .athlete-card p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Rivalry Section */
+        .rivalry-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .rivalry-player {
+            text-align: center;
+        }
+
+        .rivalry-player img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            border: 2px solid rgba(255,255,255,0.15);
+            margin-bottom: 0.5rem;
+        }
+
+        .rivalry-player .name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .rivalry-player .team {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .rivalry-vs {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e8a849;
+        }
+
+        /* Stats row */
+        .pitch-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .pitch-stat {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+        }
+
+        .pitch-stat .num {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #e8a849;
+        }
+
+        .pitch-stat .label {
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-top: 0.25rem;
+        }
+
+        /* Tier cards */
+        .tiers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tier {
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+            position: relative;
+        }
+
+        .tier.featured {
+            border-color: rgba(232,168,73,0.4);
+            background: rgba(232,168,73,0.05);
+        }
+
+        .tier-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .tier-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e8a849;
+            margin-bottom: 1rem;
+        }
+
+        .tier ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tier li {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.65);
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .tier li::before {
+            content: "- ";
+            color: #e8a849;
+        }
+
+        /* Team list */
+        .team-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+        }
+
+        .team-member .tm-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(232,168,73,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .team-member .tm-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .team-member .tm-role {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Timeline */
+        .timeline {
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(232,168,73,0.2);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1rem 0;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #0a0a0a;
+            border: 2px solid #e8a849;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .timeline-dot.done {
+            background: #e8a849;
+        }
+
+        .timeline-content h4 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .timeline-content p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 0.25rem;
+        }
+
+        /* Bullet lists */
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+
+        .bullet-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+        }
+
+        .bullet-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.85rem;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #e8a849;
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .cta-section h2 {
+            margin-bottom: 1rem;
+        }
+
+        .cta-contact {
+            margin-top: 2rem;
+        }
+
+        .cta-contact a {
+            color: #e8a849;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .cta-phone {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: #e8a849;
+            margin: 1.5rem 0;
+        }
+
+        .quote-block {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.6);
+            border-left: 3px solid #e8a849;
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            max-width: 600px;
+        }
+
+        /* Avory callout */
+        .avory-callout {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: rgba(232,168,73,0.05);
+            border: 1px solid rgba(232,168,73,0.15);
+            border-radius: 12px;
+        }
+
+        .avory-callout img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            border: 2px solid rgba(232,168,73,0.4);
+            flex-shrink: 0;
+        }
+
+        .avory-callout h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .avory-callout p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+            .rivalry-visual { gap: 1rem; }
+            .avory-callout { flex-direction: column; text-align: center; }
+            .slide-nav { display: none; }
+        }
+
+        @media print {
+            .slide { min-height: auto; page-break-after: always; padding: 2rem; }
+            .slide-nav { display: none; }
+            body { background: #fff; color: #111; }
+            .slide-body, .athlete-card p, .tier li, .bullet-list li, .timeline-content p { color: #444; }
+            .section-label, .gold, .pitch-stat .num, .tier-price { color: #b8862d; }
+            h2.slide-heading, .athlete-card h3 { color: #111; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Side Navigation -->
+<nav class="slide-nav">
+    <a href="#s1" title="Title"></a>
+    <a href="#s2" title="The Story"></a>
+    <a href="#s3" title="The Athletes"></a>
+    <a href="#s4" title="The Rivalry"></a>
+    <a href="#s5" title="Avory"></a>
+    <a href="#s6" title="Production"></a>
+    <a href="#s7" title="Distribution"></a>
+    <a href="#s8" title="Sponsorship"></a>
+    <a href="#s9" title="Contact"></a>
+</nav>
+
+<!-- SLIDE 1: Title -->
+<section class="slide slide-title" id="s1">
+    <div class="slide-inner" style="text-align: center;">
+        <img src="mountain-goats-hero.jpg" alt="Mountain Goats" class="hero-img">
+        <h1 class="deck-title">Mountain Goats</h1>
+        <p class="deck-subtitle">a basketball documentary</p>
+        <div class="divider" style="margin: 1.5rem auto;"></div>
+        <p class="deck-meta">Local Business Investor Deck &bull; Missoula, Montana &bull; 2026</p>
+    </div>
+</section>
+
+<!-- SLIDE 2: The Story -->
+<section class="slide" id="s2">
+    <div class="slide-inner">
+        <p class="section-label">The Opportunity</p>
+        <h2 class="slide-heading">This isn't just a basketball game.<br>It's <span class="gold">Missoula's story.</span></h2>
+        <div class="divider"></div>
+        <p class="slide-body">
+            Three kids grew up playing basketball together from the 4th grade through 7th grade in Missoula, Montana. Then they split to three rival high schools&mdash;Big Sky, Sentinel, and Hellgate&mdash;and became the best players in the state. Add in the most dominant female player Montana has ever produced, and you have a once-in-a-generation story.
+        </p>
+        <p class="slide-body" style="margin-top: 1rem;">
+            <strong>Mountain Goats</strong> is a Hoop Dreams&ndash;style documentary capturing the Goat Game 2026&mdash;a packed-arena showdown at Adams Center where these childhood friends face off as rivals. Raw footage. No scripts. No narration. Just real kids chasing real dreams.
+        </p>
+        <div class="pitch-stats" style="margin-top: 2.5rem;">
+            <div class="pitch-stat">
+                <div class="num">4</div>
+                <div class="label">Athletes</div>
+            </div>
+            <div class="pitch-stat">
+                <div class="num">4</div>
+                <div class="label">Student Filmmakers</div>
+            </div>
+            <div class="pitch-stat">
+                <div class="num">3</div>
+                <div class="label">Rival Schools</div>
+            </div>
+            <div class="pitch-stat">
+                <div class="num">1</div>
+                <div class="label">Community</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 3: The Athletes -->
+<section class="slide" id="s3">
+    <div class="slide-inner">
+        <p class="section-label">The Cast</p>
+        <h2 class="slide-heading">Meet the <span class="gold">Athletes</span></h2>
+        <div class="divider"></div>
+        <div class="athletes-grid">
+            <div class="athlete-card">
+                <img src="athletes/sia.png" alt="Sia Boone">
+                <h3>Sia Boone</h3>
+                <div class="school">Big Sky Eagles</div>
+                <p>The underrated dark horse. Overlooked by scouts, grinding every day with no offers, hoping someone finally notices. The underdog heart of the film.</p>
+            </div>
+            <div class="athlete-card">
+                <img src="athletes/linc.png" alt="Lincoln Rogers">
+                <h3>Lincoln Rogers</h3>
+                <div class="school">Sentinel Spartans</div>
+                <p>The top men's talent from Montana in a long time. Sits out this year's Goat Game&mdash;then responds by leading the #1 team in the state and becoming the #1 ranked player in Montana.</p>
+            </div>
+            <div class="athlete-card">
+                <img src="athletes/zane.png" alt="Zane Gilhouse">
+                <h3>Zane Gilhouse</h3>
+                <div class="school">Hellgate Knights</div>
+                <p>Won a state title as a freshman. Battling injuries through two straight playoff runs. The fierce competitor who refuses to back down.</p>
+            </div>
+            <div class="athlete-card">
+                <img src="athletes/avory.webp" alt="Avory">
+                <h3>Avory</h3>
+                <div class="school">Big Sky Eagles</div>
+                <p>Perhaps the top female basketball player to ever come out of Montana. A generational talent whose intensity and dominance redefine what's possible.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 4: The Rivalry -->
+<section class="slide" id="s4">
+    <div class="slide-inner">
+        <p class="section-label">The Narrative</p>
+        <h2 class="slide-heading">Friends turned <span class="gold">rivals.</span></h2>
+        <div class="divider"></div>
+
+        <div class="rivalry-visual">
+            <div class="rivalry-player">
+                <img src="athletes/sia.png" alt="Sia">
+                <div class="name">Sia</div>
+                <div class="team">Big Sky</div>
+            </div>
+            <div class="rivalry-vs">VS</div>
+            <div class="rivalry-player">
+                <img src="athletes/linc.png" alt="Lincoln">
+                <div class="name">Lincoln</div>
+                <div class="team">Sentinel</div>
+            </div>
+            <div class="rivalry-vs">VS</div>
+            <div class="rivalry-player">
+                <img src="athletes/zane.png" alt="Zane">
+                <div class="name">Zane</div>
+                <div class="team">Hellgate</div>
+            </div>
+        </div>
+
+        <p class="slide-body">
+            From the 4th grade on, Sia, Lincoln, and Zane were inseparable. Same gym. Same coaches. Same dream. By 7th grade, everyone knew these three would be special.
+        </p>
+        <p class="slide-body" style="margin-top: 1rem;">
+            Then high school split them across Missoula's three biggest rivals. The kid who practiced with you every day is now the kid trying to end your season. The friend who fed you passes is now the opponent scouting your weaknesses.
+        </p>
+        <p class="slide-body" style="margin-top: 1rem;">
+            Lincoln, the most acclaimed of the three, had the local D1 programs make 8&ndash;10 offers to California players and rescind his scholarship, hoping they could get him as a budget walk-on. He committed to a D2 that believed in him. Then he sat out the Goat Game&mdash;and responded by leading the #1 team in the state and becoming the #1 ranked player in Montana. Sia, the one nobody recruited, has to step up. And Zane, battling through injuries, refuses to let pain define his legacy.
+        </p>
+
+        <div class="quote-block" style="margin-top: 2.5rem;">
+            "We thought we were making a basketball documentary. We were wrong. It's about friendship, loss, and what it takes to keep going when nobody's watching."
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 5: Avory -->
+<section class="slide" id="s5">
+    <div class="slide-inner">
+        <p class="section-label">Making History</p>
+        <h2 class="slide-heading">Perhaps Montana's <span class="gold">greatest</span> female player.</h2>
+        <div class="divider"></div>
+
+        <div class="avory-callout">
+            <img src="athletes/avory2.png" alt="Avory">
+            <div>
+                <h3>Avory</h3>
+                <p>
+                    In a state where high school basketball is practically religion, Avory isn't just the best girl playing right now&mdash;she might be the best to ever come out of Montana. Period. Her intensity on the court is unmatched, and her story adds a dimension to this film that makes it more than a boys' rivalry documentary. She represents an entire generation of young female athletes in Montana who are rewriting what's possible.
+                </p>
+            </div>
+        </div>
+
+        <p class="slide-body">
+            Including Avory in the film broadens the audience dramatically. Her story resonates with families, female athletes, Title IX advocates, and anyone who believes the next generation of women's sports deserves a spotlight. For sponsors, her presence opens doors to brands and demographics that a boys-only documentary simply can't reach.
+        </p>
+    </div>
+</section>
+
+<!-- SLIDE 6: Production Team -->
+<section class="slide" id="s6">
+    <div class="slide-inner">
+        <p class="section-label">The Team</p>
+        <h2 class="slide-heading">Professional production.<br><span class="gold">Community roots.</span></h2>
+        <div class="divider"></div>
+        <p class="slide-body">This is not a school project. Mountain Goats is backed by decades of professional film, media, and coaching experience&mdash;all rooted right here in Missoula.</p>
+
+        <div class="team-list">
+            <div class="team-member">
+                <div class="tm-icon">JB</div>
+                <div>
+                    <div class="tm-name">Jesse Boone</div>
+                    <div class="tm-role">Producer / Creator &bull; Owner, 3 Birds Studio</div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="tm-icon">RT</div>
+                <div>
+                    <div class="tm-name">Roy Tunnell</div>
+                    <div class="tm-role">Director</div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="tm-icon">TD</div>
+                <div>
+                    <div class="tm-name">Tim Danyo</div>
+                    <div class="tm-role">DP / Editor &bull; Owner, Imagination Media</div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="tm-icon">KW</div>
+                <div>
+                    <div class="tm-name">Kim Williams</div>
+                    <div class="tm-role">Community Outreach</div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="tm-icon">CP</div>
+                <div>
+                    <div class="tm-name">Christian Palmer</div>
+                    <div class="tm-role">Consultant</div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="tm-icon">ST</div>
+                <div>
+                    <div class="tm-name">ShotsbyeTaylor</div>
+                    <div class="tm-role">Cinematographer</div>
+                </div>
+            </div>
+        </div>
+
+        <ul class="bullet-list" style="margin-top: 2rem;">
+            <li>Jesse Boone: 8 years at Rocky Mountain School of Photography, former Varsity Basketball coach, former media arts teacher</li>
+            <li>Partnership with University of Montana for college internship credit</li>
+            <li>Student filmmakers earn real professional experience on a real production</li>
+        </ul>
+    </div>
+</section>
+
+<!-- SLIDE 7: Distribution & Market -->
+<section class="slide" id="s7">
+    <div class="slide-inner">
+        <p class="section-label">Distribution</p>
+        <h2 class="slide-heading">From Missoula<br>to <span class="gold">streaming.</span></h2>
+        <div class="divider"></div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-content">
+                    <h4>Production Complete</h4>
+                    <p>Goat Game filmed January 30, 2026 at Adams Center, Missoula</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-content">
+                    <h4>Post-Production</h4>
+                    <p>Editing, scoring, and final cut underway with professional team</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Premiere at The Roxy Theater</h4>
+                    <p>Multiple showings at Missoula's historic independent theater</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Big Sky Documentary Film Festival</h4>
+                    <p>Submission to Missoula's prestigious documentary festival</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Streaming Distribution</h4>
+                    <p>Actively pursuing a major streaming deal for national/global audience</p>
+                </div>
+            </div>
+        </div>
+
+        <ul class="bullet-list" style="margin-top: 1.5rem;">
+            <li>Email list growing via Beehiiv automation with 3-part sequence</li>
+            <li>Instagram presence @mountaingoatsmovie for behind-the-scenes content</li>
+            <li>NIL deals and scholarships awarded to athletes on premiere day</li>
+            <li>The purpose of the film: other cities and communities adopt this model and build their own Goat Games&mdash;Missoula goes first, then it spreads</li>
+        </ul>
+    </div>
+</section>
+
+<!-- SLIDE 8: Sponsorship Tiers -->
+<section class="slide" id="s8">
+    <div class="slide-inner">
+        <p class="section-label">Investment</p>
+        <h2 class="slide-heading">Sponsorship <span class="gold">Opportunities</span></h2>
+        <div class="divider"></div>
+        <p class="slide-body" style="margin-bottom: 1.5rem;">
+            Your brand becomes part of a documentary that will premiere locally, screen at festivals, and reach streaming audiences nationwide. This is authentic Missoula storytelling&mdash;and your business is woven into it.
+        </p>
+
+        <div class="tiers">
+            <div class="tier">
+                <div class="tier-name">Community Supporter</div>
+                <div class="tier-price">$500</div>
+                <ul>
+                    <li>Logo on Mountain Goats website</li>
+                    <li>Social media thank-you post</li>
+                    <li>2 premiere tickets at The Roxy</li>
+                    <li>Name in film credits</li>
+                </ul>
+            </div>
+            <div class="tier featured">
+                <div class="tier-name">Game Changer</div>
+                <div class="tier-price">$2,500</div>
+                <ul>
+                    <li>Everything in Community Supporter</li>
+                    <li>Logo in film end credits</li>
+                    <li>Featured sponsor post + story on Instagram</li>
+                    <li>6 premiere tickets + VIP seating</li>
+                    <li>Logo on all premiere event materials</li>
+                </ul>
+            </div>
+            <div class="tier">
+                <div class="tier-name">Presenting Sponsor</div>
+                <div class="tier-price">$10,000</div>
+                <ul>
+                    <li>Everything in Game Changer</li>
+                    <li>"Presented by" credit in the film</li>
+                    <li>Featured in behind-the-scenes content</li>
+                    <li>Private screening for your team</li>
+                    <li>10 premiere tickets + after-party access</li>
+                    <li>Brand integration in marketing materials</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 9: CTA -->
+<section class="slide" id="s9">
+    <div class="slide-inner cta-section">
+        <p class="section-label">Let's Talk</p>
+        <h2 class="slide-heading">Be part of<br><span class="gold">Missoula's story.</span></h2>
+        <div class="divider" style="margin: 1.5rem auto;"></div>
+        <p class="slide-body" style="margin: 0 auto 1.5rem; text-align: center;">
+            You're not investing in a documentary. You're investing in six kids who did something nobody asked them to do.
+        </p>
+        <p class="slide-body" style="margin: 0 auto 1.5rem; text-align: center;">
+            Four athletes who grew up together, got split apart, and still showed up to compete&mdash;not for scholarships, not for fame&mdash;because the game is what they love. Two filmmakers who stepped up, grabbed cameras, and proved that the kids behind the lens belong on the same team as the kids on the court.
+        </p>
+        <p class="slide-body" style="margin: 0 auto 1.5rem; text-align: center;">
+            They weren't made in a lab. They were made in this community. Your community. Every business in this room has benefited from what Missoula builds&mdash;the families, the coaches, the teachers, the gyms nobody sees.
+        </p>
+        <p class="slide-body" style="margin: 0 auto 2rem; text-align: center;">
+            This is a chance to put your name alongside a story that's already being told. The premiere is at The Roxy. We're submitting to Big Sky Documentary Film Festival. We're pursuing streaming distribution. But the real reason to be here is simpler than that&mdash;these are your kids, this is your town, and this story matters.
+        </p>
+
+        <div class="cta-contact">
+            <a href="mailto:jesse@entreartists.com">jesse@entreartists.com</a>
+            <p class="cta-phone">406-926-9950</p>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.4);">
+                Mountain Goats &bull; 3 Birds Studio &bull; Missoula, Montana
+            </p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.3);">
+                @mountaingoatsmovie
+            </p>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Highlight active nav dot on scroll
+    const slides = document.querySelectorAll('.slide');
+    const navDots = document.querySelectorAll('.slide-nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navDots.forEach(dot => dot.classList.remove('active'));
+                const id = entry.target.id;
+                const activeDot = document.querySelector(`.slide-nav a[href="#${id}"]`);
+                if (activeDot) activeDot.classList.add('active');
+            }
+        });
+    }, { threshold: 0.5 });
+
+    slides.forEach(slide => observer.observe(slide));
+</script>
+
+</body>
+</html>

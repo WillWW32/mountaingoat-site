@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mountain Goats | A Basketball Documentary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* ===================== NAV ===================== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.4s, padding 0.4s;
+        }
+
+        .nav.scrolled {
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(12px);
+            padding: 0.75rem 2rem;
+            box-shadow: 0 1px 0 rgba(255,255,255,0.05);
+        }
+
+        .nav-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #e8a849;
+        }
+
+        @media (max-width: 700px) {
+            .nav-links { display: none; }
+        }
+
+        /* ===================== HERO ===================== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.3) 0%,
+                rgba(0,0,0,0.45) 50%,
+                rgba(10,10,10,0.95) 85%,
+                rgba(10,10,10,1) 100%
+            );
+            z-index: 1;
+        }
+
+        .hero-top-cover {
+            display: none;
+        }
+
+        @media (min-width: 769px) {
+            .hero-top-cover {
+                display: block;
+                position: absolute;
+                top: 0; left: 0;
+                width: 100%; height: 25%;
+                background: linear-gradient(to bottom, rgba(10,10,10,1) 0%, rgba(10,10,10,0.85) 60%, transparent 100%);
+                z-index: 1;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .premiere-badge {
+            display: inline-block;
+            padding: 0.6rem 1.75rem;
+            border: 1px solid rgba(232,168,73,0.5);
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            background: rgba(232,168,73,0.08);
+            color: #e8a849;
+        }
+
+        .title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(4rem, 15vw, 10rem);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            line-height: 0.9;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: lowercase;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-tagline {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.55);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .scroll-indicator:hover { opacity: 1; }
+        .scroll-indicator svg { width: 28px; height: 28px; }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* ===================== SECTIONS ===================== */
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .section-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #e8a849;
+            margin-bottom: 1rem;
+        }
+
+        .section-heading {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-body {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: rgba(255,255,255,0.7);
+            max-width: 680px;
+        }
+
+        .gold { color: #e8a849; }
+
+        .divider {
+            width: 50px;
+            height: 2px;
+            background: #e8a849;
+            margin: 1.5rem 0;
+        }
+
+        /* ===================== STORY SECTION ===================== */
+        .story {
+            text-align: center;
+        }
+
+        .story .section-body {
+            margin: 0 auto 2.5rem;
+        }
+
+        .story .divider {
+            margin: 1.5rem auto;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 3.5rem;
+            flex-wrap: wrap;
+            margin-top: 2.5rem;
+        }
+
+        .stat-number {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #e8a849;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            margin-top: 0.25rem;
+        }
+
+        /* ===================== RIVALRY ===================== */
+        .rivalry {
+            background: linear-gradient(to bottom, transparent, rgba(232,168,73,0.03), transparent);
+        }
+
+        .rivalry-intro {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .rivalry-text .section-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .rivalry-faces {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rivalry-face {
+            text-align: center;
+        }
+
+        .rivalry-face img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            border: 2px solid rgba(255,255,255,0.12);
+            transition: border-color 0.3s;
+        }
+
+        .rivalry-face img:hover {
+            border-color: #e8a849;
+        }
+
+        .rivalry-face .rf-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .rivalry-face .rf-school {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .rivalry-vs {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            color: #e8a849;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .rivalry-intro { grid-template-columns: 1fr; }
+            .rivalry-faces { margin-top: 1rem; }
+        }
+
+        /* ===================== ATHLETES ===================== */
+        .athletes {
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.015), transparent);
+        }
+
+        .athletes-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .athletes-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 480px) {
+            .athletes-grid { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }
+        }
+
+        .athlete-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 1.75rem 1.25rem;
+            text-align: center;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .athlete-card:hover {
+            border-color: rgba(232,168,73,0.25);
+            transform: translateY(-4px);
+        }
+
+        .athlete-card img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(232,168,73,0.3);
+        }
+
+        .athlete-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .athlete-card .a-school {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #e8a849;
+            margin-bottom: 0.75rem;
+        }
+
+        .athlete-card p {
+            font-size: 0.82rem;
+            line-height: 1.65;
+            color: rgba(255,255,255,0.55);
+        }
+
+        /* ===================== AVORY FEATURE ===================== */
+        .avory-feature {
+            background: linear-gradient(to bottom, transparent, rgba(232,168,73,0.04), transparent);
+        }
+
+        .avory-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2.5rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .avory-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            border: 3px solid rgba(232,168,73,0.35);
+        }
+
+        .avory-text .section-body {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 600px) {
+            .avory-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                justify-items: center;
+            }
+        }
+
+        /* ===================== FILMMAKERS ===================== */
+        .filmmakers {
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.015), transparent);
+        }
+
+        .filmmakers-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+            max-width: 560px;
+        }
+
+        @media (max-width: 480px) {
+            .filmmakers-grid { grid-template-columns: 1fr; max-width: 280px; }
+        }
+
+        .filmmaker-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 1.75rem 1.25rem;
+            text-align: center;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .filmmaker-card:hover {
+            border-color: rgba(232,168,73,0.25);
+            transform: translateY(-4px);
+        }
+
+        .filmmaker-card .fm-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(232,168,73,0.1);
+            border: 2px solid rgba(232,168,73,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .filmmaker-card .fm-icon svg {
+            width: 28px;
+            height: 28px;
+            color: #e8a849;
+        }
+
+        .filmmaker-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .filmmaker-card .fm-role {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #e8a849;
+            margin-bottom: 0.75rem;
+        }
+
+        .filmmaker-card p {
+            font-size: 0.82rem;
+            line-height: 1.65;
+            color: rgba(255,255,255,0.55);
+        }
+
+        /* ===================== MOVEMENT ===================== */
+        .movement {
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, rgba(232,168,73,0.04), transparent);
+        }
+
+        .movement .section-body {
+            margin: 0 auto;
+        }
+
+        .movement .divider {
+            margin: 1.5rem auto;
+        }
+
+        /* ===================== QUOTE ===================== */
+        .quote-section {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .quote-text {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(1.3rem, 3.5vw, 2rem);
+            font-weight: 400;
+            line-height: 1.4;
+            color: rgba(255,255,255,0.7);
+            max-width: 700px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+
+        .quote-attr {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 0.1em;
+        }
+
+        /* ===================== SIGNUP ===================== */
+        .signup {
+            padding: 6rem 2rem;
+            background: linear-gradient(to bottom, transparent, rgba(232,168,73,0.05));
+        }
+
+        .signup-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .signup-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .signup-text {
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .beehiiv-embed {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .beehiiv-embed iframe {
+            width: 100%;
+            border: none;
+            background: transparent;
+        }
+
+        /* ===================== FOOTER ===================== */
+        .footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: rgba(255,255,255,0.45);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #e8a849;
+        }
+
+        .footer-links svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .footer-text {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 0.05em;
+        }
+
+        /* ===================== ANIMATIONS ===================== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+    <a href="#" class="nav-logo">Mountain Goats</a>
+    <ul class="nav-links">
+        <li><a href="#story">Story</a></li>
+        <li><a href="#athletes">Athletes</a></li>
+        <li><a href="#filmmakers">Filmmakers</a></li>
+        <li><a href="#signup">Premiere</a></li>
+    </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <video class="hero-video" autoplay muted loop playsinline>
+        <source src="timelapse.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-top-cover"></div>
+    <div class="hero-content">
+        <div class="premiere-badge">Premiere Coming Soon</div>
+        <h1 class="title">Mountain<br>Goats</h1>
+        <p class="subtitle">a basketball documentary</p>
+        <p class="hero-tagline">Four athletes. Two filmmakers. One student-led production. See what happens when you set them free.</p>
+    </div>
+    <a href="#story" class="scroll-indicator">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+    </a>
+</section>
+
+<!-- Story -->
+<section id="story" class="story">
+    <div class="section-inner fade-in">
+        <p class="section-label">The Story</p>
+        <h2 class="section-heading">See what happens when high school students are set free to create the greatest high school basketball game of all time.</h2>
+        <div class="divider"></div>
+        <p class="section-body">
+            Missoula, Montana. Heart of the Rockies. A college town where every local player dreams of playing for the Griz or the Cats&mdash;the only D1 programs in the state. Three AA high schools, all playing in the state's highest classification.
+        </p>
+        <p class="section-body" style="margin-top: 1rem;">
+            Three boys grew up playing basketball together from 4th grade through 7th grade. Same gym. Same coaches. Same dream. Then high school split them across Missoula's three biggest rivals&mdash;Big Sky, Sentinel, and Hellgate. Like the golden age of '80s and '90s NBA, where the best players actually wanted to play against each other.
+        </p>
+        <p class="section-body" style="margin-top: 1rem;">
+            Mountain Goats pairs four athletes with student filmmakers who capture what no adult crew ever could. Slade follows Zane. Jaxson follows Avory. Peers filming peers. Raw. Real. Unscripted. They weren't made in a lab. They were made in the life.
+        </p>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Athletes</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Filmmakers</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Rival Schools</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Community</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- The Rivalry -->
+<section id="rivalry" class="rivalry">
+    <div class="section-inner">
+        <div class="rivalry-intro fade-in">
+            <div class="rivalry-text">
+                <p class="section-label">The Rivalry</p>
+                <h2 class="section-heading">Friends turned <span class="gold">rivals.</span></h2>
+                <div class="divider"></div>
+                <p class="section-body">
+                    Sia, Lincoln, and Zane were inseparable growing up. Same club team from 6th through 8th grade. Lincoln was the shortest of the three&mdash;now he's 6'8". Sia was the tallest&mdash;now he's the shortest. Nothing about these kids' stories went the way anyone expected.
+                </p>
+                <p class="section-body" style="margin-top: 1rem;">
+                    Lincoln is the top men's talent to come out of Montana in a long time. The local D1 programs made 8&ndash;10 offers to California players and rescinded his scholarship, hoping they could get him as a budget walk-on. He committed to a D2 that really believed in him. Then he sat out the Goat Game&mdash;and responded by leading the #1 team in the state and becoming the #1 ranked player in Montana. Sia, top 5 in the state in 2-point and 3-point efficiency, leads his team in scoring, shooting, and steals&mdash;with fewer minutes than either of his childhood friends. Still no offers. And Zane, a state champion as a freshman, has been injured the last two state tournaments.
+                </p>
+            </div>
+            <div class="rivalry-faces">
+                <div class="rivalry-face">
+                    <img src="athletes/sia.png" alt="Sia Boone">
+                    <div class="rf-name">Sia</div>
+                    <div class="rf-school">Big Sky</div>
+                </div>
+                <div class="rivalry-vs">VS</div>
+                <div class="rivalry-face">
+                    <img src="athletes/linc.png" alt="Lincoln Rogers">
+                    <div class="rf-name">Lincoln</div>
+                    <div class="rf-school">Sentinel</div>
+                </div>
+                <div class="rivalry-vs">VS</div>
+                <div class="rivalry-face">
+                    <img src="athletes/zane.png" alt="Zane Gilhouse">
+                    <div class="rf-name">Zane</div>
+                    <div class="rf-school">Hellgate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Athletes -->
+<section id="athletes" class="athletes">
+    <div class="section-inner fade-in">
+        <p class="section-label" style="text-align: center;">The Athletes</p>
+        <h2 class="section-heading" style="text-align: center;">Meet the <span class="gold">cast.</span></h2>
+        <div class="divider" style="margin: 1.5rem auto;"></div>
+        <div class="athletes-grid">
+            <div class="athlete-card">
+                <img src="athletes/sia.png" alt="Sia Boone">
+                <h3>Sia Boone</h3>
+                <div class="a-school">Big Sky Eagles</div>
+                <p>Top 5 in the state in 2pt and 3pt efficiency. Leads his team in scoring, shooting, and steals&mdash;with fewer minutes than Lincoln or Zane. Shows up in high-pressure moments. Still no offers. The most skilled and most desperate.</p>
+            </div>
+            <div class="athlete-card">
+                <img src="athletes/linc.png" alt="Lincoln Rogers">
+                <h3>Lincoln Rogers</h3>
+                <div class="a-school">Sentinel Spartans</div>
+                <p>The top men's talent from Montana in a long time. Sits out this year's Goat Game&mdash;then responds by leading the #1 ranked team in the state and becoming the #1 ranked player in Montana.</p>
+            </div>
+            <div class="athlete-card">
+                <img src="athletes/zane.png" alt="Zane Gilhouse">
+                <h3>Zane Gilhouse</h3>
+                <div class="a-school">Hellgate Knights</div>
+                <p>State champion as a freshman. Best mid-range game in the state. The ultimate coaches' player and unifier&mdash;until the final minutes, when he becomes a cold closer. Injured the last two state tournaments. Committed to Montana Tech.</p>
+            </div>
+            <div class="athlete-card">
+                <img src="athletes/avory.webp" alt="Avory">
+                <h3>Avory</h3>
+                <div class="a-school">Big Sky Eagles</div>
+                <p>Perhaps the top female basketball player to ever come out of Montana. Spotted playing rez ball 3v3 as a 4th grader with the highest basketball IQ you'd ever seen at that age&mdash;boy or girl. Played summer league with boys at 5'5" and still scored.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Avory Feature -->
+<section id="avory" class="avory-feature">
+    <div class="section-inner fade-in">
+        <p class="section-label">Making History</p>
+        <h2 class="section-heading">Perhaps Montana's <span class="gold">greatest</span> female player.</h2>
+        <div class="divider"></div>
+        <div class="avory-grid">
+            <img src="athletes/avory2.png" alt="Avory" class="avory-photo">
+            <div class="avory-text">
+                <p class="section-body">
+                    In a state where high school basketball is practically religion, Avory isn't just the best girl playing right now&mdash;she might be the best to ever do it in Montana. First spotted playing rez ball 3v3 as a 4th grader, she had the highest basketball IQ of any player you'd see at that age&mdash;boy or girl. She played summer league with boys and at 5'5" still scored. The most relentless, high-energy player on any court she steps on.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- The Filmmakers -->
+<section id="filmmakers" class="filmmakers">
+    <div class="section-inner fade-in">
+        <p class="section-label" style="text-align: center;">The Filmmakers</p>
+        <h2 class="section-heading" style="text-align: center;">The kids behind the <span class="gold">camera.</span></h2>
+        <div class="divider" style="margin: 1.5rem auto;"></div>
+        <p class="section-body" style="text-align: center; margin: 0 auto 1rem;">
+            They weren't assigned&mdash;they stepped up. Both emerged as high talent in the media arts when they took charge of making the Goat Game trailers for their respective schools. Then they were invited into The Collective to capture something bigger.
+        </p>
+        <div class="filmmakers-grid" style="margin-left: auto; margin-right: auto;">
+            <div class="filmmaker-card">
+                <div class="fm-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2" ry="2"/></svg>
+                </div>
+                <h3>Slade</h3>
+                <div class="fm-role">Media Arts &bull; Paired with Zane</div>
+                <p>Also an athlete with a college scholarship for soccer. Proved himself behind the lens making Goat Game trailers, then earned a spot in The Collective.</p>
+            </div>
+            <div class="filmmaker-card">
+                <div class="fm-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2" ry="2"/></svg>
+                </div>
+                <h3>Jaxson</h3>
+                <div class="fm-role">Media Arts &bull; Paired with Avory</div>
+                <p>Stepped up to create his school's Goat Game trailer and proved he could capture what no adult crew could&mdash;peers talking to peers, unguarded and real.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quote -->
+<section class="quote-section fade-in">
+    <p class="quote-text">"They weren't made in a lab. They were made in the life."</p>
+    <p class="quote-attr">&mdash; Mountain Goats</p>
+</section>
+
+<!-- The Movement -->
+<section class="movement">
+    <div class="section-inner fade-in">
+        <p class="section-label">The Movement</p>
+        <h2 class="section-heading">Build your own <span class="gold">Goat Game.</span></h2>
+        <div class="divider"></div>
+        <p class="section-body">
+            Mountain Goats isn't just a film&mdash;it's a blueprint. High school basketball is the purest form of basketball. It's raw, community-driven, and the grind isn't paid for. It takes moms, dads, grandpas, grandmas, coaches, teachers, and an entire community to build these athletes.
+        </p>
+        <p class="section-body" style="margin-top: 1rem;">
+            The purpose of this project is to prove what happens when project-based education meets student-powered capability. Pair athletes with student filmmakers. Give them real tools, real stakes, and real freedom. Then step back and let them fly.
+        </p>
+        <p class="section-body" style="margin-top: 1rem;">
+            We want other cities and communities to adopt this model and build their own Goat Games. Every town has this story. Missoula just went first.
+        </p>
+    </div>
+</section>
+
+<!-- Signup -->
+<section id="signup" class="signup">
+    <div class="signup-container fade-in">
+        <p class="section-label" style="text-align: center;">The Premiere</p>
+        <h3 class="signup-title">Be First to Watch</h3>
+        <p class="signup-text">Register for exclusive access to the live premiere at The Roxy Theater and behind-the-scenes content you won't see anywhere else.</p>
+
+        <div class="beehiiv-embed">
+            <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+            <iframe src="https://subscribe-forms.beehiiv.com/2ea5af80-e6e7-4890-b0ea-5b2d234bcd0e" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 100%; max-width: 500px; height: 80px; margin: 0; border-radius: 0px !important; background-color: transparent;"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-links">
+        <a href="https://instagram.com/mountaingoatsmovie" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            @mountaingoatsmovie
+        </a>
+        <a href="mailto:jesse@entreartists.com">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            jesse@entreartists.com
+        </a>
+    </div>
+    <p class="footer-text">Missoula, Montana &bull; 3 Birds Studio &bull; Divine Paradox Productions</p>
+</footer>
+
+<script>
+    // Sticky nav background on scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    // Fade-in on scroll
+    const faders = document.querySelectorAll('.fade-in');
+    const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.15 });
+
+    faders.forEach(el => fadeObserver.observe(el));
+</script>
+
+</body>
+</html>
