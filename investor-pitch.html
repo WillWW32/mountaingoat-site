@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mountain Goats | Investor Pitch</title>
+    <title>Mountain Goats | Investor & Sponsorship Opportunity</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -251,7 +251,7 @@
         /* Tier cards */
         .tiers {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.5rem;
             margin-top: 2rem;
         }
@@ -267,6 +267,11 @@
         .tier.featured {
             border-color: rgba(232,168,73,0.4);
             background: rgba(232,168,73,0.05);
+        }
+
+        .tier.premium {
+            border-color: rgba(232,168,73,0.6);
+            background: rgba(232,168,73,0.08);
         }
 
         .tier-name {
@@ -418,6 +423,136 @@
             background: #e8a849;
         }
 
+        /* Funding breakdown */
+        .funding-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin: 2rem 0;
+        }
+
+        .funding-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .funding-item:hover {
+            border-color: rgba(232,168,73,0.3);
+        }
+
+        .funding-amount {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e8a849;
+            margin-bottom: 0.25rem;
+        }
+
+        .funding-category {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .funding-detail {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.5;
+        }
+
+        .funding-total {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(232,168,73,0.08);
+            border: 1px solid rgba(232,168,73,0.25);
+            border-radius: 12px;
+        }
+
+        .funding-total .amount {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #e8a849;
+        }
+
+        .funding-total .label {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 0.25rem;
+        }
+
+        /* Ownership callout */
+        .ownership-callout {
+            margin-top: 2rem;
+            padding: 1.5rem 2rem;
+            background: rgba(232,168,73,0.06);
+            border: 1px solid rgba(232,168,73,0.2);
+            border-radius: 12px;
+            border-left: 4px solid #e8a849;
+        }
+
+        .ownership-callout h4 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #e8a849;
+            margin-bottom: 0.5rem;
+        }
+
+        .ownership-callout p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+
+        /* Platform logos */
+        .platform-targets {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .platform-target {
+            text-align: center;
+            padding: 1.25rem 1.5rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            min-width: 120px;
+            transition: border-color 0.3s;
+        }
+
+        .platform-target:hover {
+            border-color: rgba(232,168,73,0.3);
+        }
+
+        .platform-target .platform-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .platform-target .platform-type {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.25rem;
+        }
+
         /* CTA */
         .cta-section {
             text-align: center;
@@ -496,10 +631,56 @@
             line-height: 1.7;
         }
 
+        /* Expansion visual */
+        .expansion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .expansion-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .expansion-card:hover {
+            border-color: rgba(232,168,73,0.3);
+        }
+
+        .expansion-card .exp-phase {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #e8a849;
+            margin-bottom: 0.5rem;
+        }
+
+        .expansion-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .expansion-card p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.6;
+        }
+
         @media (max-width: 600px) {
             .rivalry-visual { gap: 1rem; }
             .avory-callout { flex-direction: column; text-align: center; }
             .slide-nav { display: none; }
+            .tiers { grid-template-columns: 1fr; }
+            .funding-grid { grid-template-columns: 1fr 1fr; }
+            .platform-targets { gap: 1rem; }
         }
 
         @media print {
@@ -507,7 +688,7 @@
             .slide-nav { display: none; }
             body { background: #fff; color: #111; }
             .slide-body, .athlete-card p, .tier li, .bullet-list li, .timeline-content p { color: #444; }
-            .section-label, .gold, .pitch-stat .num, .tier-price { color: #b8862d; }
+            .section-label, .gold, .pitch-stat .num, .tier-price, .funding-amount { color: #b8862d; }
             h2.slide-heading, .athlete-card h3 { color: #111; }
         }
     </style>
@@ -517,14 +698,17 @@
 <!-- Side Navigation -->
 <nav class="slide-nav">
     <a href="#s1" title="Title"></a>
-    <a href="#s2" title="The Story"></a>
+    <a href="#s2" title="The Opportunity"></a>
     <a href="#s3" title="The Athletes"></a>
     <a href="#s4" title="The Rivalry"></a>
     <a href="#s5" title="Avory"></a>
-    <a href="#s6" title="Production"></a>
+    <a href="#s6" title="The Team"></a>
     <a href="#s7" title="Distribution"></a>
-    <a href="#s8" title="Sponsorship"></a>
-    <a href="#s9" title="Contact"></a>
+    <a href="#s8" title="Expansion"></a>
+    <a href="#s9" title="Funding"></a>
+    <a href="#s10" title="Sponsorship"></a>
+    <a href="#s11" title="Timeline"></a>
+    <a href="#s12" title="Contact"></a>
 </nav>
 
 <!-- SLIDE 1: Title -->
@@ -532,13 +716,13 @@
     <div class="slide-inner" style="text-align: center;">
         <img src="mountain-goats-hero.jpg" alt="Mountain Goats" class="hero-img">
         <h1 class="deck-title">Mountain Goats</h1>
-        <p class="deck-subtitle">a basketball documentary</p>
+        <p class="deck-subtitle">investor & sponsorship opportunity</p>
         <div class="divider" style="margin: 1.5rem auto;"></div>
-        <p class="deck-meta">Local Business Investor Deck &bull; Missoula, Montana &bull; 2026</p>
+        <p class="deck-meta">Mountain Goats Media, LLC &bull; Missoula, Montana &bull; 2026</p>
     </div>
 </section>
 
-<!-- SLIDE 2: The Story -->
+<!-- SLIDE 2: The Opportunity -->
 <section class="slide" id="s2">
     <div class="slide-inner">
         <p class="section-label">The Opportunity</p>
@@ -548,7 +732,10 @@
             Three kids grew up playing basketball together from the 4th grade through 7th grade in Missoula, Montana. Then they split to three rival high schools&mdash;Big Sky, Sentinel, and Hellgate&mdash;and became the best players in the state. Add in the most dominant female player Montana has ever produced, and you have a once-in-a-generation story.
         </p>
         <p class="slide-body" style="margin-top: 1rem;">
-            <strong>Mountain Goats</strong> is a Hoop Dreams&ndash;style documentary capturing the Goat Game 2026&mdash;a packed-arena showdown at Adams Center where these childhood friends face off as rivals. Raw footage. No scripts. No narration. Just real kids chasing real dreams.
+            <strong>Mountain Goats</strong> is a Hoop Dreams&ndash;style documentary capturing the Goat Game 2026&mdash;a packed-arena showdown at Adams Center where these childhood friends face off as rivals. Raw footage. No scripts. Just real kids chasing real dreams.
+        </p>
+        <p class="slide-body" style="margin-top: 1rem;">
+            <span class="gold"><strong>This is not a one-off film.</strong></span> Mountain Goats is designed as a scalable documentary series&mdash;a replicable model where other cities and communities build their own Goat Games. Missoula goes first.
         </p>
         <div class="pitch-stats" style="margin-top: 2.5rem;">
             <div class="pitch-stat">
@@ -556,7 +743,7 @@
                 <div class="label">Athletes</div>
             </div>
             <div class="pitch-stat">
-                <div class="num">4</div>
+                <div class="num">3</div>
                 <div class="label">Student Filmmakers</div>
             </div>
             <div class="pitch-stat">
@@ -577,6 +764,9 @@
         <p class="section-label">The Cast</p>
         <h2 class="slide-heading">Meet the <span class="gold">Athletes</span></h2>
         <div class="divider"></div>
+        <p class="slide-body" style="margin-bottom: 1.5rem;">
+            Four athletes with real stories, real stakes, and a built-in audience that already cares about them. These aren't actors&mdash;they're the kids this community raised.
+        </p>
         <div class="athletes-grid">
             <div class="athlete-card">
                 <img src="athletes/sia.png" alt="Sia Boone">
@@ -634,7 +824,7 @@
         </div>
 
         <p class="slide-body">
-            From the 4th grade on, Sia, Lincoln, and Zane were inseparable. Same gym. Same coaches. Same dream. By 7th grade, everyone knew these three would be special.
+            From the 4th grade on, Sia, Lincoln, and Zane were tight-knit teammates. Same gym. Same coaches. Same dream. By 7th grade, everyone knew these three would be special.
         </p>
         <p class="slide-body" style="margin-top: 1rem;">
             Then high school split them across Missoula's three biggest rivals. The kid who practiced with you every day is now the kid trying to end your season. The friend who fed you passes is now the opponent scouting your weaknesses.
@@ -646,6 +836,10 @@
         <div class="quote-block" style="margin-top: 2.5rem;">
             "We thought we were making a basketball documentary. We were wrong. It's about friendship, loss, and what it takes to keep going when nobody's watching."
         </div>
+
+        <p class="slide-body" style="margin-top: 1.5rem;">
+            <span class="gold"><strong>This is the story every town has but nobody's told yet.</strong></span> It's universally relatable&mdash;friendship tested by competition, dreams colliding with reality, and the community that holds it all together.
+        </p>
     </div>
 </section>
 
@@ -669,10 +863,13 @@
         <p class="slide-body">
             Including Avory in the film broadens the audience dramatically. Her story resonates with families, female athletes, Title IX advocates, and anyone who believes the next generation of women's sports deserves a spotlight. For sponsors, her presence opens doors to brands and demographics that a boys-only documentary simply can't reach.
         </p>
+        <p class="slide-body" style="margin-top: 1rem;">
+            <span class="gold"><strong>For streaming platforms</strong></span>, Avory's story is exactly the kind of content driving the women's sports explosion. With viewership of women's basketball at all-time highs, her presence makes this film timely, relevant, and highly distributable.
+        </p>
     </div>
 </section>
 
-<!-- SLIDE 6: Production Team -->
+<!-- SLIDE 6: Production Team & Ownership -->
 <section class="slide" id="s6">
     <div class="slide-inner">
         <p class="section-label">The Team</p>
@@ -730,10 +927,15 @@
             <li>Partnership with University of Montana for college internship credit</li>
             <li>Student filmmakers earn real professional experience on a real production</li>
         </ul>
+
+        <div class="ownership-callout">
+            <h4>Ownership Structure</h4>
+            <p>Mountain Goats is owned and produced by <strong>Mountain Goats Media, LLC</strong>, with the goal of national streaming distribution and expansion into a multi-film documentary series. Production is supported by 3 Birds Studio and Divine Paradox Productions in Missoula, Montana.</p>
+        </div>
     </div>
 </section>
 
-<!-- SLIDE 7: Distribution & Market -->
+<!-- SLIDE 7: Distribution -->
 <section class="slide" id="s7">
     <div class="slide-inner">
         <p class="section-label">Distribution</p>
@@ -752,7 +954,7 @@
                 <div class="timeline-dot done"></div>
                 <div class="timeline-content">
                     <h4>Post-Production</h4>
-                    <p>Editing, scoring, and final cut underway with professional team</p>
+                    <p>Editing, scoring, narration, and final cut underway with professional team</p>
                 </div>
             </div>
             <div class="timeline-item">
@@ -772,29 +974,135 @@
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <h4>Streaming Distribution</h4>
-                    <p>Actively pursuing a major streaming deal for national/global audience</p>
+                    <h4>National Streaming Distribution</h4>
+                    <p>Actively pursuing placement on major streaming platforms</p>
                 </div>
             </div>
         </div>
 
+        <p class="slide-body" style="margin-top: 1.5rem; margin-bottom: 1rem;">
+            <span class="gold"><strong>Streaming Distribution Targets</strong></span>
+        </p>
+
+        <div class="platform-targets">
+            <div class="platform-target">
+                <div class="platform-name">Netflix</div>
+                <div class="platform-type">Documentary</div>
+            </div>
+            <div class="platform-target">
+                <div class="platform-name">Amazon Prime</div>
+                <div class="platform-type">Sports Docs</div>
+            </div>
+            <div class="platform-target">
+                <div class="platform-name">ESPN+</div>
+                <div class="platform-type">Original Content</div>
+            </div>
+            <div class="platform-target">
+                <div class="platform-name">Apple TV+</div>
+                <div class="platform-type">Sports Stories</div>
+            </div>
+        </div>
+
         <ul class="bullet-list" style="margin-top: 1.5rem;">
-            <li>Email list growing via Beehiiv automation with 3-part sequence</li>
+            <li>Email list growing via Beehiiv automation with 3-part welcome sequence</li>
             <li>Instagram presence @mountaingoatsmovie for behind-the-scenes content</li>
             <li>NIL deals and scholarships awarded to athletes on premiere day</li>
-            <li>The purpose of the film: other cities and communities adopt this model and build their own Goat Games&mdash;Missoula goes first, then it spreads</li>
         </ul>
     </div>
 </section>
 
-<!-- SLIDE 8: Sponsorship Tiers -->
+<!-- SLIDE 8: Expansion -->
 <section class="slide" id="s8">
+    <div class="slide-inner">
+        <p class="section-label">The Vision</p>
+        <h2 class="slide-heading">More than a film.<br>A <span class="gold">national movement.</span></h2>
+        <div class="divider"></div>
+        <p class="slide-body">
+            Mountain Goats isn't a one-time documentary. It's the first installment of a multi-film documentary series designed to replicate across cities nationwide. The model is simple: every community has this story&mdash;Missoula is just telling it first.
+        </p>
+
+        <div class="expansion-grid">
+            <div class="expansion-card">
+                <div class="exp-phase">Phase 1 &bull; 2026</div>
+                <h3>Missoula</h3>
+                <p>The original Goat Game. Four athletes, three rival schools, one community. The film that launches the series and proves the model.</p>
+            </div>
+            <div class="expansion-card">
+                <div class="exp-phase">Phase 2 &bull; 2027</div>
+                <h3>Regional Expansion</h3>
+                <p>Partner with 2&ndash;3 cities across the Mountain West to produce their own Goat Game stories. Same format, new communities, new athletes.</p>
+            </div>
+            <div class="expansion-card">
+                <div class="exp-phase">Phase 3 &bull; 2028+</div>
+                <h3>National Series</h3>
+                <p>Scale into a full documentary series for streaming platforms. Each episode is a different city's Goat Game&mdash;a Friday Night Lights for the basketball generation.</p>
+            </div>
+        </div>
+
+        <p class="slide-body" style="margin-top: 1.5rem;">
+            <span class="gold"><strong>For investors</strong></span>, this means your early support doesn't just fund a single film&mdash;it positions you at the ground level of a documentary franchise with national streaming potential.
+        </p>
+    </div>
+</section>
+
+<!-- SLIDE 9: Funding Use Breakdown -->
+<section class="slide" id="s9">
+    <div class="slide-inner">
+        <p class="section-label">Funding</p>
+        <h2 class="slide-heading">Where the <span class="gold">money goes.</span></h2>
+        <div class="divider"></div>
+        <p class="slide-body" style="margin-bottom: 1.5rem;">
+            Every dollar raised goes directly into making this film the best it can be and getting it in front of the largest audience possible. Here's the breakdown:
+        </p>
+
+        <div class="funding-grid">
+            <div class="funding-item">
+                <div class="funding-amount">$50K</div>
+                <div class="funding-category">Post-Production</div>
+                <div class="funding-detail">Editing, color grading, sound design, scoring, narration recording</div>
+            </div>
+            <div class="funding-item">
+                <div class="funding-amount">$30K</div>
+                <div class="funding-category">Distribution</div>
+                <div class="funding-detail">Film festival submissions, streaming platform representation, legal &amp; licensing</div>
+            </div>
+            <div class="funding-item">
+                <div class="funding-amount">$25K</div>
+                <div class="funding-category">Marketing</div>
+                <div class="funding-detail">Social media campaigns, premiere events, community outreach, press</div>
+            </div>
+            <div class="funding-item">
+                <div class="funding-amount">$20K</div>
+                <div class="funding-category">Premiere &amp; Events</div>
+                <div class="funding-detail">Roxy Theater screenings, NIL ceremony, community events, after-party</div>
+            </div>
+            <div class="funding-item">
+                <div class="funding-amount">$15K</div>
+                <div class="funding-category">Foundation</div>
+                <div class="funding-detail">Mountain Goats Foundation seed funding for youth equipment, mentorship, and community programs</div>
+            </div>
+            <div class="funding-item">
+                <div class="funding-amount">$10K</div>
+                <div class="funding-category">Operations</div>
+                <div class="funding-detail">Insurance, LLC maintenance, accounting, travel, contingency</div>
+            </div>
+        </div>
+
+        <div class="funding-total">
+            <div class="amount">$150,000</div>
+            <div class="label">Total Fundraising Goal</div>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 10: Sponsorship Tiers -->
+<section class="slide" id="s10">
     <div class="slide-inner">
         <p class="section-label">Investment</p>
         <h2 class="slide-heading">Sponsorship <span class="gold">Opportunities</span></h2>
         <div class="divider"></div>
         <p class="slide-body" style="margin-bottom: 1.5rem;">
-            Your brand becomes part of a documentary that will premiere locally, screen at festivals, and reach streaming audiences nationwide. This is authentic Missoula storytelling&mdash;and your business is woven into it.
+            Your brand becomes part of a documentary that will premiere locally, screen at festivals, and reach streaming audiences nationwide. This is authentic storytelling&mdash;and your business is woven into it.
         </p>
 
         <div class="tiers">
@@ -808,7 +1116,7 @@
                     <li>Name in film credits</li>
                 </ul>
             </div>
-            <div class="tier featured">
+            <div class="tier">
                 <div class="tier-name">Game Changer</div>
                 <div class="tier-price">$2,500</div>
                 <ul>
@@ -819,7 +1127,7 @@
                     <li>Logo on all premiere event materials</li>
                 </ul>
             </div>
-            <div class="tier">
+            <div class="tier featured">
                 <div class="tier-name">Presenting Sponsor</div>
                 <div class="tier-price">$10,000</div>
                 <ul>
@@ -831,34 +1139,119 @@
                     <li>Brand integration in marketing materials</li>
                 </ul>
             </div>
+            <div class="tier premium">
+                <div class="tier-name">Executive Producer</div>
+                <div class="tier-price">$25,000</div>
+                <ul>
+                    <li>Everything in Presenting Sponsor</li>
+                    <li>"Executive Producer" credit in the film</li>
+                    <li>Featured in press and media coverage</li>
+                    <li>Speaking role at premiere event</li>
+                    <li>20 premiere tickets + private after-party</li>
+                    <li>Brand featured in streaming distribution materials</li>
+                </ul>
+            </div>
+            <div class="tier premium">
+                <div class="tier-name">Founding Partner</div>
+                <div class="tier-price">$50,000</div>
+                <ul>
+                    <li>Everything in Executive Producer</li>
+                    <li>"Founding Partner" credit across all Mountain Goats properties</li>
+                    <li>Equity discussion in Mountain Goats Media, LLC</li>
+                    <li>First-look partnership for series expansion</li>
+                    <li>Naming rights consideration for Foundation programs</li>
+                    <li>Brand integration in national streaming campaign</li>
+                </ul>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- SLIDE 9: CTA -->
-<section class="slide" id="s9">
+<!-- SLIDE 11: Timeline & Milestones -->
+<section class="slide" id="s11">
+    <div class="slide-inner">
+        <p class="section-label">Milestones</p>
+        <h2 class="slide-heading">The <span class="gold">roadmap.</span></h2>
+        <div class="divider"></div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-content">
+                    <h4>January 2026 &mdash; Goat Game Filmed</h4>
+                    <p>Packed-arena showdown at Adams Center captured by student filmmakers and professional crew</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-content">
+                    <h4>February&ndash;April 2026 &mdash; Post-Production</h4>
+                    <p>Professional editing, sound design, scoring, and narration recording</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Spring 2026 &mdash; Mountain Goats Foundation Launch</h4>
+                    <p>Equipment grants, mentorship programs, and community expansion initiatives begin</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Summer 2026 &mdash; Premiere at The Roxy Theater</h4>
+                    <p>Multiple sold-out screenings, NIL deals and scholarships awarded, community celebration</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Fall 2026 &mdash; Festival Circuit</h4>
+                    <p>Big Sky Documentary Film Festival submission, additional regional and national festival submissions</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Late 2026&ndash;2027 &mdash; Streaming Distribution</h4>
+                    <p>Pursue placement on Netflix, Amazon Prime, ESPN+, Apple TV+ through distribution partners</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>2027+ &mdash; Series Expansion</h4>
+                    <p>Replicate the Goat Game model in new cities. Mountain Goats becomes a multi-film documentary series.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 12: CTA -->
+<section class="slide" id="s12">
     <div class="slide-inner cta-section">
         <p class="section-label">Let's Talk</p>
-        <h2 class="slide-heading">Be part of<br><span class="gold">Missoula's story.</span></h2>
+        <h2 class="slide-heading">Be part of something<br><span class="gold">bigger than basketball.</span></h2>
         <div class="divider" style="margin: 1.5rem auto;"></div>
         <p class="slide-body" style="margin: 0 auto 1.5rem; text-align: center;">
             You're not investing in a documentary. You're investing in six kids who did something nobody asked them to do.
         </p>
         <p class="slide-body" style="margin: 0 auto 1.5rem; text-align: center;">
-            Four athletes who grew up together, got split apart, and still showed up to compete&mdash;not for scholarships, not for fame&mdash;because the game is what they love. Two filmmakers who stepped up, grabbed cameras, and proved that the kids behind the lens belong on the same team as the kids on the court.
+            Four athletes who grew up together, got split apart, and still showed up to compete&mdash;not for scholarships, not for fame&mdash;because the game is what they love. Three filmmakers who stepped up, grabbed cameras, and proved that the kids behind the lens belong on the same team as the kids on the court.
         </p>
         <p class="slide-body" style="margin: 0 auto 1.5rem; text-align: center;">
             They weren't made in a lab. They were made in this community. Your community. Every business in this room has benefited from what Missoula builds&mdash;the families, the coaches, the teachers, the gyms nobody sees.
         </p>
         <p class="slide-body" style="margin: 0 auto 2rem; text-align: center;">
-            This is a chance to put your name alongside a story that's already being told. The premiere is at The Roxy. We're submitting to Big Sky Documentary Film Festival. We're pursuing streaming distribution. But the real reason to be here is simpler than that&mdash;these are your kids, this is your town, and this story matters.
+            This is a chance to put your name alongside a story that's heading to the national stage. The premiere is at The Roxy. We're submitting to Big Sky Documentary Film Festival. We're pursuing streaming distribution on Netflix, Amazon, ESPN, and Apple TV. But the real reason to be here is simpler than that&mdash;these are your kids, this is your town, and this story matters.
         </p>
 
         <div class="cta-contact">
             <a href="mailto:jesse@entreartists.com">jesse@entreartists.com</a>
             <p class="cta-phone">406-926-9950</p>
             <p style="margin-top: 1.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.4);">
-                Mountain Goats &bull; 3 Birds Studio &bull; Missoula, Montana
+                Mountain Goats Media, LLC &bull; 3 Birds Studio &bull; Missoula, Montana
             </p>
             <p style="margin-top: 0.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.3);">
                 @mountaingoatsmovie
