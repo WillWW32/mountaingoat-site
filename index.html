@@ -584,7 +584,7 @@
         }
 
         .signup-container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
             text-align: center;
         }
@@ -603,18 +603,20 @@
             line-height: 1.7;
         }
 
-        .beehiiv-embed {
-            max-width: 100%;
+        .beehiiv-wrapper {
             width: 100%;
-            margin: 0;
+            max-width: 100%;
+            margin: 0 auto;
             padding: 0;
+            display: flex;
+            justify-content: center;
         }
 
-        .beehiiv-embed iframe {
+        .beehiiv-wrapper iframe {
             width: 100% !important;
             max-width: 100% !important;
-            min-height: 220px;
-            height: 220px;
+            min-height: 320px;
+            height: 320px;
             border: none;
             background: transparent;
         }
@@ -1270,9 +1272,8 @@
         <h3 class="signup-title">Be Part of the Story</h3>
         <p class="signup-text">Get exclusive updates, early access to the premiere at The Roxy Theater, and behind-the-scenes content. Join the Mountain Goats community and follow the journey from Missoula to the world.</p>
 
-        <div class="beehiiv-embed">
-            <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
-            <iframe src="https://subscribe-forms.beehiiv.com/2ea5af80-e6e7-4890-b0ea-5b2d234bcd0e" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 100%; height: 220px; margin: 0; padding: 0; border-radius: 0px !important; background-color: transparent; box-shadow: 0 0 #0000; max-width: 100%;"></iframe>
+        <div class="beehiiv-wrapper">
+            <iframe src="https://subscribe-forms.beehiiv.com/2ea5af80-e6e7-4890-b0ea-5b2d234bcd0e" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 100%; height: 320px; margin: 0; padding: 0; border-radius: 0px !important; background-color: transparent; box-shadow: 0 0 #0000; max-width: 100%;"></iframe>
         </div>
     </div>
 </section>
