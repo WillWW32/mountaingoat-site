@@ -630,6 +630,255 @@
             letter-spacing: 0.05em;
         }
 
+        /* ===================== MISSION ===================== */
+        .mission {
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.02), transparent);
+        }
+
+        .mission .section-body {
+            margin: 0 auto;
+        }
+
+        .mission .divider {
+            margin: 1.5rem auto;
+        }
+
+        .mission-entity {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: rgba(232,168,73,0.06);
+            border: 1px solid rgba(232,168,73,0.2);
+            border-radius: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #e8a849;
+        }
+
+        /* ===================== FOUNDATION ===================== */
+        .foundation {
+            background: linear-gradient(to bottom, transparent, rgba(232,168,73,0.05), transparent);
+        }
+
+        .foundation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .foundation-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
+        }
+
+        .foundation-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .foundation-card:hover {
+            border-color: rgba(232,168,73,0.25);
+            transform: translateY(-4px);
+        }
+
+        .foundation-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(232,168,73,0.08);
+            border: 2px solid rgba(232,168,73,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+        }
+
+        .foundation-icon svg {
+            width: 24px;
+            height: 24px;
+            color: #e8a849;
+        }
+
+        .foundation-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .foundation-card p {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.55);
+        }
+
+        /* ===================== DISTRIBUTION ===================== */
+        .distribution {
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.015), transparent);
+        }
+
+        .distribution .section-body {
+            margin: 0 auto 2.5rem;
+        }
+
+        .distribution .divider {
+            margin: 1.5rem auto;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            flex-wrap: wrap;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 32px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: rgba(232,168,73,0.15);
+        }
+
+        @media (max-width: 600px) {
+            .timeline::before { display: none; }
+            .timeline { flex-direction: column; align-items: center; gap: 1.5rem; }
+        }
+
+        .timeline-item {
+            flex: 1;
+            min-width: 140px;
+            max-width: 200px;
+            text-align: center;
+            position: relative;
+            padding: 0 0.5rem;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #e8a849;
+            margin: 24px auto 1rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 12px rgba(232,168,73,0.3);
+        }
+
+        .timeline-dot.completed {
+            background: #e8a849;
+        }
+
+        .timeline-dot.upcoming {
+            background: rgba(232,168,73,0.3);
+            border: 2px solid rgba(232,168,73,0.5);
+        }
+
+        .timeline-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-date {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .platform-logos {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            margin-top: 2.5rem;
+        }
+
+        .platform-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            transition: color 0.3s;
+        }
+
+        .platform-logo:hover {
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* ===================== SUPPORT ===================== */
+        .support {
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, rgba(232,168,73,0.06), transparent);
+        }
+
+        .support .section-body {
+            margin: 0 auto 2.5rem;
+        }
+
+        .support .divider {
+            margin: 1.5rem auto;
+        }
+
+        .support-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .support-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .support-btn.primary {
+            background: #e8a849;
+            color: #0a0a0a;
+            border: 2px solid #e8a849;
+        }
+
+        .support-btn.primary:hover {
+            background: #d49a3e;
+            border-color: #d49a3e;
+        }
+
+        .support-btn.secondary {
+            background: transparent;
+            color: #e8a849;
+            border: 2px solid rgba(232,168,73,0.4);
+        }
+
+        .support-btn.secondary:hover {
+            border-color: #e8a849;
+            background: rgba(232,168,73,0.08);
+        }
+
         /* ===================== ANIMATIONS ===================== */
         .fade-in {
             opacity: 0;
@@ -652,7 +901,9 @@
         <li><a href="#story">Story</a></li>
         <li><a href="#athletes">Athletes</a></li>
         <li><a href="#filmmakers">Filmmakers</a></li>
-        <li><a href="#signup">Premiere</a></li>
+        <li><a href="#foundation">Foundation</a></li>
+        <li><a href="#support">Support</a></li>
+        <li><a href="#signup">Join</a></li>
     </ul>
 </nav>
 
@@ -856,12 +1107,119 @@
     </div>
 </section>
 
+<!-- Mission & Ownership -->
+<section id="mission" class="mission">
+    <div class="section-inner fade-in">
+        <p class="section-label">Mission &amp; Vision</p>
+        <h2 class="section-heading">More than a film. A <span class="gold">platform.</span></h2>
+        <div class="divider"></div>
+        <p class="section-body">
+            Mountain Goats is the first project produced by Mountain Goats Media, LLC&mdash;an independent media company dedicated to telling authentic stories rooted in community, athletics, and education. Our mission is to build a national storytelling platform while funding opportunities for student filmmakers and athletes through the Mountain Goats Foundation.
+        </p>
+        <p class="section-body" style="margin-top: 1rem;">
+            This is about protecting the heart of what's been created and giving it room to grow. Not changing it. Supporting it with the structure it needs to reach the people it's meant to reach.
+        </p>
+        <div class="mission-entity">Mountain Goats Media, LLC &bull; Missoula, Montana</div>
+    </div>
+</section>
+
+<!-- Foundation -->
+<section id="foundation" class="foundation">
+    <div class="section-inner fade-in">
+        <p class="section-label" style="text-align: center;">The Foundation</p>
+        <h2 class="section-heading" style="text-align: center;">The Mountain Goats <span class="gold">Foundation.</span></h2>
+        <div class="divider" style="margin: 1.5rem auto;"></div>
+        <p class="section-body" style="text-align: center; margin: 0 auto 1rem;">
+            The Mountain Goats Foundation is being established to fund student filmmakers, support young athletes, and help communities tell their own stories. Your support helps provide equipment, mentorship, and real-world storytelling opportunities for the next generation.
+        </p>
+        <div class="foundation-grid">
+            <div class="foundation-card">
+                <div class="foundation-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2" ry="2"/></svg>
+                </div>
+                <h3>Equipment &amp; Tools</h3>
+                <p>Provide cameras, editing software, and production equipment to student filmmakers who have the talent but not the resources.</p>
+            </div>
+            <div class="foundation-card">
+                <div class="foundation-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3>Mentorship</h3>
+                <p>Connect emerging student storytellers with industry professionals through real-world, project-based mentorship&mdash;not classrooms.</p>
+            </div>
+            <div class="foundation-card">
+                <div class="foundation-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <h3>Community Expansion</h3>
+                <p>Help other cities adopt the Goat Game model&mdash;pairing athletes with student filmmakers to tell stories that matter in their communities.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Distribution & Timeline -->
+<section id="distribution" class="distribution">
+    <div class="section-inner fade-in">
+        <p class="section-label">Distribution</p>
+        <h2 class="section-heading">From Missoula to the <span class="gold">world.</span></h2>
+        <div class="divider"></div>
+        <p class="section-body">
+            Mountain Goats is being produced for national streaming distribution, with plans to premiere at major film festivals and pursue partnerships with platforms who value authentic, community-driven storytelling.
+        </p>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot completed"></div>
+                <div class="timeline-label">Production</div>
+                <div class="timeline-date">In Progress</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot upcoming"></div>
+                <div class="timeline-label">Missoula Premiere</div>
+                <div class="timeline-date">The Roxy Theater</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot upcoming"></div>
+                <div class="timeline-label">Film Festivals</div>
+                <div class="timeline-date">2025 &ndash; 2026</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot upcoming"></div>
+                <div class="timeline-label">Streaming Release</div>
+                <div class="timeline-date">2026 Target</div>
+            </div>
+        </div>
+        <div class="platform-logos">
+            <span class="platform-logo">Netflix</span>
+            <span class="platform-logo">Amazon Prime</span>
+            <span class="platform-logo">ESPN</span>
+            <span class="platform-logo">Apple TV</span>
+        </div>
+    </div>
+</section>
+
+<!-- Support -->
+<section id="support" class="support">
+    <div class="section-inner fade-in">
+        <p class="section-label">Support the Film</p>
+        <h2 class="section-heading">Join the <span class="gold">mission.</span></h2>
+        <div class="divider"></div>
+        <p class="section-body">
+            Mountain Goats is community-built and community-funded. Whether you're a local business, a brand, or someone who believes in what student-led storytelling can become&mdash;there's a place for you in this story. Your support protects the mission and opens doors that otherwise wouldn't be available.
+        </p>
+        <div class="support-actions">
+            <a href="mailto:jesse@entreartists.com?subject=Mountain%20Goats%20Sponsorship" class="support-btn primary">Become a Sponsor</a>
+            <a href="mailto:jesse@entreartists.com?subject=Mountain%20Goats%20Foundation%20Support" class="support-btn secondary">Support the Foundation</a>
+        </div>
+    </div>
+</section>
+
 <!-- Signup -->
 <section id="signup" class="signup">
     <div class="signup-container fade-in">
-        <p class="section-label" style="text-align: center;">The Premiere</p>
-        <h3 class="signup-title">Be First to Watch</h3>
-        <p class="signup-text">Register for exclusive access to the live premiere at The Roxy Theater and behind-the-scenes content you won't see anywhere else.</p>
+        <p class="section-label" style="text-align: center;">Join the Community</p>
+        <h3 class="signup-title">Be Part of the Story</h3>
+        <p class="signup-text">Get exclusive updates, early access to the premiere at The Roxy Theater, and behind-the-scenes content. Join the Mountain Goats community and follow the journey from Missoula to the world.</p>
 
         <div class="beehiiv-embed">
             <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
@@ -882,7 +1240,7 @@
             jesse@entreartists.com
         </a>
     </div>
-    <p class="footer-text">Missoula, Montana &bull; 3 Birds Studio &bull; Divine Paradox Productions</p>
+    <p class="footer-text">Mountain Goats Media, LLC &bull; Missoula, Montana &bull; 3 Birds Studio &bull; Divine Paradox Productions</p>
 </footer>
 
 <script>
