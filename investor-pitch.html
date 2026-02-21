@@ -710,11 +710,9 @@
             .slide {
                 min-height: 0;
                 height: auto;
-                max-height: 100vh;
-                padding: 2.5rem 3.5rem;
+                padding: 2rem 3.5rem;
                 page-break-after: always;
                 page-break-inside: avoid;
-                overflow: hidden;
                 border-bottom: none;
             }
 
@@ -862,6 +860,52 @@
                 grid-template-columns: repeat(3, 1fr);
             }
 
+            /* Compact timeline for distribution slide */
+            .timeline-item {
+                padding: 0.4rem 0;
+            }
+
+            .timeline-content h4 {
+                font-size: 0.85rem;
+            }
+
+            .timeline-content p {
+                font-size: 0.75rem;
+            }
+
+            .timeline-dot {
+                width: 20px;
+                height: 20px;
+            }
+
+            .bullet-list li {
+                padding: 0.3rem 0;
+                font-size: 0.8rem;
+            }
+
+            .platform-targets {
+                gap: 1rem;
+                margin: 1rem 0;
+            }
+
+            .platform-target {
+                padding: 0.75rem 1rem;
+            }
+
+            /* Compact team list */
+            .team-list {
+                gap: 0.5rem;
+            }
+
+            .team-member {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .ownership-callout {
+                margin-top: 1rem;
+                padding: 1rem 1.5rem;
+            }
+
             /* Reduce font sizes slightly for fit */
             h2.slide-heading {
                 font-size: 2rem;
@@ -870,6 +914,15 @@
             .slide-body {
                 font-size: 0.9rem;
                 line-height: 1.6;
+            }
+
+            .divider {
+                margin: 1rem 0;
+            }
+
+            .quote-block {
+                margin: 1rem 0;
+                font-size: 0.95rem;
             }
 
             .section-label {
