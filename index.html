@@ -604,12 +604,17 @@
         }
 
         .beehiiv-embed {
-            max-width: 500px;
-            margin: 0 auto;
+            max-width: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         .beehiiv-embed iframe {
-            width: 100%;
+            width: 100% !important;
+            max-width: 100% !important;
+            min-height: 220px;
+            height: 220px;
             border: none;
             background: transparent;
         }
@@ -903,6 +908,25 @@
             background: rgba(232,168,73,0.08);
         }
 
+        /* ===================== HERO FADE-IN ===================== */
+        .hero-fade {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: heroReveal 1.2s ease-out forwards;
+        }
+
+        .hero-fade-1 { animation-delay: 0.3s; }
+        .hero-fade-2 { animation-delay: 0.8s; }
+        .hero-fade-3 { animation-delay: 1.4s; }
+        .hero-fade-4 { animation-delay: 2.0s; }
+
+        @keyframes heroReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* ===================== ANIMATIONS ===================== */
         .fade-in {
             opacity: 0;
@@ -920,7 +944,7 @@
 
 <!-- Navigation -->
 <nav class="nav" id="nav">
-    <a href="#" class="nav-logo">Mountain Goats</a>
+    <a href="#" class="nav-logo" style="visibility: hidden;"></a>
     <ul class="nav-links">
         <li><a href="#story">Story</a></li>
         <li><a href="#athletes">Athletes</a></li>
@@ -934,15 +958,15 @@
 <!-- Hero -->
 <section class="hero">
     <video class="hero-video" autoplay muted loop playsinline>
-        <source src="timelapse.mp4" type="video/mp4">
+        <source src="new-poster.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>
     <div class="hero-top-cover"></div>
     <div class="hero-content">
-        <div class="premiere-badge">Premiere Coming Soon</div>
-        <h1 class="title">Mountain<br>Goats</h1>
-        <p class="subtitle">a basketball documentary</p>
-        <p class="hero-tagline">Four athletes. Three filmmakers. One student-led production. See what happens when you set them free.</p>
+        <div class="premiere-badge hero-fade hero-fade-1">Premiere Coming Soon</div>
+        <h1 class="title hero-fade hero-fade-2">Mountain<br>Goats</h1>
+        <p class="subtitle hero-fade hero-fade-3">a basketball documentary</p>
+        <p class="hero-tagline hero-fade hero-fade-4">Four athletes. Three filmmakers. One student-led production. See what happens when you set them free.</p>
     </div>
     <a href="#story" class="scroll-indicator">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -958,10 +982,10 @@
         <h2 class="section-heading">See what happens when high school students are set free to create the greatest high school basketball game of all time.</h2>
         <div class="divider"></div>
         <p class="section-body">
-            Missoula, Montana. Heart of the Rockies. A college town where every local player dreams of playing for the Griz or the Cats&mdash;the only D1 programs in the state. Three AA high schools, all playing in the state's highest classification.
+            Missoula, Montana. Heart of the Rockies. A college town where every local player dreams of playing for the Griz or the Cats - the only D1 programs in the state. Three AA high schools, all playing in the state's highest classification.
         </p>
         <p class="section-body" style="margin-top: 1rem;">
-            Three boys grew up playing basketball together from 4th grade through 7th grade. Same gym. Same coaches. Same dream. Then high school split them across Missoula's three biggest rivals&mdash;Big Sky, Sentinel, and Hellgate. Like the golden age of '80s and '90s NBA, where the best players actually wanted to play against each other.
+            Three boys grew up playing basketball together from 4th grade through 7th grade. Same gym. Same coaches. Same dream. Then high school split them across Missoula's three biggest rivals - Big Sky, Sentinel, and Hellgate. Like the golden age of '80s and '90s NBA, where the best players actually wanted to play against each other.
         </p>
         <p class="section-body" style="margin-top: 1rem;">
             Mountain Goats pairs four athletes with student filmmakers who capture what no adult crew ever could. Slade follows Zane. Jaxson follows Avory. Peers filming peers. Raw. Real. Unscripted. They weren't made in a lab. They were made in the life.
@@ -996,10 +1020,10 @@
                 <h2 class="section-heading">Friends turned <span class="gold">rivals.</span></h2>
                 <div class="divider"></div>
                 <p class="section-body">
-                    Sia, Lincoln, and Zane were tight-knit teammates growing up. Same club team from 6th through 8th grade. Lincoln was the shortest of the three&mdash;now he's 6'8". Sia was the tallest&mdash;now he's the shortest. Nothing about these kids' stories went the way anyone expected.
+                    Sia, Lincoln, and Zane were tight-knit teammates growing up. Same club team from 6th through 8th grade. Lincoln was the shortest of the three - now he's 6'8". Sia was the tallest - now he's the shortest. Nothing about these kids' stories went the way anyone expected.
                 </p>
                 <p class="section-body" style="margin-top: 1rem;">
-                    Lincoln is the top men's talent to come out of Montana in a long time. He sat out the Goat Game&mdash;and responded by leading the #1 team in the state and becoming the #1 ranked player in Montana. He committed to a D2 program that really believed in him. Sia, top 5 in the state in 2-point and 3-point efficiency, leads his team in scoring, shooting, and steals&mdash;with fewer minutes than either of his childhood friends. Still no offers. And Zane, a state champion as a freshman, has been injured the last two state tournaments.
+                    Lincoln is the top men's talent to come out of Montana in a long time. He sat out the Goat Game - and responded by leading the #1 team in the state and becoming the #1 ranked player in Montana. He committed to a D2 program that really believed in him. Sia, top 5 in the state in 2-point and 3-point efficiency, leads his team in scoring, shooting, and steals - with fewer minutes than either of his childhood friends. Still no offers. And Zane, a state champion as a freshman, has been injured the last two state tournaments.
                 </p>
             </div>
             <div>
@@ -1038,27 +1062,27 @@
         <div class="athletes-grid">
             <div class="athlete-card">
                 <img src="athletes/sia.png" alt="Sia Boone">
-                <h3>Sia Boone</h3>
+                <h3>Sia</h3>
                 <div class="a-school">Big Sky Eagles</div>
-                <p>Top 5 in the state in 2pt and 3pt efficiency. Leads his team in scoring, shooting, and steals&mdash;with fewer minutes than Lincoln or Zane. Shows up in high-pressure moments. Still no offers. The most skilled and most desperate.</p>
+                <p>Top 5 in the state in 2pt and 3pt efficiency. Leads his team in scoring, shooting, and steals - with fewer minutes than Lincoln or Zane. Shows up in high-pressure moments. Still no offers. The most skilled and most desperate.</p>
             </div>
             <div class="athlete-card">
                 <img src="athletes/linc.png" alt="Lincoln Rogers">
-                <h3>Lincoln Rogers</h3>
+                <h3>Lincoln</h3>
                 <div class="a-school">Sentinel Spartans</div>
-                <p>The top men's talent from Montana in a long time. Sits out this year's Goat Game&mdash;then responds by leading the #1 ranked team in the state and becoming the #1 ranked player in Montana.</p>
+                <p>The top men's talent from Montana in a long time. Sits out this year's Goat Game - then responds by leading the #1 ranked team in the state and becoming the #1 ranked player in Montana.</p>
             </div>
             <div class="athlete-card">
                 <img src="athletes/zane.png" alt="Zane Gilhouse">
-                <h3>Zane Gilhouse</h3>
+                <h3>Zane</h3>
                 <div class="a-school">Hellgate Knights</div>
-                <p>State champion as a freshman. Best mid-range game in the state. The ultimate coaches' player and unifier&mdash;until the final minutes, when he becomes a cold closer. Injured the last two state tournaments. Committed to Montana Tech.</p>
+                <p>State champion as a freshman. Best mid-range game in the state. The ultimate coaches' player and unifier - until the final minutes, when he becomes a cold closer. Injured the last two state tournaments. Committed to Montana Tech.</p>
             </div>
             <div class="athlete-card">
                 <img src="athletes/avory.webp" alt="Avory">
                 <h3>Avory</h3>
                 <div class="a-school">Big Sky Eagles</div>
-                <p>Perhaps the top female basketball player to ever come out of Montana. Spotted playing rez ball 3v3 as a 4th grader with the highest basketball IQ you'd ever seen at that age&mdash;boy or girl. Played summer league with boys at 5'5" and still scored.</p>
+                <p>State's leading scorer, steals, and assists. Committed to the Lady Griz. The highest IQ and energy player you will see - boys or girls.</p>
             </div>
         </div>
     </div>
@@ -1074,7 +1098,7 @@
             <img src="athletes/avory2.png" alt="Avory" class="avory-photo">
             <div class="avory-text">
                 <p class="section-body">
-                    In a state where high school basketball is practically religion, Avory isn't just the best girl playing right now&mdash;she might be the best to ever do it in Montana. First spotted playing rez ball 3v3 as a 4th grader, she had the highest basketball IQ of any player you'd see at that age&mdash;boy or girl. She played summer league with boys and at 5'5" still scored. The most relentless, high-energy player on any court she steps on.
+                    In a state where high school basketball is practically religion, Avory isn't just the best girl playing right now - she might be the best to ever do it in Montana. First spotted playing rez ball 3v3 as a 4th grader, she had the highest basketball IQ of any player you'd see at that age - boy or girl. She played summer league with boys and at 5'5" still scored. The most relentless, high-energy player on any court she steps on.
                 </p>
             </div>
         </div>
@@ -1088,7 +1112,7 @@
         <h2 class="section-heading" style="text-align: center;">The kids behind the <span class="gold">camera.</span></h2>
         <div class="divider" style="margin: 1.5rem auto;"></div>
         <p class="section-body" style="text-align: center; margin: 0 auto 1rem;">
-            They weren't assigned&mdash;they stepped up. Both emerged as high talent in the media arts when they took charge of making the Goat Game trailers for their respective schools. Then they were invited into The Collective to capture something bigger.
+            They weren't assigned - they stepped up. Both emerged as high talent in the media arts when they took charge of making the Goat Game trailers for their respective schools. Then they were invited into The Collective to capture something bigger.
         </p>
         <div class="filmmakers-grid" style="margin-left: auto; margin-right: auto;">
             <div class="filmmaker-card">
@@ -1096,7 +1120,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2" ry="2"/></svg>
                 </div>
                 <h3>Slade</h3>
-                <div class="fm-role">Media Arts &bull; Paired with Zane</div>
+                <div class="fm-role">Media Arts</div>
                 <p>Also an athlete with a college scholarship for soccer. Proved himself behind the lens making Goat Game trailers, then earned a spot in The Collective.</p>
             </div>
             <div class="filmmaker-card">
@@ -1104,8 +1128,8 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2" ry="2"/></svg>
                 </div>
                 <h3>Jaxson</h3>
-                <div class="fm-role">Media Arts &bull; Paired with Avory</div>
-                <p>Stepped up to create his school's Goat Game trailer and proved he could capture what no adult crew could&mdash;peers talking to peers, unguarded and real.</p>
+                <div class="fm-role">Media Arts</div>
+                <p>Stepped up to create his school's Goat Game trailer and proved he could capture what no adult crew could - peers talking to peers, unguarded and real.</p>
             </div>
         </div>
     </div>
@@ -1114,7 +1138,7 @@
 <!-- Quote -->
 <section class="quote-section fade-in">
     <p class="quote-text">"They weren't made in a lab. They were made in the life."</p>
-    <p class="quote-attr">&mdash; Mountain Goats</p>
+    <p class="quote-attr"> - Mountain Goats</p>
 </section>
 
 <!-- The Movement -->
@@ -1124,7 +1148,7 @@
         <h2 class="section-heading">Build your own <span class="gold">Goat Game.</span></h2>
         <div class="divider"></div>
         <p class="section-body">
-            Mountain Goats isn't just a film&mdash;it's a blueprint. High school basketball is the purest form of basketball. It's raw, community-driven, and the grind isn't paid for. It takes moms, dads, grandpas, grandmas, coaches, teachers, and an entire community to build these athletes.
+            Mountain Goats isn't just a film - it's a blueprint. High school basketball is the purest form of basketball. It's raw, community-driven, and the grind isn't paid for. It takes moms, dads, grandpas, grandmas, coaches, teachers, and an entire community to build these athletes.
         </p>
         <p class="section-body" style="margin-top: 1rem;">
             The purpose of this project is to prove what happens when project-based education meets student-powered capability. Pair athletes with student filmmakers. Give them real tools, real stakes, and real freedom. Then step back and let them fly.
@@ -1142,10 +1166,7 @@
         <h2 class="section-heading">More than a film. A <span class="gold">platform.</span></h2>
         <div class="divider"></div>
         <p class="section-body">
-            Mountain Goats is the first project produced by Mountain Goats Media, LLC&mdash;an independent media company dedicated to telling authentic stories rooted in community, athletics, and education. Our mission is to build a national storytelling platform while funding opportunities for student filmmakers and athletes through the Mountain Goats Foundation.
-        </p>
-        <p class="section-body" style="margin-top: 1rem;">
-            This is about protecting the heart of what's been created and giving it room to grow. Not changing it. Supporting it with the structure it needs to reach the people it's meant to reach.
+            Mountain Goats is the first project produced by Mountain Goats Media, LLC - an independent media company dedicated to telling authentic stories rooted in community, athletics, and education. Our mission is to build a national storytelling platform while funding opportunities for student filmmakers and athletes through the Mountain Goats Foundation.
         </p>
         <div class="mission-entity">Mountain Goats Media, LLC &bull; Missoula, Montana</div>
     </div>
@@ -1173,14 +1194,14 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
                 <h3>Mentorship</h3>
-                <p>Connect emerging student storytellers with industry professionals through real-world, project-based mentorship&mdash;not classrooms.</p>
+                <p>Connect emerging student storytellers with industry professionals through real-world, project-based mentorship - not classrooms.</p>
             </div>
             <div class="foundation-card">
                 <div class="foundation-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                 </div>
                 <h3>Community Expansion</h3>
-                <p>Help other cities adopt the Goat Game model&mdash;pairing athletes with student filmmakers to tell stories that matter in their communities.</p>
+                <p>Help other cities adopt the Goat Game model - pairing athletes with student filmmakers to tell stories that matter in their communities.</p>
             </div>
         </div>
     </div>
@@ -1209,7 +1230,7 @@
             <div class="timeline-item">
                 <div class="timeline-dot upcoming"></div>
                 <div class="timeline-label">Film Festivals</div>
-                <div class="timeline-date">2025 &ndash; 2026</div>
+                <div class="timeline-date">2025  - 2026</div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-dot upcoming"></div>
@@ -1233,7 +1254,7 @@
         <h2 class="section-heading">Join the <span class="gold">mission.</span></h2>
         <div class="divider"></div>
         <p class="section-body">
-            Mountain Goats is community-built and community-funded. Whether you're a local business, a brand, or someone who believes in what student-led storytelling can become&mdash;there's a place for you in this story. Your support protects the mission and opens doors that otherwise wouldn't be available.
+            Mountain Goats is community-built and community-funded. Whether you're a local business, a brand, or someone who believes in what student-led storytelling can become - there's a place for you in this story. Your support protects the mission and opens doors that otherwise wouldn't be available.
         </p>
         <div class="support-actions">
             <a href="mailto:jesse@entreartists.com?subject=Mountain%20Goats%20Sponsorship" class="support-btn primary">Become a Sponsor</a>
@@ -1251,7 +1272,7 @@
 
         <div class="beehiiv-embed">
             <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
-            <iframe src="https://subscribe-forms.beehiiv.com/2ea5af80-e6e7-4890-b0ea-5b2d234bcd0e" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 560px; height: 315px; margin: 0; border-radius: 0px 0px 0px 0px !important; background-color: transparent; box-shadow: 0 0 #0000; max-width: 100%;"></iframe>
+            <iframe src="https://subscribe-forms.beehiiv.com/2ea5af80-e6e7-4890-b0ea-5b2d234bcd0e" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 100%; height: 220px; margin: 0; padding: 0; border-radius: 0px !important; background-color: transparent; box-shadow: 0 0 #0000; max-width: 100%;"></iframe>
         </div>
     </div>
 </section>
