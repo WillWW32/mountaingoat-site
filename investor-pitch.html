@@ -683,13 +683,218 @@
             .platform-targets { gap: 1rem; }
         }
 
+        /* ===================== PRINT / PDF ===================== */
+        @page {
+            size: landscape;
+            margin: 0;
+        }
+
         @media print {
-            .slide { min-height: auto; page-break-after: always; padding: 2rem; }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                background: #0a0a0a !important;
+                color: #fff !important;
+            }
+
             .slide-nav { display: none; }
-            body { background: #fff; color: #111; }
-            .slide-body, .athlete-card p, .tier li, .bullet-list li, .timeline-content p { color: #444; }
-            .section-label, .gold, .pitch-stat .num, .tier-price, .funding-amount { color: #b8862d; }
-            h2.slide-heading, .athlete-card h3 { color: #111; }
+
+            .slide {
+                min-height: 0;
+                height: auto;
+                max-height: 100vh;
+                padding: 2.5rem 3.5rem;
+                page-break-after: always;
+                page-break-inside: avoid;
+                overflow: hidden;
+                border-bottom: none;
+            }
+
+            .slide:last-child {
+                page-break-after: auto;
+            }
+
+            /* Prevent orphaned elements */
+            .athletes-grid,
+            .tiers,
+            .funding-grid,
+            .expansion-grid,
+            .team-list,
+            .avory-callout,
+            .ownership-callout,
+            .quote-block,
+            .pitch-stats,
+            .rivalry-visual,
+            .platform-targets,
+            .timeline {
+                page-break-inside: avoid;
+            }
+
+            h2.slide-heading {
+                page-break-after: avoid;
+            }
+
+            /* Force backgrounds to render */
+            .slide-title {
+                background: linear-gradient(135deg, #0a0a0a 0%, #1a1510 100%) !important;
+            }
+
+            .athlete-card,
+            .tier,
+            .funding-item,
+            .expansion-card,
+            .team-member,
+            .pitch-stat,
+            .platform-target {
+                background: rgba(255,255,255,0.04) !important;
+                border: 1px solid rgba(255,255,255,0.08) !important;
+            }
+
+            .tier.featured {
+                border-color: rgba(232,168,73,0.4) !important;
+                background: rgba(232,168,73,0.05) !important;
+            }
+
+            .tier.premium {
+                border-color: rgba(232,168,73,0.6) !important;
+                background: rgba(232,168,73,0.08) !important;
+            }
+
+            .avory-callout {
+                background: rgba(232,168,73,0.05) !important;
+                border: 1px solid rgba(232,168,73,0.15) !important;
+            }
+
+            .avory-callout img {
+                border: 2px solid rgba(232,168,73,0.4) !important;
+            }
+
+            .ownership-callout {
+                background: rgba(232,168,73,0.06) !important;
+                border: 1px solid rgba(232,168,73,0.2) !important;
+                border-left: 4px solid #e8a849 !important;
+            }
+
+            .ownership-callout h4 {
+                color: #e8a849 !important;
+            }
+
+            .ownership-callout p {
+                color: rgba(255,255,255,0.7) !important;
+            }
+
+            .funding-total {
+                background: rgba(232,168,73,0.08) !important;
+                border: 1px solid rgba(232,168,73,0.25) !important;
+            }
+
+            .divider {
+                background: #e8a849 !important;
+            }
+
+            .quote-block {
+                border-left: 3px solid #e8a849 !important;
+            }
+
+            .timeline-dot {
+                border: 2px solid #e8a849 !important;
+                background: #0a0a0a !important;
+            }
+
+            .timeline-dot.done {
+                background: #e8a849 !important;
+            }
+
+            .timeline::before {
+                background: rgba(232,168,73,0.2) !important;
+            }
+
+            /* Scale down for landscape fit */
+            .slide-inner {
+                max-width: 100%;
+            }
+
+            .tiers {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 0.75rem;
+            }
+
+            .tier {
+                padding: 1rem;
+            }
+
+            .tier-price {
+                font-size: 1.5rem;
+            }
+
+            .tier-name {
+                font-size: 0.85rem;
+            }
+
+            .tier li {
+                font-size: 0.7rem;
+                padding: 0.25rem 0;
+            }
+
+            .funding-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .athletes-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+            }
+
+            .athlete-card img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .expansion-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            /* Reduce font sizes slightly for fit */
+            h2.slide-heading {
+                font-size: 2rem;
+            }
+
+            .slide-body {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+
+            .section-label {
+                color: #e8a849 !important;
+            }
+
+            .gold {
+                color: #e8a849 !important;
+            }
+
+            .pitch-stat .num {
+                color: #e8a849 !important;
+            }
+
+            .tier-price, .funding-amount {
+                color: #e8a849 !important;
+            }
+
+            .funding-total .amount {
+                color: #e8a849 !important;
+            }
+
+            .cta-contact a {
+                color: #e8a849 !important;
+            }
         }
     </style>
 </head>
