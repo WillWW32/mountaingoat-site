@@ -518,6 +518,17 @@
             color: #e8a849;
         }
 
+        .filmmaker-card .fm-photo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            margin: 0 auto 1rem;
+            display: block;
+            border: 2px solid rgba(232,168,73,0.3);
+        }
+
         .filmmaker-card h3 {
             font-family: 'Oswald', sans-serif;
             font-size: 1.15rem;
@@ -968,7 +979,8 @@
         <div class="premiere-badge hero-fade hero-fade-1">Premiere Coming Soon</div>
         <h1 class="title hero-fade hero-fade-2">Mountain<br>Goats</h1>
         <p class="subtitle hero-fade hero-fade-3">a basketball documentary</p>
-        <p class="hero-tagline hero-fade hero-fade-4">Four athletes. Three filmmakers. One student-led production. See what happens when you set them free.</p>
+        <p class="subtitle hero-fade hero-fade-3" style="margin-top: -0.5rem; animation-delay: 1.6s; font-size: clamp(0.85rem, 2.5vw, 1.1rem); letter-spacing: 0.25em; opacity: 0.6;">in the heart of Montana</p>
+        <p class="hero-tagline hero-fade hero-fade-4" style="animation-delay: 2.2s;">Four athletes. Three filmmakers. One student-led production. See what happens when you set them free.</p>
     </div>
     <a href="#story" class="scroll-indicator">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -987,10 +999,10 @@
             Missoula, Montana. Heart of the Rockies. A college town where every local player dreams of playing for the Griz or the Cats - the only D1 programs in the state. Three AA high schools, all playing in the state's highest classification.
         </p>
         <p class="section-body" style="margin-top: 1rem;">
-            Three boys grew up playing basketball together from 4th grade through 7th grade. Same gym. Same coaches. Same dream. Then high school split them across Missoula's three biggest rivals - Big Sky, Sentinel, and Hellgate. Like the golden age of '80s and '90s NBA, where the best players actually wanted to play against each other.
+            Three boys grew up playing basketball together from 4th grade through 8th grade. Same gym. Same coaches. Same dream. Then high school split them across Missoula's three biggest rivals - Big Sky, Sentinel, and Hellgate. Like the golden age of '80s and '90s NBA, where the best players actually wanted to play against each other.
         </p>
         <p class="section-body" style="margin-top: 1rem;">
-            Mountain Goats pairs four athletes with student filmmakers who capture what no adult crew ever could. Slade follows Zane. Jaxson follows Avory. Peers filming peers. Raw. Real. Unscripted. They weren't made in a lab. They were made in the life.
+            Mountain Goats pairs four athletes with student filmmakers who capture what no adult crew ever could. Peers filming peers. Raw. Real. Unscripted. They weren't made in a lab. They were made in the life.
         </p>
         <div class="stats">
             <div class="stat">
@@ -1025,7 +1037,7 @@
                     Sia, Lincoln, and Zane were tight-knit teammates growing up. Same club team from 6th through 8th grade. Lincoln was the shortest of the three - now he's 6'8". Sia was the tallest - now he's the shortest. Nothing about these kids' stories went the way anyone expected.
                 </p>
                 <p class="section-body" style="margin-top: 1rem;">
-                    Lincoln is the top men's talent to come out of Montana in a long time. He sat out the Goat Game - and responded by leading the #1 team in the state and becoming the #1 ranked player in Montana. He committed to a D2 program that really believed in him. Sia, top 5 in the state in 2-point and 3-point efficiency, leads his team in scoring, shooting, and steals - with fewer minutes than either of his childhood friends. Still no offers. And Zane, a state champion as a freshman, has been injured the last two state tournaments.
+                    Lincoln is the top men's talent to come out of Montana in a long time. He sat out the Goat Game - and responded by leading the #1 team in the state and becoming the #1 ranked player in Montana. Sia, top 5 in the state in 2-point and 3-point efficiency, leads his team in scoring, shooting, and steals - with fewer minutes than either of his childhood friends. Still no offers. And Zane, a state champion as a freshman, has been injured the last two state tournaments, bouncing back in pursuit of bookend state titles.
                 </p>
             </div>
             <div>
@@ -1066,7 +1078,7 @@
                 <img src="athletes/sia.png" alt="Sia Boone">
                 <h3>Sia</h3>
                 <div class="a-school">Big Sky Eagles</div>
-                <p>Top 5 in the state in 2pt and 3pt efficiency. Leads his team in scoring, shooting, and steals - with fewer minutes than Lincoln or Zane. Shows up in high-pressure moments. Still no offers. The most skilled and most desperate.</p>
+                <p>Top 5 in the state in 2pt and 3pt efficiency. Leads his team in scoring, shooting, and steals - with fewer minutes than Lincoln or Zane. Shows up in high-pressure moments. Still no offers. Super skilled and super hungry.</p>
             </div>
             <div class="athlete-card">
                 <img src="athletes/linc.png" alt="Lincoln Rogers">
@@ -1084,7 +1096,7 @@
                 <img src="athletes/avory.webp" alt="Avory">
                 <h3>Avory</h3>
                 <div class="a-school">Big Sky Eagles</div>
-                <p>State's leading scorer, steals, and assists. Committed to the Lady Griz. The highest IQ and energy player you will see - boys or girls.</p>
+                <p>State's leading scorer, steals, and assists. Committed to the Lady Griz. Came back from a torn ACL to become the #1 ranked girl in the state. The highest IQ and energy player you will see - boys or girls.</p>
             </div>
         </div>
     </div>
@@ -1118,17 +1130,13 @@
         </p>
         <div class="filmmakers-grid" style="margin-left: auto; margin-right: auto;">
             <div class="filmmaker-card">
-                <div class="fm-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2" ry="2"/></svg>
-                </div>
+                <img src="filmmakers/slade.PNG" alt="Slade" class="fm-photo">
                 <h3>Slade</h3>
                 <div class="fm-role">Media Arts</div>
                 <p>Also an athlete with a college scholarship for soccer. Proved himself behind the lens making Goat Game trailers, then earned a spot in The Collective.</p>
             </div>
             <div class="filmmaker-card">
-                <div class="fm-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2" ry="2"/></svg>
-                </div>
+                <img src="filmmakers/jaxson.jpg" alt="Jaxson" class="fm-photo">
                 <h3>Jaxson</h3>
                 <div class="fm-role">Media Arts</div>
                 <p>Stepped up to create his school's Goat Game trailer and proved he could capture what no adult crew could - peers talking to peers, unguarded and real.</p>
@@ -1232,12 +1240,12 @@
             <div class="timeline-item">
                 <div class="timeline-dot upcoming"></div>
                 <div class="timeline-label">Film Festivals</div>
-                <div class="timeline-date">2025-2026</div>
+                <div class="timeline-date">2026-2027</div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-dot upcoming"></div>
                 <div class="timeline-label">Streaming Release</div>
-                <div class="timeline-date">2026 Target</div>
+                <div class="timeline-date">Late 2026 - Early 2027</div>
             </div>
         </div>
         <div class="platform-logos">
