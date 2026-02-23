@@ -1523,7 +1523,7 @@
           const sd = formatShootDate(shoot.shoot_date);
           const checkins = checkinCache[shoot.id] || [];
           const myCheckin = checkins.find(ci => ci.member_name === currentName);
-          const isMandatory = shoot.mandatory;
+          const isMandatory = shoot.is_mandatory;
 
           let badgesHtml = '';
           if (isMandatory) {
