@@ -754,6 +754,67 @@
       border-color: rgba(232,168,73,0.6);
       background: rgba(232,168,73,0.08);
     }
+    .badge-action-needed {
+      background: rgba(232,168,73,0.15);
+      color: #e8a849;
+      border: 1px solid rgba(232,168,73,0.4);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 4px rgba(232,168,73,0.2); }
+      50% { box-shadow: 0 0 12px rgba(232,168,73,0.4); }
+    }
+    .rsvp-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+      margin-top: 0.25rem;
+    }
+    .rsvp-toggle input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(232,168,73,0.4);
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      background: transparent;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .rsvp-toggle input[type="checkbox"]:checked {
+      background: #e8a849;
+      border-color: #e8a849;
+    }
+    .rsvp-toggle input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: -1px;
+      left: 3px;
+      color: #0a0a0a;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .rsvp-toggle span.rsvp-label {
+      transition: color 0.2s;
+    }
+    .rsvp-toggle.attending span.rsvp-label {
+      color: #68d391;
+    }
     .checkin-names {
       margin-top: 0.65rem;
       font-size: 0.8rem;
@@ -1282,7 +1343,7 @@
     accessCodeInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleAccessCode(); });
 
     async function handleAccessCode() {
-      const code = accessCodeInput.value.trim();
+      const code = accessCodeInput.value.trim().toLowerCase();
       if (!code) {
         gateError.textContent = 'Please enter a code';
         return;
@@ -1672,17 +1733,17 @@
           }
 
           if (myCheckin) {
-            badgesHtml += '<span class="badge badge-checkedin">&#10003; Checked In</span>';
+            badgesHtml += `<label class="rsvp-toggle attending"><input type="checkbox" checked disabled><span class="rsvp-label">I'm Attending ✓</span></label>`;
           } else {
-            badgesHtml += `<button class="btn-checkin" onclick="checkIn('${shoot.id}', this)">Check In</button>`;
+            badgesHtml += `<label class="rsvp-toggle"><input type="checkbox" onchange="rsvpAttend('${shoot.id}', this)"><span class="rsvp-label">I'm Attending</span></label>`;
           }
 
           let checkinInfo = '';
           if (currentRole === 'admin' && checkins.length > 0) {
             const names = checkins.map(ci => esc(ci.member_name)).join(', ');
-            checkinInfo = `<div class="checkin-names"><strong>${checkins.length} checked in:</strong> ${names}</div>`;
+            checkinInfo = `<div class="checkin-names"><strong>${checkins.length} attending:</strong> ${names}</div>`;
           } else if (currentRole === 'admin') {
-            checkinInfo = `<div class="checkin-names"><strong>0 checked in</strong></div>`;
+            checkinInfo = `<div class="checkin-names"><strong>0 attending</strong></div>`;
           }
 
           let deleteBtn = '';
@@ -1709,6 +1770,21 @@
       } catch (err) {
         loading.style.display = 'none';
         showToast('Failed to load shoots', 'error');
+        console.error(err);
+      }
+    }
+
+    async function rsvpAttend(shootId, checkboxEl) {
+      checkboxEl.disabled = true;
+      try {
+        const { error } = await sb.from('checkins').insert({ shoot_id: shootId, member_name: currentName });
+        if (error) throw error;
+        showToast("RSVP'd — see you there!", 'success');
+        loadShoots();
+      } catch (err) {
+        showToast('Failed to RSVP', 'error');
+        checkboxEl.checked = false;
+        checkboxEl.disabled = false;
         console.error(err);
       }
     }
@@ -1831,7 +1907,7 @@
             <div class="doc-icon">&#128196;</div>
             <div class="card-title">${esc(doc.title)}</div>
             ${doc.description ? `<div class="card-desc">${esc(doc.description)}</div>` : '<div class="card-desc"></div>'}
-            <a href="${esc(doc.file_url)}" target="_blank" download class="btn-secondary">Download</a>
+            <a href="${esc(doc.file_url)}" download="${esc(doc.title)}.pdf" class="btn-secondary">Download</a>
             ${deleteBtn}
           `;
           list.appendChild(card);
@@ -1925,13 +2001,14 @@
             `;
           } else {
             formHtml = `
+              <div class="badge-action-needed">&#9888; Action Needed</div>
               <div class="agreement-form">
                 <input type="text" class="agr-name-input" value="${esc(currentName)}" placeholder="Your name">
                 <div class="checkbox-group">
                   <input type="checkbox" class="agr-checkbox" id="agr-check-${agr.type}">
-                  <label for="agr-check-${agr.type}">I understand this is a preliminary digital acknowledgment</label>
+                  <label for="agr-check-${agr.type}">I have reviewed the document and acknowledge the terms</label>
                 </div>
-                <button class="btn-primary btn-sm" onclick="submitAgreement('${agr.type}', this)">I Agree</button>
+                <button class="btn-primary btn-sm" onclick="submitAgreement('${agr.type}', this)">I Agree &amp; Submit</button>
               </div>
             `;
           }
