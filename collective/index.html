@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Collective — Mountain Goats</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      background: #0a0a0a;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+    /* ── Section Labels ── */
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #e8a849;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Inputs ── */
+    input[type="text"],
+    input[type="date"],
+    input[type="url"],
+    textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="url"]:focus,
+    textarea:focus {
+      border-color: rgba(232,168,73,0.4);
+      outline: none;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    input[type="date"] {
+      color-scheme: dark;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: #e8a849;
+      color: #0a0a0a;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #e8a849;
+      border: 1px solid rgba(232,168,73,0.3);
+      border-radius: 6px;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .btn-secondary:hover {
+      transform: translateY(-1px);
+      border-color: rgba(232,168,73,0.6);
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: #e85555;
+      border: 1px solid rgba(232,85,85,0.25);
+      border-radius: 6px;
+      padding: 0.45rem 0.85rem;
+      cursor: pointer;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.75rem;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .btn-danger:hover {
+      transform: translateY(-1px);
+      border-color: rgba(232,85,85,0.5);
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .card:hover {
+      border-color: rgba(232,168,73,0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ── Admin-only elements ── */
+    .admin-only {
+      display: none !important;
+    }
+    body.admin-mode .admin-only {
+      display: block !important;
+    }
+    body.admin-mode .admin-only.inline-form {
+      display: none !important;
+    }
+    body.admin-mode .admin-only.inline-form.open {
+      display: block !important;
+    }
+    body.admin-mode .admin-only.tab-panel {
+      display: none !important;
+    }
+    body.admin-mode .admin-only.tab-panel.active {
+      display: block !important;
+    }
+    body.admin-mode .admin-only.tab-btn {
+      display: flex !important;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+      20%, 40%, 60%, 80% { transform: translateX(4px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .shake {
+      animation: shake 0.5s ease-in-out;
+    }
+    .fade-in-up {
+      animation: fadeInUp 0.4s ease forwards;
+    }
+
+    /* ── Toast ── */
+    #toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      background: rgba(30,30,30,0.97);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 0.85rem 1.25rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      color: #fff;
+      max-width: 360px;
+      backdrop-filter: blur(12px);
+      animation: fadeInUp 0.3s ease;
+      transition: opacity 0.3s;
+    }
+    .toast.error {
+      border-color: rgba(232,85,85,0.4);
+      color: #ff8888;
+    }
+    .toast.success {
+      border-color: rgba(72,187,120,0.4);
+      color: #68d391;
+    }
+
+    /* ── Spinner ── */
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.15);
+      border-top-color: #e8a849;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    .loading-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 3rem;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.9rem;
+    }
+
+    /* ═══════════════════════════════════
+       ACCESS GATE
+    ═══════════════════════════════════ */
+    #gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease;
+    }
+    #gate.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .gate-inner {
+      text-align: center;
+      width: 100%;
+      max-width: 380px;
+      padding: 0 1.5rem;
+    }
+    .gate-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 2.5rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+    .gate-subtitle {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #e8a849;
+      margin-bottom: 1.5rem;
+    }
+    .gate-divider {
+      width: 50px;
+      height: 2px;
+      background: #e8a849;
+      margin: 0 auto 2rem;
+    }
+    .gate-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .gate-error {
+      color: #e85555;
+      font-size: 0.85rem;
+      min-height: 1.2em;
+      margin-top: 0.25rem;
+    }
+
+    /* ── Name Entry ── */
+    #name-entry {
+      display: none;
+    }
+    .name-prompt {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ═══════════════════════════════════
+       HUB SHELL
+    ═══════════════════════════════════ */
+    #hub {
+      display: none;
+      min-height: 100vh;
+      padding-top: 56px;
+    }
+    #hub.visible {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    /* ── Top Bar ── */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .top-bar-left {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      color: #fff;
+    }
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .role-pill {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e8a849;
+      border: 1px solid rgba(232,168,73,0.35);
+      border-radius: 20px;
+      padding: 0.25rem 0.75rem;
+    }
+    .btn-signout {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 4px;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .btn-signout:hover {
+      color: #fff;
+    }
+
+    /* ── Tab Navigation ── */
+    .tab-nav {
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-nav-inner {
+      display: flex;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn:hover {
+      color: rgba(255,255,255,0.75);
+    }
+    .tab-btn.active {
+      color: #e8a849;
+      border-bottom-color: #e8a849;
+    }
+
+    /* ── Content Area ── */
+    .content-area {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    /* ── Empty States ── */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: rgba(255,255,255,0.3);
+    }
+    .empty-state-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+    .empty-state-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+    }
+
+    /* ── Inline Forms ── */
+    .inline-form {
+      display: none;
+      margin-bottom: 1.5rem;
+    }
+    .inline-form.open {
+      display: block;
+      animation: fadeInUp 0.3s ease;
+    }
+    .inline-form .card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .form-row {
+      display: flex;
+      gap: 0.85rem;
+    }
+    .form-row > * {
+      flex: 1;
+    }
+    .form-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 0.25rem;
+    }
+
+    /* ── Priority Toggle ── */
+    .priority-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .priority-toggle input[type="checkbox"] {
+      appearance: none;
+      width: 38px;
+      height: 20px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .priority-toggle input[type="checkbox"]::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .priority-toggle input[type="checkbox"]:checked {
+      background: #e8a849;
+    }
+    .priority-toggle input[type="checkbox"]:checked::after {
+      transform: translateX(18px);
+    }
+
+    /* ── Mandatory Checkbox ── */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .checkbox-group input[type="checkbox"] {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .checkbox-group input[type="checkbox"]:checked {
+      background: #e8a849;
+      border-color: #e8a849;
+    }
+    .checkbox-group input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+      color: #0a0a0a;
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════
+       ANNOUNCEMENTS
+    ═══════════════════════════════════ */
+    .announcement-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .announcement-card {
+      position: relative;
+    }
+    .announcement-card.urgent {
+      border-left: 3px solid #e8a849;
+    }
+    .announcement-card .card-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .announcement-card .card-body {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+      white-space: pre-wrap;
+    }
+    .announcement-card .card-meta {
+      font-size: 0.75rem;
+      color: #e8a849;
+    }
+    .announcement-card .card-delete {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    /* ═══════════════════════════════════
+       SHOOTS
+    ═══════════════════════════════════ */
+    .shoot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .shoot-card {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .shoot-date-block {
+      flex-shrink: 0;
+      text-align: center;
+      min-width: 52px;
+    }
+    .shoot-date-block .month {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #e8a849;
+    }
+    .shoot-date-block .day {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #e8a849;
+      line-height: 1.1;
+    }
+    .shoot-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .shoot-info .card-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+    }
+    .shoot-info .card-detail {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.15rem;
+    }
+    .shoot-badges {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.65rem;
+      align-items: center;
+    }
+    .badge {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+    }
+    .badge-mandatory {
+      background: rgba(232,85,85,0.15);
+      color: #e85555;
+      border: 1px solid rgba(232,85,85,0.25);
+    }
+    .badge-optional {
+      background: rgba(72,187,120,0.12);
+      color: #68d391;
+      border: 1px solid rgba(72,187,120,0.25);
+    }
+    .badge-checkedin {
+      background: rgba(72,187,120,0.12);
+      color: #68d391;
+      border: 1px solid rgba(72,187,120,0.25);
+    }
+    .btn-checkin {
+      background: transparent;
+      color: #e8a849;
+      border: 1px solid rgba(232,168,73,0.3);
+      border-radius: 20px;
+      padding: 0.2rem 0.75rem;
+      cursor: pointer;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-checkin:hover {
+      border-color: rgba(232,168,73,0.6);
+      background: rgba(232,168,73,0.08);
+    }
+    .checkin-names {
+      margin-top: 0.65rem;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
+    }
+    .checkin-names strong {
+      color: rgba(255,255,255,0.5);
+      font-weight: 500;
+    }
+
+    /* ═══════════════════════════════════
+       DOCUMENTS
+    ═══════════════════════════════════ */
+    .doc-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 640px) {
+      .doc-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .doc-card .doc-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .doc-card .card-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      margin-bottom: 0.35rem;
+    }
+    .doc-card .card-desc {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .doc-card .btn-secondary {
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+    }
+
+    /* ═══════════════════════════════════
+       AGREEMENTS
+    ═══════════════════════════════════ */
+    .agreement-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .agreement-card .card-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+    }
+    .agreement-card .card-desc {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .agreement-card .view-link {
+      color: #e8a849;
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+      display: inline-block;
+      transition: opacity 0.2s;
+    }
+    .agreement-card .view-link:hover {
+      opacity: 0.8;
+    }
+    .agreement-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .acknowledged-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: rgba(72,187,120,0.08);
+      border: 1px solid rgba(72,187,120,0.2);
+      border-radius: 8px;
+      color: #68d391;
+      font-size: 0.85rem;
+    }
+    .signatures-table {
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .signatures-table h4 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.75rem;
+    }
+    .sig-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.4rem 0;
+      font-size: 0.825rem;
+      color: rgba(255,255,255,0.55);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .sig-row:last-child { border-bottom: none; }
+    .sig-row .sig-date {
+      color: rgba(255,255,255,0.3);
+      font-size: 0.75rem;
+    }
+
+    /* ═══════════════════════════════════
+       SETTINGS
+    ═══════════════════════════════════ */
+    .settings-section {
+      margin-bottom: 2rem;
+    }
+    .settings-section h3 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .settings-form {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-end;
+    }
+    .settings-form .input-wrap {
+      flex: 1;
+    }
+    .settings-form label {
+      display: block;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.35rem;
+    }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════ */
+    @media (max-width: 480px) {
+      .gate-title {
+        font-size: 2rem;
+      }
+      .form-row {
+        flex-direction: column;
+      }
+      .settings-form {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .shoot-card {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .shoot-date-block {
+        text-align: left;
+        display: flex;
+        gap: 0.35rem;
+        align-items: baseline;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════
+       ACCESS GATE
+  ═══════════════════════════════════ -->
+  <div id="gate">
+    <div class="gate-inner">
+      <!-- Code Entry -->
+      <div id="code-entry">
+        <h1 class="gate-title">MOUNTAIN GOATS</h1>
+        <div class="gate-subtitle">THE COLLECTIVE</div>
+        <div class="gate-divider"></div>
+        <div class="gate-input-group">
+          <input type="text" id="access-code-input" placeholder="Enter access code" autocomplete="off" spellcheck="false">
+          <div class="gate-error" id="gate-error"></div>
+          <button class="btn-primary" id="access-code-btn" style="width:100%;">Enter</button>
+        </div>
+      </div>
+
+      <!-- Name Entry -->
+      <div id="name-entry">
+        <h1 class="gate-title">MOUNTAIN GOATS</h1>
+        <div class="gate-subtitle">THE COLLECTIVE</div>
+        <div class="gate-divider"></div>
+        <div class="name-prompt">What's your name?</div>
+        <div class="gate-input-group">
+          <input type="text" id="name-input" placeholder="Your name" autocomplete="off" spellcheck="false">
+          <button class="btn-primary" id="name-btn" style="width:100%;">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       HUB
+  ═══════════════════════════════════ -->
+  <div id="hub">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">THE COLLECTIVE</div>
+      <div class="top-bar-right">
+        <span class="role-pill" id="role-pill"></span>
+        <button class="btn-signout" id="btn-signout" title="Sign Out">&#10005;</button>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <div class="tab-nav-inner">
+        <button class="tab-btn active" data-tab="announcements">&#128226; Announcements</button>
+        <button class="tab-btn" data-tab="shoots">&#128197; Shoots</button>
+        <button class="tab-btn" data-tab="documents">&#128196; Documents</button>
+        <button class="tab-btn" data-tab="agreements">&#9997;&#65039; Agreements</button>
+        <button class="tab-btn admin-only" data-tab="settings">&#9881;&#65039; Settings</button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content-area">
+
+      <!-- ── ANNOUNCEMENTS TAB ── -->
+      <div class="tab-panel active" id="panel-announcements">
+        <div class="admin-only" style="margin-bottom:1rem;">
+          <button class="btn-primary btn-sm" id="btn-new-announcement">New Announcement</button>
+        </div>
+        <div class="inline-form admin-only" id="form-announcement">
+          <div class="card">
+            <input type="text" id="ann-title" placeholder="Title">
+            <textarea id="ann-body" placeholder="Announcement body..."></textarea>
+            <div class="priority-toggle">
+              <input type="checkbox" id="ann-urgent">
+              <label for="ann-urgent">Urgent</label>
+            </div>
+            <div class="form-actions">
+              <button class="btn-primary btn-sm" id="btn-post-announcement">Post</button>
+              <button class="btn-secondary btn-sm" id="btn-cancel-announcement">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div id="announcements-loading" class="loading-state"><span class="spinner"></span> Loading...</div>
+        <div id="announcements-empty" class="empty-state" style="display:none;">
+          <div class="empty-state-icon">&#128227;</div>
+          <div class="empty-state-text">No announcements yet</div>
+        </div>
+        <div class="announcement-list" id="announcements-list"></div>
+      </div>
+
+      <!-- ── SHOOTS TAB ── -->
+      <div class="tab-panel" id="panel-shoots">
+        <div class="admin-only" style="margin-bottom:1rem;">
+          <button class="btn-primary btn-sm" id="btn-new-shoot">Add Shoot</button>
+        </div>
+        <div class="inline-form admin-only" id="form-shoot">
+          <div class="card">
+            <input type="text" id="shoot-title" placeholder="Shoot title">
+            <div class="form-row">
+              <input type="date" id="shoot-date">
+              <input type="text" id="shoot-time" placeholder="Time (e.g. 9:00 AM)">
+            </div>
+            <input type="text" id="shoot-location" placeholder="Location">
+            <div class="checkbox-group">
+              <input type="checkbox" id="shoot-mandatory">
+              <label for="shoot-mandatory">Mandatory</label>
+            </div>
+            <div class="form-actions">
+              <button class="btn-primary btn-sm" id="btn-post-shoot">Add Shoot</button>
+              <button class="btn-secondary btn-sm" id="btn-cancel-shoot">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div id="shoots-loading" class="loading-state"><span class="spinner"></span> Loading...</div>
+        <div id="shoots-empty" class="empty-state" style="display:none;">
+          <div class="empty-state-icon">&#127909;</div>
+          <div class="empty-state-text">No upcoming shoots scheduled</div>
+        </div>
+        <div class="shoot-list" id="shoots-list"></div>
+      </div>
+
+      <!-- ── DOCUMENTS TAB ── -->
+      <div class="tab-panel" id="panel-documents">
+        <div class="admin-only" style="margin-bottom:1rem;">
+          <button class="btn-primary btn-sm" id="btn-new-doc">Add Document</button>
+        </div>
+        <div class="inline-form admin-only" id="form-document">
+          <div class="card">
+            <input type="text" id="doc-title" placeholder="Document title">
+            <input type="text" id="doc-desc" placeholder="Brief description">
+            <input type="url" id="doc-url" placeholder="File URL">
+            <div class="form-actions">
+              <button class="btn-primary btn-sm" id="btn-post-doc">Add Document</button>
+              <button class="btn-secondary btn-sm" id="btn-cancel-doc">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div id="documents-loading" class="loading-state"><span class="spinner"></span> Loading...</div>
+        <div id="documents-empty" class="empty-state" style="display:none;">
+          <div class="empty-state-icon">&#128193;</div>
+          <div class="empty-state-text">No documents uploaded yet</div>
+        </div>
+        <div class="doc-grid" id="documents-list"></div>
+      </div>
+
+      <!-- ── AGREEMENTS TAB ── -->
+      <div class="tab-panel" id="panel-agreements">
+        <div id="agreements-loading" class="loading-state"><span class="spinner"></span> Loading...</div>
+        <div class="agreement-list" id="agreements-list"></div>
+      </div>
+
+      <!-- ── SETTINGS TAB ── -->
+      <div class="tab-panel admin-only" id="panel-settings">
+        <div class="settings-section">
+          <h3>Change Member Code</h3>
+          <div class="card">
+            <div class="settings-form">
+              <div class="input-wrap">
+                <label>New member code</label>
+                <input type="text" id="settings-member-code" placeholder="New member code">
+              </div>
+              <button class="btn-primary btn-sm" id="btn-save-member-code">Save</button>
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3>Change Admin Code</h3>
+          <div class="card">
+            <div class="settings-form">
+              <div class="input-wrap">
+                <label>New admin code</label>
+                <input type="text" id="settings-admin-code" placeholder="New admin code">
+              </div>
+              <button class="btn-primary btn-sm" id="btn-save-admin-code">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .content-area -->
+  </div><!-- #hub -->
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // ═══════════════════════════════════
+    // SUPABASE INIT
+    // ═══════════════════════════════════
+    const SUPABASE_URL = 'https://nrfiomvamfcrvopynfdf.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_vPpNwlD3fOK4A8PMvl5t5Q_YasnQXhd';
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ═══════════════════════════════════
+    // STATE
+    // ═══════════════════════════════════
+    let currentRole = sessionStorage.getItem('mg_role') || null;
+    let currentName = sessionStorage.getItem('mg_name') || null;
+    let currentTab = 'announcements';
+    let checkinCache = {};
+
+    // ═══════════════════════════════════
+    // UTILITY: Toast Notifications
+    // ═══════════════════════════════════
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // ═══════════════════════════════════
+    // UTILITY: Date Formatting
+    // ═══════════════════════════════════
+    const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      return `${MONTHS_SHORT[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+    }
+
+    function formatShootDate(dateStr) {
+      // dateStr is YYYY-MM-DD, parse without timezone issues
+      const parts = dateStr.split('-');
+      const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+      return {
+        month: MONTHS_SHORT[d.getMonth()],
+        day: d.getDate()
+      };
+    }
+
+    function relativeTime(isoStr) {
+      const now = new Date();
+      const then = new Date(isoStr);
+      const diffMs = now - then;
+      const diffSec = Math.floor(diffMs / 1000);
+      const diffMin = Math.floor(diffSec / 60);
+      const diffHr = Math.floor(diffMin / 60);
+      const diffDay = Math.floor(diffHr / 24);
+
+      if (diffSec < 60) return 'Just now';
+      if (diffMin < 60) return `${diffMin} minute${diffMin===1?'':'s'} ago`;
+      if (diffHr < 24) return `${diffHr} hour${diffHr===1?'':'s'} ago`;
+      if (diffDay < 7) return `${diffDay} day${diffDay===1?'':'s'} ago`;
+      return formatDate(isoStr);
+    }
+
+    function todayStr() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    // ═══════════════════════════════════
+    // UTILITY: Escape HTML
+    // ═══════════════════════════════════
+    function esc(str) {
+      const div = document.createElement('div');
+      div.textContent = str || '';
+      return div.innerHTML;
+    }
+
+    // ═══════════════════════════════════
+    // ACCESS GATE
+    // ═══════════════════════════════════
+    const gate = document.getElementById('gate');
+    const codeEntry = document.getElementById('code-entry');
+    const nameEntry = document.getElementById('name-entry');
+    const accessCodeInput = document.getElementById('access-code-input');
+    const accessCodeBtn = document.getElementById('access-code-btn');
+    const gateError = document.getElementById('gate-error');
+    const nameInput = document.getElementById('name-input');
+    const nameBtn = document.getElementById('name-btn');
+
+    // If already authenticated, skip gate
+    if (currentRole && currentName) {
+      gate.style.display = 'none';
+      initHub();
+    }
+
+    accessCodeBtn.addEventListener('click', handleAccessCode);
+    accessCodeInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleAccessCode(); });
+
+    async function handleAccessCode() {
+      const code = accessCodeInput.value.trim();
+      if (!code) {
+        gateError.textContent = 'Please enter a code';
+        return;
+      }
+      gateError.textContent = '';
+      accessCodeBtn.disabled = true;
+      accessCodeBtn.textContent = '...';
+
+      try {
+        const { data, error } = await sb.rpc('validate_access_code', { code });
+        if (error) throw error;
+
+        if (data === 'invalid') {
+          accessCodeInput.classList.add('shake');
+          setTimeout(() => accessCodeInput.classList.remove('shake'), 500);
+          gateError.textContent = 'Invalid access code';
+          accessCodeBtn.disabled = false;
+          accessCodeBtn.textContent = 'ENTER';
+          return;
+        }
+
+        // Valid role: 'member' or 'admin'
+        currentRole = data;
+        sessionStorage.setItem('mg_role', currentRole);
+
+        // Transition to name entry
+        codeEntry.style.display = 'none';
+        nameEntry.style.display = 'block';
+        nameInput.focus();
+      } catch (err) {
+        gateError.textContent = 'Connection error. Try again.';
+        console.error(err);
+      }
+      accessCodeBtn.disabled = false;
+      accessCodeBtn.textContent = 'ENTER';
+    }
+
+    nameBtn.addEventListener('click', handleNameEntry);
+    nameInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleNameEntry(); });
+
+    function handleNameEntry() {
+      const name = nameInput.value.trim();
+      if (!name) return;
+      currentName = name;
+      sessionStorage.setItem('mg_name', currentName);
+
+      // Fade out gate
+      gate.classList.add('hidden');
+      setTimeout(() => {
+        gate.style.display = 'none';
+        initHub();
+      }, 500);
+    }
+
+    // ═══════════════════════════════════
+    // HUB INITIALIZATION
+    // ═══════════════════════════════════
+    function initHub() {
+      const hub = document.getElementById('hub');
+      hub.classList.add('visible');
+
+      // Role pill
+      document.getElementById('role-pill').textContent = currentRole === 'admin' ? 'ADMIN' : 'MEMBER';
+
+      // Show admin elements
+      if (currentRole === 'admin') {
+        document.body.classList.add('admin-mode');
+      }
+
+      // Load initial tab
+      loadAnnouncements();
+
+      // Set up Realtime
+      setupRealtime();
+    }
+
+    // ═══════════════════════════════════
+    // SIGN OUT
+    // ═══════════════════════════════════
+    document.getElementById('btn-signout').addEventListener('click', () => {
+      sessionStorage.removeItem('mg_role');
+      sessionStorage.removeItem('mg_name');
+      window.location.reload();
+    });
+
+    // ═══════════════════════════════════
+    // TAB NAVIGATION
+    // ═══════════════════════════════════
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+        if (tab === currentTab) return;
+
+        // Update buttons
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Update panels
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById(`panel-${tab}`).classList.add('active');
+
+        currentTab = tab;
+
+        // Load data for the tab
+        switch(tab) {
+          case 'announcements': loadAnnouncements(); break;
+          case 'shoots': loadShoots(); break;
+          case 'documents': loadDocuments(); break;
+          case 'agreements': loadAgreements(); break;
+        }
+      });
+    });
+
+    // ═══════════════════════════════════
+    // REALTIME
+    // ═══════════════════════════════════
+    function setupRealtime() {
+      sb.channel('announcements-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'announcements' }, () => {
+          if (currentTab === 'announcements') loadAnnouncements();
+        })
+        .subscribe();
+
+      sb.channel('shoots-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'shoots' }, () => {
+          if (currentTab === 'shoots') loadShoots();
+        })
+        .subscribe();
+
+      sb.channel('checkins-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'checkins' }, () => {
+          if (currentTab === 'shoots') loadShoots();
+        })
+        .subscribe();
+
+      sb.channel('documents-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'documents' }, () => {
+          if (currentTab === 'documents') loadDocuments();
+        })
+        .subscribe();
+
+      sb.channel('agreements-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'agreements' }, () => {
+          if (currentTab === 'agreements') loadAgreements();
+        })
+        .subscribe();
+    }
+
+    // ═══════════════════════════════════
+    // ANNOUNCEMENTS
+    // ═══════════════════════════════════
+    const btnNewAnn = document.getElementById('btn-new-announcement');
+    const formAnn = document.getElementById('form-announcement');
+    const btnPostAnn = document.getElementById('btn-post-announcement');
+    const btnCancelAnn = document.getElementById('btn-cancel-announcement');
+
+    btnNewAnn.addEventListener('click', () => {
+      formAnn.classList.toggle('open');
+      if (formAnn.classList.contains('open')) {
+        document.getElementById('ann-title').focus();
+      }
+    });
+
+    btnCancelAnn.addEventListener('click', () => {
+      formAnn.classList.remove('open');
+      document.getElementById('ann-title').value = '';
+      document.getElementById('ann-body').value = '';
+      document.getElementById('ann-urgent').checked = false;
+    });
+
+    btnPostAnn.addEventListener('click', async () => {
+      const title = document.getElementById('ann-title').value.trim();
+      const body = document.getElementById('ann-body').value.trim();
+      const priority = document.getElementById('ann-urgent').checked ? 'urgent' : 'normal';
+
+      if (!title || !body) {
+        showToast('Title and body are required', 'error');
+        return;
+      }
+
+      btnPostAnn.disabled = true;
+      try {
+        const { error } = await sb.from('announcements').insert({ title, body, priority });
+        if (error) throw error;
+        formAnn.classList.remove('open');
+        document.getElementById('ann-title').value = '';
+        document.getElementById('ann-body').value = '';
+        document.getElementById('ann-urgent').checked = false;
+        showToast('Announcement posted', 'success');
+        loadAnnouncements();
+      } catch (err) {
+        showToast('Failed to post announcement', 'error');
+        console.error(err);
+      }
+      btnPostAnn.disabled = false;
+    });
+
+    let _annDebounce = null;
+    async function loadAnnouncements() {
+      if (_annDebounce) clearTimeout(_annDebounce);
+      await new Promise(r => { _annDebounce = setTimeout(r, 200); });
+      const loading = document.getElementById('announcements-loading');
+      const empty = document.getElementById('announcements-empty');
+      const list = document.getElementById('announcements-list');
+
+      loading.style.display = 'flex';
+      empty.style.display = 'none';
+      list.innerHTML = '';
+
+      try {
+        const { data, error } = await sb.from('announcements')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+
+        loading.style.display = 'none';
+
+        if (!data || data.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        data.forEach((ann, i) => {
+          const card = document.createElement('div');
+          card.className = `card announcement-card fade-in-up${ann.priority === 'urgent' ? ' urgent' : ''}`;
+          card.style.animationDelay = `${i * 0.05}s`;
+
+          let deleteBtn = '';
+          if (currentRole === 'admin') {
+            deleteBtn = `<button class="btn-danger card-delete" onclick="deleteAnnouncement('${ann.id}')" title="Delete">&#128465;</button>`;
+          }
+
+          card.innerHTML = `
+            ${deleteBtn}
+            <div class="card-title">${esc(ann.title)}</div>
+            <div class="card-body">${esc(ann.body)}</div>
+            <div class="card-meta">${relativeTime(ann.created_at)}</div>
+          `;
+          list.appendChild(card);
+        });
+      } catch (err) {
+        loading.style.display = 'none';
+        showToast('Failed to load announcements', 'error');
+        console.error(err);
+      }
+    }
+
+    async function deleteAnnouncement(id) {
+      if (!confirm('Delete this announcement?')) return;
+      try {
+        const { error } = await sb.from('announcements').delete().eq('id', id);
+        if (error) throw error;
+        showToast('Announcement deleted', 'success');
+        loadAnnouncements();
+      } catch (err) {
+        showToast('Failed to delete', 'error');
+        console.error(err);
+      }
+    }
+
+    // ═══════════════════════════════════
+    // SHOOTS
+    // ═══════════════════════════════════
+    const btnNewShoot = document.getElementById('btn-new-shoot');
+    const formShoot = document.getElementById('form-shoot');
+    const btnPostShoot = document.getElementById('btn-post-shoot');
+    const btnCancelShoot = document.getElementById('btn-cancel-shoot');
+
+    btnNewShoot.addEventListener('click', () => {
+      formShoot.classList.toggle('open');
+      if (formShoot.classList.contains('open')) {
+        document.getElementById('shoot-title').focus();
+      }
+    });
+
+    btnCancelShoot.addEventListener('click', () => {
+      formShoot.classList.remove('open');
+      document.getElementById('shoot-title').value = '';
+      document.getElementById('shoot-date').value = '';
+      document.getElementById('shoot-time').value = '';
+      document.getElementById('shoot-location').value = '';
+      document.getElementById('shoot-mandatory').checked = false;
+    });
+
+    btnPostShoot.addEventListener('click', async () => {
+      const title = document.getElementById('shoot-title').value.trim();
+      const shoot_date = document.getElementById('shoot-date').value;
+      const time = document.getElementById('shoot-time').value.trim();
+      const location = document.getElementById('shoot-location').value.trim();
+      const mandatory = document.getElementById('shoot-mandatory').checked;
+
+      if (!title || !shoot_date) {
+        showToast('Title and date are required', 'error');
+        return;
+      }
+
+      btnPostShoot.disabled = true;
+      try {
+        const { error } = await sb.from('shoots').insert({ title, shoot_date, time, location, mandatory });
+        if (error) throw error;
+        formShoot.classList.remove('open');
+        document.getElementById('shoot-title').value = '';
+        document.getElementById('shoot-date').value = '';
+        document.getElementById('shoot-time').value = '';
+        document.getElementById('shoot-location').value = '';
+        document.getElementById('shoot-mandatory').checked = false;
+        showToast('Shoot added', 'success');
+        loadShoots();
+      } catch (err) {
+        showToast('Failed to add shoot', 'error');
+        console.error(err);
+      }
+      btnPostShoot.disabled = false;
+    });
+
+    let _shootDebounce = null;
+    async function loadShoots() {
+      if (_shootDebounce) clearTimeout(_shootDebounce);
+      await new Promise(r => { _shootDebounce = setTimeout(r, 200); });
+      const loading = document.getElementById('shoots-loading');
+      const empty = document.getElementById('shoots-empty');
+      const list = document.getElementById('shoots-list');
+
+      loading.style.display = 'flex';
+      empty.style.display = 'none';
+      list.innerHTML = '';
+
+      try {
+        const today = todayStr();
+        const { data, error } = await sb.from('shoots')
+          .select('*')
+          .gte('shoot_date', today)
+          .order('shoot_date', { ascending: true });
+        if (error) throw error;
+
+        loading.style.display = 'none';
+
+        if (!data || data.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        // Load all checkins for these shoots
+        const shootIds = data.map(s => s.id);
+        const { data: allCheckins, error: ciErr } = await sb.from('checkins')
+          .select('*')
+          .in('shoot_id', shootIds);
+        if (ciErr) throw ciErr;
+
+        // Build checkin map
+        checkinCache = {};
+        (allCheckins || []).forEach(ci => {
+          if (!checkinCache[ci.shoot_id]) checkinCache[ci.shoot_id] = [];
+          checkinCache[ci.shoot_id].push(ci);
+        });
+
+        data.forEach((shoot, i) => {
+          const card = document.createElement('div');
+          card.className = 'card shoot-card fade-in-up';
+          card.style.animationDelay = `${i * 0.05}s`;
+
+          const sd = formatShootDate(shoot.shoot_date);
+          const checkins = checkinCache[shoot.id] || [];
+          const myCheckin = checkins.find(ci => ci.member_name === currentName);
+          const isMandatory = shoot.mandatory;
+
+          let badgesHtml = '';
+          if (isMandatory) {
+            badgesHtml += '<span class="badge badge-mandatory">MANDATORY</span>';
+          } else {
+            badgesHtml += '<span class="badge badge-optional">OPTIONAL</span>';
+          }
+
+          if (myCheckin) {
+            badgesHtml += '<span class="badge badge-checkedin">&#10003; Checked In</span>';
+          } else {
+            badgesHtml += `<button class="btn-checkin" onclick="checkIn('${shoot.id}', this)">Check In</button>`;
+          }
+
+          let checkinInfo = '';
+          if (currentRole === 'admin' && checkins.length > 0) {
+            const names = checkins.map(ci => esc(ci.member_name)).join(', ');
+            checkinInfo = `<div class="checkin-names"><strong>${checkins.length} checked in:</strong> ${names}</div>`;
+          } else if (currentRole === 'admin') {
+            checkinInfo = `<div class="checkin-names"><strong>0 checked in</strong></div>`;
+          }
+
+          let deleteBtn = '';
+          if (currentRole === 'admin') {
+            deleteBtn = `<button class="btn-danger" onclick="deleteShoot('${shoot.id}')" style="margin-top:0.5rem;" title="Delete">Delete</button>`;
+          }
+
+          card.innerHTML = `
+            <div class="shoot-date-block">
+              <div class="month">${sd.month}</div>
+              <div class="day">${sd.day}</div>
+            </div>
+            <div class="shoot-info">
+              <div class="card-title">${esc(shoot.title)}</div>
+              ${shoot.time ? `<div class="card-detail">${esc(shoot.time)}</div>` : ''}
+              ${shoot.location ? `<div class="card-detail">${esc(shoot.location)}</div>` : ''}
+              <div class="shoot-badges">${badgesHtml}</div>
+              ${checkinInfo}
+              ${deleteBtn}
+            </div>
+          `;
+          list.appendChild(card);
+        });
+      } catch (err) {
+        loading.style.display = 'none';
+        showToast('Failed to load shoots', 'error');
+        console.error(err);
+      }
+    }
+
+    async function checkIn(shootId, btnEl) {
+      btnEl.disabled = true;
+      btnEl.textContent = '...';
+      try {
+        const { error } = await sb.from('checkins').insert({ shoot_id: shootId, member_name: currentName });
+        if (error) throw error;
+        showToast('Checked in!', 'success');
+        loadShoots();
+      } catch (err) {
+        showToast('Failed to check in', 'error');
+        btnEl.disabled = false;
+        btnEl.textContent = 'Check In';
+        console.error(err);
+      }
+    }
+
+    async function deleteShoot(id) {
+      if (!confirm('Delete this shoot?')) return;
+      try {
+        const { error } = await sb.from('shoots').delete().eq('id', id);
+        if (error) throw error;
+        showToast('Shoot deleted', 'success');
+        loadShoots();
+      } catch (err) {
+        showToast('Failed to delete', 'error');
+        console.error(err);
+      }
+    }
+
+    // ═══════════════════════════════════
+    // DOCUMENTS
+    // ═══════════════════════════════════
+    const btnNewDoc = document.getElementById('btn-new-doc');
+    const formDoc = document.getElementById('form-document');
+    const btnPostDoc = document.getElementById('btn-post-doc');
+    const btnCancelDoc = document.getElementById('btn-cancel-doc');
+
+    btnNewDoc.addEventListener('click', () => {
+      formDoc.classList.toggle('open');
+      if (formDoc.classList.contains('open')) {
+        document.getElementById('doc-title').focus();
+      }
+    });
+
+    btnCancelDoc.addEventListener('click', () => {
+      formDoc.classList.remove('open');
+      document.getElementById('doc-title').value = '';
+      document.getElementById('doc-desc').value = '';
+      document.getElementById('doc-url').value = '';
+    });
+
+    btnPostDoc.addEventListener('click', async () => {
+      const title = document.getElementById('doc-title').value.trim();
+      const description = document.getElementById('doc-desc').value.trim();
+      const file_url = document.getElementById('doc-url').value.trim();
+
+      if (!title || !file_url) {
+        showToast('Title and URL are required', 'error');
+        return;
+      }
+
+      btnPostDoc.disabled = true;
+      try {
+        const { error } = await sb.from('documents').insert({ title, description, file_url });
+        if (error) throw error;
+        formDoc.classList.remove('open');
+        document.getElementById('doc-title').value = '';
+        document.getElementById('doc-desc').value = '';
+        document.getElementById('doc-url').value = '';
+        showToast('Document added', 'success');
+        loadDocuments();
+      } catch (err) {
+        showToast('Failed to add document', 'error');
+        console.error(err);
+      }
+      btnPostDoc.disabled = false;
+    });
+
+    let _docDebounce = null;
+    async function loadDocuments() {
+      if (_docDebounce) clearTimeout(_docDebounce);
+      await new Promise(r => { _docDebounce = setTimeout(r, 200); });
+      const loading = document.getElementById('documents-loading');
+      const empty = document.getElementById('documents-empty');
+      const list = document.getElementById('documents-list');
+
+      loading.style.display = 'flex';
+      empty.style.display = 'none';
+      list.innerHTML = '';
+
+      try {
+        const { data, error } = await sb.from('documents')
+          .select('*')
+          .order('sort_order', { ascending: true });
+        if (error) throw error;
+
+        loading.style.display = 'none';
+
+        if (!data || data.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        data.forEach((doc, i) => {
+          const card = document.createElement('div');
+          card.className = 'card doc-card fade-in-up';
+          card.style.animationDelay = `${i * 0.05}s`;
+
+          let deleteBtn = '';
+          if (currentRole === 'admin') {
+            deleteBtn = `<button class="btn-danger" onclick="deleteDocument('${doc.id}')" style="margin-top:0.5rem;" title="Delete">Delete</button>`;
+          }
+
+          card.innerHTML = `
+            <div class="doc-icon">&#128196;</div>
+            <div class="card-title">${esc(doc.title)}</div>
+            ${doc.description ? `<div class="card-desc">${esc(doc.description)}</div>` : '<div class="card-desc"></div>'}
+            <a href="${esc(doc.file_url)}" target="_blank" download class="btn-secondary">Download</a>
+            ${deleteBtn}
+          `;
+          list.appendChild(card);
+        });
+      } catch (err) {
+        loading.style.display = 'none';
+        showToast('Failed to load documents', 'error');
+        console.error(err);
+      }
+    }
+
+    async function deleteDocument(id) {
+      if (!confirm('Delete this document?')) return;
+      try {
+        const { error } = await sb.from('documents').delete().eq('id', id);
+        if (error) throw error;
+        showToast('Document deleted', 'success');
+        loadDocuments();
+      } catch (err) {
+        showToast('Failed to delete', 'error');
+        console.error(err);
+      }
+    }
+
+    // ═══════════════════════════════════
+    // AGREEMENTS
+    // ═══════════════════════════════════
+    const AGREEMENT_TYPES = [
+      {
+        type: 'nil_deal',
+        title: 'NIL Deal Acknowledgment',
+        description: 'By acknowledging below, you confirm that you have reviewed the NIL (Name, Image, and Likeness) deal terms associated with the Mountain Goats documentary project. This preliminary digital acknowledgment indicates your understanding of how your name, image, and likeness may be used in connection with the production.',
+        pdfUrl: '#'
+      },
+      {
+        type: 'model_release',
+        title: 'Model Release Acknowledgment',
+        description: 'By acknowledging below, you confirm that you have reviewed the Model Release terms for the Mountain Goats documentary. This preliminary digital acknowledgment indicates your consent to appear in the production and for footage of you to be used in the final film and related promotional materials.',
+        pdfUrl: '#'
+      }
+    ];
+
+    let _agreeDebounce = null;
+    async function loadAgreements() {
+      if (_agreeDebounce) clearTimeout(_agreeDebounce);
+      await new Promise(r => { _agreeDebounce = setTimeout(r, 200); });
+      const loading = document.getElementById('agreements-loading');
+      const list = document.getElementById('agreements-list');
+
+      loading.style.display = 'flex';
+      list.innerHTML = '';
+
+      try {
+        // Load the current user's agreements
+        const { data: myAgreements, error: myErr } = await sb.from('agreements')
+          .select('*')
+          .eq('member_name', currentName);
+        if (myErr) throw myErr;
+
+        // If admin, also load all agreements
+        let allAgreements = [];
+        if (currentRole === 'admin') {
+          const { data: all, error: allErr } = await sb.from('agreements')
+            .select('*')
+            .order('agreed_at', { ascending: true });
+          if (allErr) throw allErr;
+          allAgreements = all || [];
+        }
+
+        loading.style.display = 'none';
+
+        const myMap = {};
+        (myAgreements || []).forEach(a => {
+          myMap[a.agreement_type] = a;
+        });
+
+        AGREEMENT_TYPES.forEach((agr, i) => {
+          const card = document.createElement('div');
+          card.className = 'card agreement-card fade-in-up';
+          card.style.animationDelay = `${i * 0.1}s`;
+
+          const signed = myMap[agr.type];
+          let formHtml = '';
+
+          if (signed) {
+            formHtml = `
+              <div class="acknowledged-badge">
+                &#10003; Acknowledged by ${esc(signed.member_name)} &mdash; ${formatDate(signed.agreed_at)}
+              </div>
+            `;
+          } else {
+            formHtml = `
+              <div class="agreement-form">
+                <input type="text" class="agr-name-input" value="${esc(currentName)}" placeholder="Your name">
+                <div class="checkbox-group">
+                  <input type="checkbox" class="agr-checkbox" id="agr-check-${agr.type}">
+                  <label for="agr-check-${agr.type}">I understand this is a preliminary digital acknowledgment</label>
+                </div>
+                <button class="btn-primary btn-sm" onclick="submitAgreement('${agr.type}', this)">I Agree</button>
+              </div>
+            `;
+          }
+
+          // Admin signatures table
+          let signaturesHtml = '';
+          if (currentRole === 'admin') {
+            const sigs = allAgreements.filter(a => a.agreement_type === agr.type);
+            if (sigs.length > 0) {
+              const rows = sigs.map(s =>
+                `<div class="sig-row"><span>${esc(s.member_name)}</span><span class="sig-date">${formatDate(s.agreed_at)}</span></div>`
+              ).join('');
+              signaturesHtml = `
+                <div class="signatures-table admin-only" ${currentRole === 'admin' ? 'style="display:block;"' : ''}>
+                  <h4>Signatures (${sigs.length})</h4>
+                  ${rows}
+                </div>
+              `;
+            } else {
+              signaturesHtml = `
+                <div class="signatures-table admin-only" ${currentRole === 'admin' ? 'style="display:block;"' : ''}>
+                  <h4>Signatures (0)</h4>
+                  <div style="font-size:0.825rem;color:rgba(255,255,255,0.35);">No signatures yet</div>
+                </div>
+              `;
+            }
+          }
+
+          card.innerHTML = `
+            <div class="card-title">${esc(agr.title)}</div>
+            <div class="card-desc">${agr.description}</div>
+            <a href="${agr.pdfUrl}" target="_blank" class="view-link">View full document &#8594;</a>
+            ${formHtml}
+            ${signaturesHtml}
+          `;
+          list.appendChild(card);
+        });
+      } catch (err) {
+        loading.style.display = 'none';
+        showToast('Failed to load agreements', 'error');
+        console.error(err);
+      }
+    }
+
+    async function submitAgreement(type, btnEl) {
+      const card = btnEl.closest('.agreement-card');
+      const nameInput = card.querySelector('.agr-name-input');
+      const checkbox = card.querySelector('.agr-checkbox');
+      const memberName = nameInput.value.trim();
+
+      if (!memberName) {
+        showToast('Please enter your name', 'error');
+        return;
+      }
+      if (!checkbox.checked) {
+        showToast('Please check the acknowledgment box', 'error');
+        return;
+      }
+
+      btnEl.disabled = true;
+      try {
+        const { error } = await sb.from('agreements').insert({ agreement_type: type, member_name: memberName });
+        if (error) throw error;
+        showToast('Agreement acknowledged', 'success');
+        loadAgreements();
+      } catch (err) {
+        showToast('Failed to submit agreement', 'error');
+        console.error(err);
+      }
+      btnEl.disabled = false;
+    }
+
+    // ═══════════════════════════════════
+    // SETTINGS (Admin Only)
+    // ═══════════════════════════════════
+    document.getElementById('btn-save-member-code').addEventListener('click', async () => {
+      const newCode = document.getElementById('settings-member-code').value.trim();
+      if (!newCode) {
+        showToast('Please enter a new code', 'error');
+        return;
+      }
+      try {
+        // We need the current admin code, which is stored in session from the gate
+        // Retrieve it from the access code used at login? We'll prompt or use a stored approach.
+        // Since the admin already authenticated, we use an RPC that takes the admin_code.
+        // We'll ask for it via a prompt since we don't store it.
+        const adminCode = prompt('Enter your current admin code to confirm:');
+        if (!adminCode) return;
+
+        const { data, error } = await sb.rpc('update_access_code', {
+          code_key: 'member_code',
+          new_value: newCode,
+          admin_code: adminCode
+        });
+        if (error) throw error;
+        document.getElementById('settings-member-code').value = '';
+        showToast('Member code updated', 'success');
+      } catch (err) {
+        showToast('Failed to update code', 'error');
+        console.error(err);
+      }
+    });
+
+    document.getElementById('btn-save-admin-code').addEventListener('click', async () => {
+      const newCode = document.getElementById('settings-admin-code').value.trim();
+      if (!newCode) {
+        showToast('Please enter a new code', 'error');
+        return;
+      }
+      try {
+        const adminCode = prompt('Enter your current admin code to confirm:');
+        if (!adminCode) return;
+
+        const { data, error } = await sb.rpc('update_access_code', {
+          code_key: 'admin_code',
+          new_value: newCode,
+          admin_code: adminCode
+        });
+        if (error) throw error;
+        document.getElementById('settings-admin-code').value = '';
+        showToast('Admin code updated. Use new code next login.', 'success');
+      } catch (err) {
+        showToast('Failed to update code', 'error');
+        console.error(err);
+      }
+    });
+
+  </script>
+</body>
+</html>
