@@ -1061,6 +1061,10 @@
     let currentName = sessionStorage.getItem('mg_name') || null;
     let currentTab = 'announcements';
     let checkinCache = {};
+    let _annTimer = null;
+    let _shootTimer = null;
+    let _docTimer = null;
+    let _agreeTimer = null;
 
     // ═══════════════════════════════════
     // UTILITY: Toast Notifications
@@ -1350,10 +1354,11 @@
       btnPostAnn.disabled = false;
     });
 
-    let _annDebounce = null;
-    async function loadAnnouncements() {
-      if (_annDebounce) clearTimeout(_annDebounce);
-      await new Promise(r => { _annDebounce = setTimeout(r, 200); });
+    function loadAnnouncements() {
+      clearTimeout(_annTimer);
+      _annTimer = setTimeout(_loadAnnouncementsNow, 150);
+    }
+    async function _loadAnnouncementsNow() {
       const loading = document.getElementById('announcements-loading');
       const empty = document.getElementById('announcements-empty');
       const list = document.getElementById('announcements-list');
@@ -1468,10 +1473,11 @@
       btnPostShoot.disabled = false;
     });
 
-    let _shootDebounce = null;
-    async function loadShoots() {
-      if (_shootDebounce) clearTimeout(_shootDebounce);
-      await new Promise(r => { _shootDebounce = setTimeout(r, 200); });
+    function loadShoots() {
+      clearTimeout(_shootTimer);
+      _shootTimer = setTimeout(_loadShootsNow, 150);
+    }
+    async function _loadShootsNow() {
       const loading = document.getElementById('shoots-loading');
       const empty = document.getElementById('shoots-empty');
       const list = document.getElementById('shoots-list');
@@ -1646,10 +1652,11 @@
       btnPostDoc.disabled = false;
     });
 
-    let _docDebounce = null;
-    async function loadDocuments() {
-      if (_docDebounce) clearTimeout(_docDebounce);
-      await new Promise(r => { _docDebounce = setTimeout(r, 200); });
+    function loadDocuments() {
+      clearTimeout(_docTimer);
+      _docTimer = setTimeout(_loadDocumentsNow, 150);
+    }
+    async function _loadDocumentsNow() {
       const loading = document.getElementById('documents-loading');
       const empty = document.getElementById('documents-empty');
       const list = document.getElementById('documents-list');
@@ -1728,10 +1735,11 @@
       }
     ];
 
-    let _agreeDebounce = null;
-    async function loadAgreements() {
-      if (_agreeDebounce) clearTimeout(_agreeDebounce);
-      await new Promise(r => { _agreeDebounce = setTimeout(r, 200); });
+    function loadAgreements() {
+      clearTimeout(_agreeTimer);
+      _agreeTimer = setTimeout(_loadAgreementsNow, 150);
+    }
+    async function _loadAgreementsNow() {
       const loading = document.getElementById('agreements-loading');
       const list = document.getElementById('agreements-list');
 
