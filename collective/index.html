@@ -199,6 +199,77 @@
       animation: fadeInUp 0.4s ease forwards;
     }
 
+    /* ── SMS Section ── */
+    .sms-section h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 0.75rem;
+    }
+    .sms-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .sms-section-header h3 {
+      margin-bottom: 0;
+    }
+    .members-table {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .member-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+    }
+    .member-row:hover {
+      border-color: rgba(232,168,73,0.2);
+    }
+    .member-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .member-name {
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+    }
+    .member-phone {
+      font-size: 0.825rem;
+      color: rgba(255,255,255,0.4);
+      font-family: monospace;
+    }
+    .sms-send-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.75rem;
+      gap: 0.75rem;
+    }
+    .sms-meta {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
+    }
+    .sms-log-card {
+      margin-bottom: 0.75rem;
+    }
+    .sms-log-card .card-body {
+      white-space: pre-wrap;
+    }
+    .sms-log-card .card-meta {
+      display: flex;
+      justify-content: space-between;
+    }
+
     /* ── Toast ── */
     #toast-container {
       position: fixed;
@@ -914,6 +985,7 @@
         <button class="tab-btn" data-tab="shoots">&#128197; Shoots</button>
         <button class="tab-btn" data-tab="documents">&#128196; Documents</button>
         <button class="tab-btn" data-tab="agreements">&#9997;&#65039; Agreements</button>
+        <button class="tab-btn admin-only" data-tab="sms">&#128241; SMS</button>
         <button class="tab-btn admin-only" data-tab="settings">&#9881;&#65039; Settings</button>
       </div>
     </div>
@@ -1009,6 +1081,57 @@
         <div class="agreement-list" id="agreements-list"></div>
       </div>
 
+      <!-- ── SMS TAB (Admin Only) ── -->
+      <div class="tab-panel admin-only" id="panel-sms">
+        <!-- Members Section -->
+        <div class="sms-section">
+          <div class="sms-section-header">
+            <h3>Members</h3>
+            <button class="btn-primary btn-sm" id="btn-add-member">Add Member</button>
+          </div>
+          <div class="inline-form admin-only" id="form-member">
+            <div class="card">
+              <input type="text" id="member-name-input" placeholder="Member name">
+              <input type="text" id="member-phone-input" placeholder="Phone (e.g. +15551234567)">
+              <div class="form-actions">
+                <button class="btn-primary btn-sm" id="btn-save-member">Save</button>
+                <button class="btn-secondary btn-sm" id="btn-cancel-member">Cancel</button>
+              </div>
+            </div>
+          </div>
+          <div id="members-loading" class="loading-state"><span class="spinner"></span> Loading...</div>
+          <div id="members-empty" class="empty-state" style="display:none;">
+            <div class="empty-state-icon">&#128101;</div>
+            <div class="empty-state-text">No members added yet</div>
+          </div>
+          <div id="members-list" class="members-table"></div>
+        </div>
+
+        <!-- Compose SMS -->
+        <div class="sms-section" style="margin-top:2rem;">
+          <h3>Send SMS</h3>
+          <div class="card">
+            <textarea id="sms-message" placeholder="Type your message to The Collective..." style="min-height:80px;"></textarea>
+            <div class="sms-send-row">
+              <span id="sms-char-count" class="sms-meta">0 / 160</span>
+              <span id="sms-recipient-count" class="sms-meta"></span>
+              <button class="btn-primary btn-sm" id="btn-send-sms">Send to All</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SMS Log -->
+        <div class="sms-section" style="margin-top:2rem;">
+          <h3>Message History</h3>
+          <div id="sms-log-loading" class="loading-state" style="display:none;"><span class="spinner"></span> Loading...</div>
+          <div id="sms-log-empty" class="empty-state" style="display:none;">
+            <div class="empty-state-icon">&#128172;</div>
+            <div class="empty-state-text">No messages sent yet</div>
+          </div>
+          <div id="sms-log-list"></div>
+        </div>
+      </div>
+
       <!-- ── SETTINGS TAB ── -->
       <div class="tab-panel admin-only" id="panel-settings">
         <div class="settings-section">
@@ -1065,6 +1188,9 @@
     let _shootTimer = null;
     let _docTimer = null;
     let _agreeTimer = null;
+    let _membersTimer = null;
+    let _smsLogTimer = null;
+    let membersList = [];
 
     // ═══════════════════════════════════
     // UTILITY: Toast Notifications
@@ -1266,6 +1392,7 @@
           case 'shoots': loadShoots(); break;
           case 'documents': loadDocuments(); break;
           case 'agreements': loadAgreements(); break;
+          case 'sms': loadMembers(); loadSMSLog(); break;
         }
       });
     });
@@ -1301,6 +1428,18 @@
       sb.channel('agreements-changes')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'agreements' }, () => {
           if (currentTab === 'agreements') loadAgreements();
+        })
+        .subscribe();
+
+      sb.channel('members-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'members' }, () => {
+          if (currentTab === 'sms') loadMembers();
+        })
+        .subscribe();
+
+      sb.channel('sms-log-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'sms_log' }, () => {
+          if (currentTab === 'sms') loadSMSLog();
         })
         .subscribe();
     }
@@ -1863,6 +2002,261 @@
         console.error(err);
       }
       btnEl.disabled = false;
+    }
+
+    // ═══════════════════════════════════
+    // SMS / MEMBERS (Admin Only)
+    // ═══════════════════════════════════
+    const btnAddMember = document.getElementById('btn-add-member');
+    const formMember = document.getElementById('form-member');
+    const btnSaveMember = document.getElementById('btn-save-member');
+    const btnCancelMember = document.getElementById('btn-cancel-member');
+    const smsMessageEl = document.getElementById('sms-message');
+    const smsCharCount = document.getElementById('sms-char-count');
+    const smsRecipientCount = document.getElementById('sms-recipient-count');
+    const btnSendSMS = document.getElementById('btn-send-sms');
+
+    if (btnAddMember) {
+      btnAddMember.addEventListener('click', () => {
+        formMember.classList.toggle('open');
+        if (formMember.classList.contains('open')) {
+          document.getElementById('member-name-input').focus();
+        }
+      });
+    }
+
+    if (btnCancelMember) {
+      btnCancelMember.addEventListener('click', () => {
+        formMember.classList.remove('open');
+        document.getElementById('member-name-input').value = '';
+        document.getElementById('member-phone-input').value = '';
+      });
+    }
+
+    if (btnSaveMember) {
+      btnSaveMember.addEventListener('click', async () => {
+        const name = document.getElementById('member-name-input').value.trim();
+        const phone = document.getElementById('member-phone-input').value.trim();
+
+        if (!name || !phone) {
+          showToast('Name and phone are required', 'error');
+          return;
+        }
+
+        // Basic phone validation
+        const phoneClean = phone.replace(/[\s\-\(\)]/g, '');
+        if (!/^\+?\d{10,15}$/.test(phoneClean)) {
+          showToast('Enter a valid phone number (e.g. +15551234567)', 'error');
+          return;
+        }
+
+        btnSaveMember.disabled = true;
+        try {
+          const { error } = await sb.from('members').insert({ name, phone: phoneClean.startsWith('+') ? phoneClean : '+1' + phoneClean });
+          if (error) throw error;
+          formMember.classList.remove('open');
+          document.getElementById('member-name-input').value = '';
+          document.getElementById('member-phone-input').value = '';
+          showToast('Member added', 'success');
+          loadMembers();
+        } catch (err) {
+          if (err.message && err.message.includes('duplicate')) {
+            showToast('This member already exists', 'error');
+          } else {
+            showToast('Failed to add member', 'error');
+          }
+          console.error(err);
+        }
+        btnSaveMember.disabled = false;
+      });
+    }
+
+    // Character counter for SMS
+    if (smsMessageEl) {
+      smsMessageEl.addEventListener('input', () => {
+        const len = smsMessageEl.value.length;
+        smsCharCount.textContent = `${len} / 160`;
+        smsCharCount.style.color = len > 160 ? '#e85555' : 'rgba(255,255,255,0.35)';
+      });
+    }
+
+    // Send SMS
+    if (btnSendSMS) {
+      btnSendSMS.addEventListener('click', async () => {
+        const message = smsMessageEl.value.trim();
+        if (!message) {
+          showToast('Please type a message', 'error');
+          return;
+        }
+        if (membersList.length === 0) {
+          showToast('No members to send to', 'error');
+          return;
+        }
+
+        if (!confirm(`Send this message to ${membersList.length} member${membersList.length === 1 ? '' : 's'}?`)) return;
+
+        btnSendSMS.disabled = true;
+        btnSendSMS.textContent = 'SENDING...';
+
+        try {
+          // Call the Supabase Edge Function to send SMS
+          const { data, error } = await sb.functions.invoke('send-sms', {
+            body: { message, recipients: membersList.map(m => ({ name: m.name, phone: m.phone })) }
+          });
+
+          if (error) throw error;
+
+          // Log the message
+          await sb.from('sms_log').insert({
+            message,
+            recipient_count: membersList.length,
+            sent_by: currentName
+          });
+
+          smsMessageEl.value = '';
+          smsCharCount.textContent = '0 / 160';
+          showToast(`Message sent to ${membersList.length} member${membersList.length === 1 ? '' : 's'}`, 'success');
+          loadSMSLog();
+        } catch (err) {
+          showToast('Failed to send SMS. Check Twilio configuration.', 'error');
+          console.error(err);
+        }
+        btnSendSMS.disabled = false;
+        btnSendSMS.textContent = 'SEND TO ALL';
+      });
+    }
+
+    // Load Members
+    function loadMembers() {
+      clearTimeout(_membersTimer);
+      _membersTimer = setTimeout(_loadMembersNow, 150);
+    }
+
+    async function _loadMembersNow() {
+      const loading = document.getElementById('members-loading');
+      const empty = document.getElementById('members-empty');
+      const list = document.getElementById('members-list');
+
+      if (!loading) return; // SMS tab might not be in DOM for non-admin
+
+      loading.style.display = 'flex';
+      empty.style.display = 'none';
+      list.innerHTML = '';
+
+      try {
+        const { data, error } = await sb.from('members')
+          .select('*')
+          .order('name', { ascending: true });
+        if (error) throw error;
+
+        loading.style.display = 'none';
+        membersList = data || [];
+
+        // Update recipient count
+        if (smsRecipientCount) {
+          smsRecipientCount.textContent = `${membersList.length} member${membersList.length === 1 ? '' : 's'} will receive this`;
+        }
+
+        if (membersList.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        membersList.forEach((member, i) => {
+          const row = document.createElement('div');
+          row.className = 'member-row fade-in-up';
+          row.style.animationDelay = `${i * 0.03}s`;
+          row.innerHTML = `
+            <div class="member-info">
+              <span class="member-name">${esc(member.name)}</span>
+              <span class="member-phone">${esc(member.phone)}</span>
+            </div>
+            <button class="btn-danger" onclick="deleteMember('${member.id}')" title="Remove">Remove</button>
+          `;
+          list.appendChild(row);
+        });
+      } catch (err) {
+        loading.style.display = 'none';
+        if (err.message && err.message.includes('does not exist')) {
+          // Table hasn't been created yet
+          empty.style.display = 'block';
+          const emptyText = empty.querySelector('.empty-state-text');
+          if (emptyText) emptyText.textContent = 'Members table not yet configured';
+        } else {
+          showToast('Failed to load members', 'error');
+        }
+        console.error(err);
+      }
+    }
+
+    async function deleteMember(id) {
+      if (!confirm('Remove this member?')) return;
+      try {
+        const { error } = await sb.from('members').delete().eq('id', id);
+        if (error) throw error;
+        showToast('Member removed', 'success');
+        loadMembers();
+      } catch (err) {
+        showToast('Failed to remove member', 'error');
+        console.error(err);
+      }
+    }
+
+    // Load SMS Log
+    function loadSMSLog() {
+      clearTimeout(_smsLogTimer);
+      _smsLogTimer = setTimeout(_loadSMSLogNow, 150);
+    }
+
+    async function _loadSMSLogNow() {
+      const loading = document.getElementById('sms-log-loading');
+      const empty = document.getElementById('sms-log-empty');
+      const list = document.getElementById('sms-log-list');
+
+      if (!loading) return;
+
+      loading.style.display = 'flex';
+      empty.style.display = 'none';
+      list.innerHTML = '';
+
+      try {
+        const { data, error } = await sb.from('sms_log')
+          .select('*')
+          .order('sent_at', { ascending: false })
+          .limit(20);
+        if (error) throw error;
+
+        loading.style.display = 'none';
+
+        if (!data || data.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        data.forEach((log, i) => {
+          const card = document.createElement('div');
+          card.className = 'card sms-log-card fade-in-up';
+          card.style.animationDelay = `${i * 0.04}s`;
+          card.innerHTML = `
+            <div class="card-body">${esc(log.message)}</div>
+            <div class="card-meta">
+              <span>Sent to ${log.recipient_count} member${log.recipient_count === 1 ? '' : 's'} by ${esc(log.sent_by)}</span>
+              <span>${relativeTime(log.sent_at)}</span>
+            </div>
+          `;
+          list.appendChild(card);
+        });
+      } catch (err) {
+        loading.style.display = 'none';
+        if (err.message && err.message.includes('does not exist')) {
+          empty.style.display = 'block';
+          const emptyText = empty.querySelector('.empty-state-text');
+          if (emptyText) emptyText.textContent = 'SMS log table not yet configured';
+        } else {
+          showToast('Failed to load message history', 'error');
+        }
+        console.error(err);
+      }
     }
 
     // ═══════════════════════════════════
