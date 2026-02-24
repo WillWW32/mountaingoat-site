@@ -659,6 +659,35 @@
       top: 1rem;
       right: 1rem;
     }
+    .announcement-card .video-embed {
+      margin: 0.75rem 0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+    }
+    .announcement-card .video-embed iframe,
+    .announcement-card .video-embed video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+      display: block;
+      border-radius: 8px;
+    }
+    .announcement-card .video-badge {
+      display: inline-block;
+      background: rgba(232,168,73,0.15);
+      color: #e8a849;
+      border: 1px solid rgba(232,168,73,0.3);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
 
     /* ═══════════════════════════════════
        SHOOTS
@@ -1063,6 +1092,7 @@
           <div class="card">
             <input type="text" id="ann-title" placeholder="Title">
             <textarea id="ann-body" placeholder="Announcement body..."></textarea>
+            <input type="url" id="ann-video" placeholder="Video URL (YouTube, Vimeo, or direct link) — optional">
             <div class="priority-toggle">
               <input type="checkbox" id="ann-urgent">
               <label for="ann-urgent">Urgent</label>
@@ -1524,12 +1554,14 @@
       formAnn.classList.remove('open');
       document.getElementById('ann-title').value = '';
       document.getElementById('ann-body').value = '';
+      document.getElementById('ann-video').value = '';
       document.getElementById('ann-urgent').checked = false;
     });
 
     btnPostAnn.addEventListener('click', async () => {
       const title = document.getElementById('ann-title').value.trim();
       const body = document.getElementById('ann-body').value.trim();
+      const video_url = document.getElementById('ann-video').value.trim() || null;
       const priority = document.getElementById('ann-urgent').checked ? 'urgent' : 'normal';
 
       if (!title || !body) {
@@ -1539,11 +1571,12 @@
 
       btnPostAnn.disabled = true;
       try {
-        const { error } = await sb.from('announcements').insert({ title, body, priority });
+        const { error } = await sb.from('announcements').insert({ title, body, priority, video_url });
         if (error) throw error;
         formAnn.classList.remove('open');
         document.getElementById('ann-title').value = '';
         document.getElementById('ann-body').value = '';
+        document.getElementById('ann-video').value = '';
         document.getElementById('ann-urgent').checked = false;
         showToast('Announcement posted', 'success');
         loadAnnouncements();
@@ -1553,6 +1586,26 @@
       }
       btnPostAnn.disabled = false;
     });
+
+    function buildVideoEmbed(url) {
+      if (!url) return '';
+      // YouTube
+      let m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/);
+      if (m) return `<div class="video-embed"><iframe src="https://www.youtube.com/embed/${m[1]}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+      // Vimeo
+      m = url.match(/vimeo\.com\/(\d+)/);
+      if (m) return `<div class="video-embed"><iframe src="https://player.vimeo.com/video/${m[1]}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+      // Direct video file
+      if (/\.(mp4|webm|mov|m4v)(\?|$)/i.test(url)) return `<div class="video-embed"><video src="${esc(url)}" controls preload="metadata" playsinline></video></div>`;
+      // Google Drive
+      m = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (m) return `<div class="video-embed"><iframe src="https://drive.google.com/file/d/${m[1]}/preview" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe></div>`;
+      // Loom
+      m = url.match(/loom\.com\/share\/([a-zA-Z0-9]+)/);
+      if (m) return `<div class="video-embed"><iframe src="https://www.loom.com/embed/${m[1]}" allowfullscreen loading="lazy"></iframe></div>`;
+      // Fallback: generic iframe embed
+      return `<div class="video-embed"><iframe src="${esc(url)}" allowfullscreen loading="lazy"></iframe></div>`;
+    }
 
     function loadAnnouncements() {
       clearTimeout(_annTimer);
@@ -1590,9 +1643,13 @@
             deleteBtn = `<button class="btn-danger card-delete" onclick="deleteAnnouncement('${ann.id}')" title="Delete">&#128465;</button>`;
           }
 
+          const videoHtml = buildVideoEmbed(ann.video_url);
+          const videoBadge = ann.video_url ? '<span class="video-badge">&#9654; Video</span>' : '';
+
           card.innerHTML = `
             ${deleteBtn}
-            <div class="card-title">${esc(ann.title)}</div>
+            <div class="card-title">${esc(ann.title)}${videoBadge}</div>
+            ${videoHtml}
             <div class="card-body">${esc(ann.body)}</div>
             <div class="card-meta">${relativeTime(ann.created_at)}</div>
           `;
