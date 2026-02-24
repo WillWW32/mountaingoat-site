@@ -721,6 +721,18 @@
       color: #e8a849;
       line-height: 1.1;
     }
+    .shoot-date-block.range {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .shoot-date-block .date-separator {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(232,168,73,0.5);
+      line-height: 1;
+      margin: 0.1rem 0;
+    }
     .shoot-info {
       flex: 1;
       min-width: 0;
@@ -1019,6 +1031,11 @@
         gap: 0.35rem;
         align-items: baseline;
       }
+      .shoot-date-block.range {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 0.25rem;
+      }
     }
   </style>
 </head>
@@ -1120,9 +1137,10 @@
           <div class="card">
             <input type="text" id="shoot-title" placeholder="Shoot title">
             <div class="form-row">
-              <input type="date" id="shoot-date">
-              <input type="text" id="shoot-time" placeholder="Time (e.g. 9:00 AM)">
+              <div style="flex:1;"><label style="font-size:0.7rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.05em;" for="shoot-date">Start Date</label><input type="date" id="shoot-date"></div>
+              <div style="flex:1;"><label style="font-size:0.7rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.05em;" for="shoot-date-end">End Date <span style="opacity:0.6">(optional)</span></label><input type="date" id="shoot-date-end"></div>
             </div>
+            <input type="text" id="shoot-time" placeholder="Time (e.g. 9:00 AM)">
             <input type="text" id="shoot-location" placeholder="Location">
             <div class="checkbox-group">
               <input type="checkbox" id="shoot-mandatory">
@@ -1694,6 +1712,7 @@
       formShoot.classList.remove('open');
       document.getElementById('shoot-title').value = '';
       document.getElementById('shoot-date').value = '';
+      document.getElementById('shoot-date-end').value = '';
       document.getElementById('shoot-time').value = '';
       document.getElementById('shoot-location').value = '';
       document.getElementById('shoot-mandatory').checked = false;
@@ -1702,9 +1721,10 @@
     btnPostShoot.addEventListener('click', async () => {
       const title = document.getElementById('shoot-title').value.trim();
       const shoot_date = document.getElementById('shoot-date').value;
-      const time = document.getElementById('shoot-time').value.trim();
-      const location = document.getElementById('shoot-location').value.trim();
-      const mandatory = document.getElementById('shoot-mandatory').checked;
+      const shoot_date_end = document.getElementById('shoot-date-end').value || null;
+      const shoot_time = document.getElementById('shoot-time').value.trim() || null;
+      const location = document.getElementById('shoot-location').value.trim() || 'TBD';
+      const is_mandatory = document.getElementById('shoot-mandatory').checked;
 
       if (!title || !shoot_date) {
         showToast('Title and date are required', 'error');
@@ -1713,11 +1733,14 @@
 
       btnPostShoot.disabled = true;
       try {
-        const { error } = await sb.from('shoots').insert({ title, shoot_date, time, location, mandatory });
+        const row = { title, shoot_date, shoot_time, location, is_mandatory };
+        if (shoot_date_end) row.shoot_date_end = shoot_date_end;
+        const { error } = await sb.from('shoots').insert(row);
         if (error) throw error;
         formShoot.classList.remove('open');
         document.getElementById('shoot-title').value = '';
         document.getElementById('shoot-date').value = '';
+        document.getElementById('shoot-date-end').value = '';
         document.getElementById('shoot-time').value = '';
         document.getElementById('shoot-location').value = '';
         document.getElementById('shoot-mandatory').checked = false;
@@ -1747,7 +1770,7 @@
         const today = todayStr();
         const { data, error } = await sb.from('shoots')
           .select('*')
-          .gte('shoot_date', today)
+          .or(`shoot_date.gte.${today},shoot_date_end.gte.${today}`)
           .order('shoot_date', { ascending: true });
         if (error) throw error;
 
@@ -1782,6 +1805,26 @@
           const myCheckin = checkins.find(ci => ci.member_name === currentName);
           const isMandatory = shoot.is_mandatory;
 
+          // Build date block — show range if end date exists
+          let dateBlockHtml;
+          if (shoot.shoot_date_end && shoot.shoot_date_end !== shoot.shoot_date) {
+            const sdEnd = formatShootDate(shoot.shoot_date_end);
+            dateBlockHtml = `
+              <div class="shoot-date-block range">
+                <div class="month">${sd.month}</div>
+                <div class="day">${sd.day}</div>
+                <div class="date-separator">—</div>
+                <div class="month">${sdEnd.month}</div>
+                <div class="day">${sdEnd.day}</div>
+              </div>`;
+          } else {
+            dateBlockHtml = `
+              <div class="shoot-date-block">
+                <div class="month">${sd.month}</div>
+                <div class="day">${sd.day}</div>
+              </div>`;
+          }
+
           let badgesHtml = '';
           if (isMandatory) {
             badgesHtml += '<span class="badge badge-mandatory">MANDATORY</span>';
@@ -1809,13 +1852,10 @@
           }
 
           card.innerHTML = `
-            <div class="shoot-date-block">
-              <div class="month">${sd.month}</div>
-              <div class="day">${sd.day}</div>
-            </div>
+            ${dateBlockHtml}
             <div class="shoot-info">
               <div class="card-title">${esc(shoot.title)}</div>
-              ${shoot.time ? `<div class="card-detail">${esc(shoot.time)}</div>` : ''}
+              ${shoot.shoot_time ? `<div class="card-detail">${esc(shoot.shoot_time)}</div>` : ''}
               ${shoot.location ? `<div class="card-detail">${esc(shoot.location)}</div>` : ''}
               <div class="shoot-badges">${badgesHtml}</div>
               ${checkinInfo}
