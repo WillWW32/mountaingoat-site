@@ -673,6 +673,68 @@
       display: block;
       border-radius: 8px;
     }
+    .video-upload-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .upload-divider {
+      text-align: center;
+      color: rgba(255,255,255,0.25);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      position: relative;
+    }
+    .upload-divider span {
+      background: rgba(26,26,26,0.95);
+      padding: 0 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+    .upload-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+    .file-upload-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.5rem 1rem;
+      background: rgba(232,168,73,0.1);
+      border: 1px dashed rgba(232,168,73,0.35);
+      border-radius: 6px;
+      color: #e8a849;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .file-upload-btn:hover {
+      background: rgba(232,168,73,0.2);
+      border-color: #e8a849;
+    }
+    .file-upload-btn.has-file {
+      background: rgba(104,211,145,0.1);
+      border-color: rgba(104,211,145,0.4);
+      color: #68d391;
+    }
+    .file-name-display {
+      font-size: 0.75rem;
+      color: #68d391;
+      text-align: center;
+    }
+    .file-name-display .remove-file {
+      color: #e85555;
+      cursor: pointer;
+      margin-left: 0.5rem;
+      font-size: 0.8rem;
+    }
     .announcement-card .video-badge {
       display: inline-block;
       background: rgba(232,168,73,0.15);
@@ -1109,7 +1171,16 @@
           <div class="card">
             <input type="text" id="ann-title" placeholder="Title">
             <textarea id="ann-body" placeholder="Announcement body..."></textarea>
-            <input type="url" id="ann-video" placeholder="Video URL (YouTube, Vimeo, or direct link) — optional">
+            <div class="video-upload-section">
+              <label style="font-size:0.7rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.05em;">Video (optional)</label>
+              <input type="url" id="ann-video" placeholder="Paste URL (YouTube, Vimeo, etc.)">
+              <div class="upload-divider"><span>or</span></div>
+              <label class="file-upload-btn" id="ann-video-upload-label">
+                <input type="file" id="ann-video-file" accept="video/mp4,video/webm,video/quicktime,video/x-m4v,.mp4,.webm,.mov,.m4v" style="display:none;">
+                <span>&#128206; Attach MP4 / Video File</span>
+              </label>
+              <div id="ann-video-file-name" class="file-name-display" style="display:none;"></div>
+            </div>
             <div class="priority-toggle">
               <input type="checkbox" id="ann-urgent">
               <label for="ann-urgent">Urgent</label>
@@ -1560,6 +1631,10 @@
     const formAnn = document.getElementById('form-announcement');
     const btnPostAnn = document.getElementById('btn-post-announcement');
     const btnCancelAnn = document.getElementById('btn-cancel-announcement');
+    const annVideoFile = document.getElementById('ann-video-file');
+    const annVideoFileName = document.getElementById('ann-video-file-name');
+    const annVideoUploadLabel = document.getElementById('ann-video-upload-label');
+    let pendingVideoFile = null;
 
     btnNewAnn.addEventListener('click', () => {
       formAnn.classList.toggle('open');
@@ -1568,18 +1643,44 @@
       }
     });
 
+    // File input handler
+    annVideoFile.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) { clearVideoFile(); return; }
+      if (file.size > 100 * 1024 * 1024) {
+        showToast('Video must be under 100 MB', 'error');
+        clearVideoFile();
+        return;
+      }
+      pendingVideoFile = file;
+      annVideoUploadLabel.classList.add('has-file');
+      annVideoFileName.style.display = 'block';
+      annVideoFileName.innerHTML = `${esc(file.name)} (${(file.size / 1024 / 1024).toFixed(1)} MB) <span class="remove-file" onclick="clearVideoFile()">&#10005;</span>`;
+      // Clear URL input when file is chosen
+      document.getElementById('ann-video').value = '';
+    });
+
+    window.clearVideoFile = function() {
+      pendingVideoFile = null;
+      annVideoFile.value = '';
+      annVideoUploadLabel.classList.remove('has-file');
+      annVideoFileName.style.display = 'none';
+      annVideoFileName.innerHTML = '';
+    };
+
     btnCancelAnn.addEventListener('click', () => {
       formAnn.classList.remove('open');
       document.getElementById('ann-title').value = '';
       document.getElementById('ann-body').value = '';
       document.getElementById('ann-video').value = '';
       document.getElementById('ann-urgent').checked = false;
+      clearVideoFile();
     });
 
     btnPostAnn.addEventListener('click', async () => {
       const title = document.getElementById('ann-title').value.trim();
       const body = document.getElementById('ann-body').value.trim();
-      const video_url = document.getElementById('ann-video').value.trim() || null;
+      let video_url = document.getElementById('ann-video').value.trim() || null;
       const priority = document.getElementById('ann-urgent').checked ? 'urgent' : 'normal';
 
       if (!title || !body) {
@@ -1588,7 +1689,22 @@
       }
 
       btnPostAnn.disabled = true;
+      btnPostAnn.textContent = 'Posting...';
       try {
+        // Upload video file if attached
+        if (pendingVideoFile && !video_url) {
+          btnPostAnn.textContent = 'Uploading video...';
+          const ext = pendingVideoFile.name.split('.').pop().toLowerCase();
+          const fileName = `${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
+          const { data: uploadData, error: uploadErr } = await sb.storage
+            .from('videos')
+            .upload(fileName, pendingVideoFile, { contentType: pendingVideoFile.type, upsert: false });
+          if (uploadErr) throw uploadErr;
+          const { data: urlData } = sb.storage.from('videos').getPublicUrl(fileName);
+          video_url = urlData.publicUrl;
+        }
+
+        btnPostAnn.textContent = 'Saving...';
         const { error } = await sb.from('announcements').insert({ title, body, priority, video_url });
         if (error) throw error;
         formAnn.classList.remove('open');
@@ -1596,6 +1712,7 @@
         document.getElementById('ann-body').value = '';
         document.getElementById('ann-video').value = '';
         document.getElementById('ann-urgent').checked = false;
+        clearVideoFile();
         showToast('Announcement posted', 'success');
         loadAnnouncements();
       } catch (err) {
@@ -1603,6 +1720,7 @@
         console.error(err);
       }
       btnPostAnn.disabled = false;
+      btnPostAnn.textContent = 'Post';
     });
 
     function buildVideoEmbed(url) {
@@ -1855,6 +1973,7 @@
             ${dateBlockHtml}
             <div class="shoot-info">
               <div class="card-title">${esc(shoot.title)}</div>
+              ${shoot.description ? `<div class="card-body" style="margin-bottom:0.5rem;">${esc(shoot.description)}</div>` : ''}
               ${shoot.shoot_time ? `<div class="card-detail">${esc(shoot.shoot_time)}</div>` : ''}
               ${shoot.location ? `<div class="card-detail">${esc(shoot.location)}</div>` : ''}
               <div class="shoot-badges">${badgesHtml}</div>
@@ -1882,22 +2001,6 @@
         showToast('Failed to RSVP', 'error');
         checkboxEl.checked = false;
         checkboxEl.disabled = false;
-        console.error(err);
-      }
-    }
-
-    async function checkIn(shootId, btnEl) {
-      btnEl.disabled = true;
-      btnEl.textContent = '...';
-      try {
-        const { error } = await sb.from('checkins').insert({ shoot_id: shootId, member_name: currentName });
-        if (error) throw error;
-        showToast('Checked in!', 'success');
-        loadShoots();
-      } catch (err) {
-        showToast('Failed to check in', 'error');
-        btnEl.disabled = false;
-        btnEl.textContent = 'Check In';
         console.error(err);
       }
     }
