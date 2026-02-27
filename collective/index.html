@@ -1105,6 +1105,265 @@
         gap: 0.25rem;
       }
     }
+
+    /* ═══════════════════════════════════
+       THROWBACKS (Media Uploads)
+    ═══════════════════════════════════ */
+    .media-upload-form {
+      margin-bottom: 1.5rem;
+    }
+    .media-upload-form .card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .media-upload-zone {
+      border: 2px dashed rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 2rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .media-upload-zone:hover,
+    .media-upload-zone.dragover {
+      border-color: rgba(232,168,73,0.5);
+      background: rgba(232,168,73,0.04);
+    }
+    .media-upload-zone .upload-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .media-upload-zone .upload-text {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .media-upload-zone .upload-text span {
+      color: #e8a849;
+      text-decoration: underline;
+    }
+    .media-preview {
+      display: none;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+    }
+    .media-preview.visible {
+      display: flex;
+    }
+    .media-preview img,
+    .media-preview video {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .media-preview .preview-info {
+      flex: 1;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .media-preview .preview-remove {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.3);
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+    @media (min-width: 640px) {
+      .media-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      }
+    }
+    .media-card {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .media-card:hover {
+      border-color: rgba(232,168,73,0.25);
+      transform: translateY(-2px);
+    }
+    .media-card .media-thumb {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+    }
+    .media-card .media-video-thumb {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+    }
+    .media-card .video-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Oswald', sans-serif;
+      letter-spacing: 0.05em;
+    }
+    .media-card .media-info {
+      padding: 0.6rem 0.75rem;
+    }
+    .media-card .media-uploader {
+      font-size: 0.75rem;
+      color: #e8a849;
+      font-weight: 500;
+    }
+    .media-card .media-caption {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .media-card .media-date {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.25);
+      margin-top: 4px;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 1rem;
+    }
+    .lightbox.open {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 8px;
+    }
+    .lightbox-content img {
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .lightbox-content video {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 8px;
+    }
+    .lightbox-caption {
+      margin-top: 1rem;
+      text-align: center;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+    }
+    .lightbox-meta {
+      color: rgba(255,255,255,0.35);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+    }
+
+    /* ═══════════════════════════════════
+       SOCIAL KIT
+    ═══════════════════════════════════ */
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    @media (max-width: 480px) {
+      .social-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+    }
+    .social-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .social-card:hover {
+      border-color: rgba(232,168,73,0.25);
+      transform: translateY(-2px);
+    }
+    .social-card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+    }
+    .social-card .social-info {
+      padding: 0.75rem;
+    }
+    .social-card .social-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+    .social-card .social-desc {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.5rem;
+    }
+    .social-card .social-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .btn-download {
+      background: rgba(232,168,73,0.12);
+      color: #e8a849;
+      border: 1px solid rgba(232,168,73,0.2);
+      border-radius: 6px;
+      padding: 0.4rem 0.75rem;
+      cursor: pointer;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.7rem;
+      transition: background 0.2s;
+      flex: 1;
+      text-align: center;
+    }
+    .btn-download:hover {
+      background: rgba(232,168,73,0.2);
+    }
   </style>
 </head>
 <body>
@@ -1160,6 +1419,8 @@
         <button class="tab-btn" data-tab="shoots">&#128197; Shoots</button>
         <button class="tab-btn" data-tab="documents">&#128196; Documents</button>
         <button class="tab-btn" data-tab="agreements">&#9997;&#65039; Agreements</button>
+        <button class="tab-btn" data-tab="throwbacks">&#128248; Throwbacks</button>
+        <button class="tab-btn" data-tab="social">&#127912; Social Kit</button>
         <button class="tab-btn admin-only" data-tab="sms">&#128241; SMS</button>
         <button class="tab-btn admin-only" data-tab="settings">&#9881;&#65039; Settings</button>
       </div>
@@ -1265,6 +1526,67 @@
       <div class="tab-panel" id="panel-agreements">
         <div id="agreements-loading" class="loading-state"><span class="spinner"></span> Loading...</div>
         <div class="agreement-list" id="agreements-list"></div>
+      </div>
+
+      <!-- ── THROWBACKS TAB ── -->
+      <div class="tab-panel" id="panel-throwbacks">
+        <div class="media-upload-form">
+          <div class="card">
+            <div class="section-label">Share a Throwback</div>
+            <div class="media-upload-zone" id="media-drop-zone">
+              <input type="file" id="media-file-input" accept="image/jpeg,image/png,image/heic,image/webp,video/mp4,video/quicktime,.jpg,.jpeg,.png,.heic,.webp,.mp4,.mov" style="display:none;">
+              <div class="upload-icon">&#128247;</div>
+              <div class="upload-text">Drag & drop or <span>browse</span><br>Photos & videos from back in the day</div>
+            </div>
+            <div class="media-preview" id="media-preview"></div>
+            <input type="text" id="media-caption" placeholder="Add a caption (optional)">
+            <div class="form-actions">
+              <button class="btn-primary btn-sm" id="btn-upload-media" disabled>Upload</button>
+            </div>
+          </div>
+        </div>
+        <div id="throwbacks-loading" class="loading-state"><span class="spinner"></span> Loading...</div>
+        <div id="throwbacks-empty" class="empty-state" style="display:none;">
+          <div class="empty-state-icon">&#128248;</div>
+          <div class="empty-state-text">No throwbacks yet — be the first to share!</div>
+        </div>
+        <div class="media-grid" id="throwbacks-list"></div>
+      </div>
+
+      <!-- Lightbox overlay -->
+      <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close">&times;</button>
+        <div class="lightbox-content" id="lightbox-content"></div>
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+        <div class="lightbox-meta" id="lightbox-meta"></div>
+      </div>
+
+      <!-- ── SOCIAL KIT TAB ── -->
+      <div class="tab-panel" id="panel-social">
+        <div class="admin-only" style="margin-bottom:1rem;">
+          <button class="btn-primary btn-sm" id="btn-new-social">Add Social Post</button>
+        </div>
+        <div class="inline-form admin-only" id="form-social">
+          <div class="card">
+            <input type="text" id="social-title" placeholder="Post title (e.g. Game Day Story)">
+            <input type="text" id="social-desc" placeholder="Description (optional)">
+            <label class="file-upload-btn" id="social-file-label">
+              <input type="file" id="social-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" style="display:none;">
+              <span>&#128206; Choose Image</span>
+            </label>
+            <div id="social-file-name" class="file-name-display" style="display:none;"></div>
+            <div class="form-actions">
+              <button class="btn-primary btn-sm" id="btn-post-social">Upload</button>
+              <button class="btn-secondary btn-sm" id="btn-cancel-social">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div id="social-loading" class="loading-state"><span class="spinner"></span> Loading...</div>
+        <div id="social-empty" class="empty-state" style="display:none;">
+          <div class="empty-state-icon">&#127912;</div>
+          <div class="empty-state-text">No social assets yet</div>
+        </div>
+        <div class="social-grid" id="social-list"></div>
       </div>
 
       <!-- ── SMS TAB (Admin Only) ── -->
@@ -1578,6 +1900,8 @@
           case 'shoots': loadShoots(); break;
           case 'documents': loadDocuments(); break;
           case 'agreements': loadAgreements(); break;
+          case 'throwbacks': loadThrowbacks(); break;
+          case 'social': loadSocialAssets(); break;
           case 'sms': loadMembers(); loadSMSLog(); break;
         }
       });
@@ -1614,6 +1938,18 @@
       sb.channel('agreements-changes')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'agreements' }, () => {
           if (currentTab === 'agreements') loadAgreements();
+        })
+        .subscribe();
+
+      sb.channel('media-uploads-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'media_uploads' }, () => {
+          if (currentTab === 'throwbacks') loadThrowbacks();
+        })
+        .subscribe();
+
+      sb.channel('social-assets-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'social_assets' }, () => {
+          if (currentTab === 'social') loadSocialAssets();
         })
         .subscribe();
 
@@ -2596,6 +2932,364 @@
         console.error(err);
       }
     });
+
+    // ═══════════════════════════════════
+    // THROWBACKS (Media Uploads)
+    // ═══════════════════════════════════
+    const mediaDropZone = document.getElementById('media-drop-zone');
+    const mediaFileInput = document.getElementById('media-file-input');
+    const mediaPreview = document.getElementById('media-preview');
+    const mediaCaptionInput = document.getElementById('media-caption');
+    const btnUploadMedia = document.getElementById('btn-upload-media');
+    let pendingMediaFile = null;
+
+    mediaDropZone.addEventListener('click', () => mediaFileInput.click());
+    mediaDropZone.addEventListener('dragover', (e) => { e.preventDefault(); mediaDropZone.classList.add('dragover'); });
+    mediaDropZone.addEventListener('dragleave', () => mediaDropZone.classList.remove('dragover'));
+    mediaDropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      mediaDropZone.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (file) handleMediaFile(file);
+    });
+    mediaFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) handleMediaFile(file);
+    });
+
+    function handleMediaFile(file) {
+      const isVideo = /^video\//i.test(file.type) || /\.(mp4|mov)$/i.test(file.name);
+      const isImage = /^image\//i.test(file.type) || /\.(jpg|jpeg|png|heic|webp)$/i.test(file.name);
+      if (!isImage && !isVideo) {
+        showToast('Please select a photo or video file', 'error');
+        return;
+      }
+      const maxSize = isVideo ? 50 * 1024 * 1024 : 10 * 1024 * 1024;
+      if (file.size > maxSize) {
+        showToast(`File must be under ${isVideo ? '50' : '10'} MB`, 'error');
+        return;
+      }
+      pendingMediaFile = file;
+      btnUploadMedia.disabled = false;
+
+      let thumbHTML = '';
+      if (isImage) {
+        const url = URL.createObjectURL(file);
+        thumbHTML = `<img src="${url}">`;
+      } else {
+        thumbHTML = `<video src="${URL.createObjectURL(file)}" muted></video>`;
+      }
+      mediaPreview.innerHTML = `${thumbHTML}<div class="preview-info">${esc(file.name)}<br>${(file.size / 1024 / 1024).toFixed(1)} MB</div><button class="preview-remove" onclick="clearMediaFile()">&#10005;</button>`;
+      mediaPreview.classList.add('visible');
+    }
+
+    window.clearMediaFile = function() {
+      pendingMediaFile = null;
+      mediaFileInput.value = '';
+      mediaPreview.innerHTML = '';
+      mediaPreview.classList.remove('visible');
+      btnUploadMedia.disabled = true;
+    };
+
+    btnUploadMedia.addEventListener('click', async () => {
+      if (!pendingMediaFile) return;
+      const memberName = sessionStorage.getItem('mg_member_name') || 'Unknown';
+      const caption = mediaCaptionInput.value.trim();
+      const file = pendingMediaFile;
+      const isVideo = /^video\//i.test(file.type) || /\.(mp4|mov)$/i.test(file.name);
+      const fileType = isVideo ? 'video' : 'image';
+
+      btnUploadMedia.disabled = true;
+      btnUploadMedia.textContent = 'Uploading...';
+
+      try {
+        const ext = file.name.split('.').pop().toLowerCase();
+        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
+        const { data: uploadData, error: uploadErr } = await sb.storage
+          .from('media-uploads')
+          .upload(fileName, file, { contentType: file.type, upsert: false });
+        if (uploadErr) throw uploadErr;
+
+        const { data: urlData } = sb.storage.from('media-uploads').getPublicUrl(fileName);
+        const file_url = urlData.publicUrl;
+
+        const { error: insertErr } = await sb.from('media_uploads').insert({
+          uploader_name: memberName,
+          caption: caption || null,
+          file_url,
+          file_type: fileType
+        });
+        if (insertErr) throw insertErr;
+
+        clearMediaFile();
+        mediaCaptionInput.value = '';
+        showToast('Throwback uploaded!', 'success');
+        loadThrowbacks();
+      } catch (err) {
+        showToast('Upload failed', 'error');
+        console.error(err);
+      } finally {
+        btnUploadMedia.disabled = false;
+        btnUploadMedia.textContent = 'Upload';
+      }
+    });
+
+    let _tbTimer;
+    function loadThrowbacks() {
+      clearTimeout(_tbTimer);
+      _tbTimer = setTimeout(_loadThrowbacksNow, 150);
+    }
+    async function _loadThrowbacksNow() {
+      const loading = document.getElementById('throwbacks-loading');
+      const empty = document.getElementById('throwbacks-empty');
+      const list = document.getElementById('throwbacks-list');
+      loading.style.display = 'flex';
+      empty.style.display = 'none';
+      list.innerHTML = '';
+
+      try {
+        const { data, error } = await sb.from('media_uploads')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+
+        loading.style.display = 'none';
+        if (!data || data.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        data.forEach((item, i) => {
+          const card = document.createElement('div');
+          card.className = 'media-card fade-in-up';
+          card.style.animationDelay = `${i * 0.04}s`;
+          const d = new Date(item.created_at);
+          const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+          if (item.file_type === 'video') {
+            card.innerHTML = `
+              <video class="media-video-thumb" src="${esc(item.file_url)}#t=0.5" muted preload="metadata" playsinline></video>
+              <span class="video-badge">&#9654; VIDEO</span>
+              <div class="media-info">
+                <div class="media-uploader">${esc(item.uploader_name)}</div>
+                ${item.caption ? `<div class="media-caption">${esc(item.caption)}</div>` : ''}
+                <div class="media-date">${dateStr}</div>
+              </div>`;
+          } else {
+            card.innerHTML = `
+              <img class="media-thumb" src="${esc(item.file_url)}" alt="" loading="lazy">
+              <div class="media-info">
+                <div class="media-uploader">${esc(item.uploader_name)}</div>
+                ${item.caption ? `<div class="media-caption">${esc(item.caption)}</div>` : ''}
+                <div class="media-date">${dateStr}</div>
+              </div>`;
+          }
+          card.addEventListener('click', () => openLightbox(item));
+          list.appendChild(card);
+        });
+      } catch (err) {
+        loading.style.display = 'none';
+        showToast('Failed to load throwbacks', 'error');
+        console.error(err);
+      }
+    }
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxContent = document.getElementById('lightbox-content');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxMeta = document.getElementById('lightbox-meta');
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+    function openLightbox(item) {
+      if (item.file_type === 'video') {
+        lightboxContent.innerHTML = `<video src="${esc(item.file_url)}" controls autoplay playsinline style="max-width:90vw;max-height:80vh;border-radius:8px;"></video>`;
+      } else {
+        lightboxContent.innerHTML = `<img src="${esc(item.file_url)}" alt="" style="max-width:90vw;max-height:80vh;object-fit:contain;border-radius:8px;">`;
+      }
+      lightboxCaption.textContent = item.caption || '';
+      const d = new Date(item.created_at);
+      lightboxMeta.textContent = `${item.uploader_name} · ${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightboxContent.innerHTML = '';
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox(); });
+
+    // ═══════════════════════════════════
+    // SOCIAL KIT
+    // ═══════════════════════════════════
+    const btnNewSocial = document.getElementById('btn-new-social');
+    const formSocial = document.getElementById('form-social');
+    const btnPostSocial = document.getElementById('btn-post-social');
+    const btnCancelSocial = document.getElementById('btn-cancel-social');
+    const socialFileInput = document.getElementById('social-file-input');
+    const socialFileName = document.getElementById('social-file-name');
+    let pendingSocialFile = null;
+
+    btnNewSocial.addEventListener('click', () => {
+      formSocial.classList.toggle('open');
+      if (formSocial.classList.contains('open')) {
+        document.getElementById('social-title').focus();
+      }
+    });
+    btnCancelSocial.addEventListener('click', () => {
+      formSocial.classList.remove('open');
+      clearSocialFile();
+      document.getElementById('social-title').value = '';
+      document.getElementById('social-desc').value = '';
+    });
+
+    socialFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) { clearSocialFile(); return; }
+      if (file.size > 10 * 1024 * 1024) {
+        showToast('Image must be under 10 MB', 'error');
+        clearSocialFile();
+        return;
+      }
+      pendingSocialFile = file;
+      socialFileName.style.display = 'block';
+      socialFileName.innerHTML = `${esc(file.name)} (${(file.size / 1024 / 1024).toFixed(1)} MB) <span class="remove-file" onclick="clearSocialFileUI()">&#10005;</span>`;
+      document.getElementById('social-file-label').classList.add('has-file');
+    });
+
+    function clearSocialFile() {
+      pendingSocialFile = null;
+      socialFileInput.value = '';
+      socialFileName.style.display = 'none';
+      socialFileName.innerHTML = '';
+      document.getElementById('social-file-label').classList.remove('has-file');
+    }
+    window.clearSocialFileUI = clearSocialFile;
+
+    btnPostSocial.addEventListener('click', async () => {
+      const title = document.getElementById('social-title').value.trim();
+      if (!title || !pendingSocialFile) {
+        showToast('Title and image are required', 'error');
+        return;
+      }
+      const description = document.getElementById('social-desc').value.trim();
+      btnPostSocial.disabled = true;
+      btnPostSocial.textContent = 'Uploading...';
+
+      try {
+        const ext = pendingSocialFile.name.split('.').pop().toLowerCase();
+        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
+        const { data: uploadData, error: uploadErr } = await sb.storage
+          .from('social-assets')
+          .upload(fileName, pendingSocialFile, { contentType: pendingSocialFile.type, upsert: false });
+        if (uploadErr) throw uploadErr;
+
+        const { data: urlData } = sb.storage.from('social-assets').getPublicUrl(fileName);
+        const file_url = urlData.publicUrl;
+
+        const { error: insertErr } = await sb.from('social_assets').insert({
+          title,
+          description: description || null,
+          file_url
+        });
+        if (insertErr) throw insertErr;
+
+        formSocial.classList.remove('open');
+        clearSocialFile();
+        document.getElementById('social-title').value = '';
+        document.getElementById('social-desc').value = '';
+        showToast('Social post added', 'success');
+        loadSocialAssets();
+      } catch (err) {
+        showToast('Upload failed', 'error');
+        console.error(err);
+      } finally {
+        btnPostSocial.disabled = false;
+        btnPostSocial.textContent = 'Upload';
+      }
+    });
+
+    let _saTimer;
+    function loadSocialAssets() {
+      clearTimeout(_saTimer);
+      _saTimer = setTimeout(_loadSocialAssetsNow, 150);
+    }
+    async function _loadSocialAssetsNow() {
+      const loading = document.getElementById('social-loading');
+      const empty = document.getElementById('social-empty');
+      const list = document.getElementById('social-list');
+      loading.style.display = 'flex';
+      empty.style.display = 'none';
+      list.innerHTML = '';
+
+      try {
+        const { data, error } = await sb.from('social_assets')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+
+        loading.style.display = 'none';
+        if (!data || data.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        data.forEach((item, i) => {
+          const card = document.createElement('div');
+          card.className = 'social-card fade-in-up';
+          card.style.animationDelay = `${i * 0.04}s`;
+          card.innerHTML = `
+            <img src="${esc(item.file_url)}" alt="${esc(item.title)}" loading="lazy">
+            <div class="social-info">
+              <div class="social-title">${esc(item.title)}</div>
+              ${item.description ? `<div class="social-desc">${esc(item.description)}</div>` : ''}
+              <div class="social-actions">
+                <button class="btn-download" onclick="downloadAsset('${esc(item.file_url)}', '${esc(item.title)}')">&#11015; Save</button>
+                ${currentRole === 'admin' ? `<button class="btn-danger" style="font-size:0.65rem;padding:0.4rem 0.6rem;" onclick="deleteSocialAsset('${item.id}')">Delete</button>` : ''}
+              </div>
+            </div>`;
+          list.appendChild(card);
+        });
+      } catch (err) {
+        loading.style.display = 'none';
+        showToast('Failed to load social assets', 'error');
+        console.error(err);
+      }
+    }
+
+    window.downloadAsset = async function(url, title) {
+      try {
+        const resp = await fetch(url);
+        const blob = await resp.blob();
+        const ext = url.split('.').pop().split('?')[0] || 'jpg';
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${title.replace(/[^a-zA-Z0-9]/g, '_')}.${ext}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+        showToast('Saved!', 'success');
+      } catch (err) {
+        showToast('Download failed', 'error');
+        console.error(err);
+      }
+    };
+
+    window.deleteSocialAsset = async function(id) {
+      if (!confirm('Delete this social post?')) return;
+      try {
+        const { error } = await sb.from('social_assets').delete().eq('id', id);
+        if (error) throw error;
+        showToast('Deleted', 'success');
+        loadSocialAssets();
+      } catch (err) {
+        showToast('Delete failed', 'error');
+        console.error(err);
+      }
+    };
 
   </script>
 </body>
