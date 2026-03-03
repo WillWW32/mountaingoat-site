@@ -624,25 +624,82 @@
             line-height: 1.7;
         }
 
-        .beehiiv-wrapper {
+        .signup-form {
             width: 100%;
-            max-width: 100%;
+            max-width: 440px;
             margin: 0 auto;
-            padding: 0;
-            display: flex;
-            justify-content: center;
         }
 
-        .beehiiv-wrapper iframe {
-            width: 100% !important;
-            max-width: 480px !important;
-            min-height: 315px;
-            height: 315px;
+        .signup-form input {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-family: 'Source Sans 3', sans-serif;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 6px;
+            color: #fff;
+            margin-bottom: 12px;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .signup-form input::placeholder {
+            color: rgba(255,255,255,0.35);
+        }
+
+        .signup-form input:focus {
+            border-color: #c8a44e;
+        }
+
+        .signup-form button {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: #c8a44e;
+            color: #0a0a14;
             border: none;
-            background: transparent;
-            border-radius: 0 !important;
-            box-shadow: none;
-            margin: 0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .signup-form button:hover {
+            background: #d4b35e;
+            transform: translateY(-1px);
+        }
+
+        .signup-form button:active {
+            transform: translateY(0);
+        }
+
+        .signup-form button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .signup-success {
+            display: none;
+            padding: 1.5rem;
+            text-align: center;
+            color: #c8a44e;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 0.03em;
+        }
+
+        .signup-error {
+            color: #e85d5d;
+            font-size: 0.85rem;
+            margin-top: -4px;
+            margin-bottom: 12px;
+            display: none;
         }
 
         @media (max-width: 480px) {
@@ -658,14 +715,8 @@
             .signup-container .signup-text {
                 padding: 0 1.25rem;
             }
-            .beehiiv-wrapper {
-                width: 100%;
-                max-width: none;
-                margin: 0;
-            }
-            .beehiiv-wrapper iframe {
-                min-height: 315px;
-                height: 315px;
+            .signup-form {
+                padding: 0 1.25rem;
             }
         }
 
@@ -1317,10 +1368,56 @@
         <h3 class="signup-title">Be Part of the Story</h3>
         <p class="signup-text">Get exclusive updates, early access to the premiere at The Roxy Theater, and behind-the-scenes content. Join the Mountain Goats community and follow the journey from Missoula to the world.</p>
 
-        <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
-        <div class="beehiiv-wrapper">
-            <iframe src="https://subscribe-forms.beehiiv.com/2ea5af80-e6e7-4890-b0ea-5b2d234bcd0e" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no"></iframe>
+        <form class="signup-form" id="mtgoats-form" onsubmit="return submitSignup(event)">
+            <input type="text" name="first_name" placeholder="First name" autocomplete="given-name" />
+            <input type="email" name="email" placeholder="Email address" required autocomplete="email" />
+            <p class="signup-error" id="form-error"></p>
+            <button type="submit" id="form-btn">Join the Community</button>
+        </form>
+        <div class="signup-success" id="form-success">
+            You're in! Watch for premiere updates.
         </div>
+
+        <script>
+        async function submitSignup(e) {
+            e.preventDefault();
+            const form = document.getElementById('mtgoats-form');
+            const btn = document.getElementById('form-btn');
+            const errEl = document.getElementById('form-error');
+            const successEl = document.getElementById('form-success');
+            const email = form.email.value.trim();
+            const first_name = form.first_name.value.trim();
+
+            if (!email) return false;
+
+            btn.disabled = true;
+            btn.textContent = 'Joining...';
+            errEl.style.display = 'none';
+
+            try {
+                const res = await fetch('https://artflowpro.io/api/forms/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        form_id: '88661c2b-7797-4827-9604-f4b9a74350d6',
+                        email,
+                        first_name
+                    })
+                });
+
+                if (!res.ok) throw new Error('Failed to subscribe');
+
+                form.style.display = 'none';
+                successEl.style.display = 'block';
+            } catch (err) {
+                errEl.textContent = 'Something went wrong. Try again.';
+                errEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Join the Community';
+            }
+            return false;
+        }
+        </script>
     </div>
 </section>
 
