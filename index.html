@@ -686,12 +686,54 @@
 
         .signup-success {
             display: none;
-            padding: 1.5rem;
+            padding: 2.5rem 2rem;
             text-align: center;
-            color: #c8a44e;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.01em;
+            background: rgba(232,168,73,0.08);
+            border: 1px solid rgba(232,168,73,0.25);
+            border-radius: 12px;
+            animation: successFadeIn 0.5s ease;
+        }
+
+        .signup-success .success-check {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(232,168,73,0.12);
+            border: 2px solid rgba(232,168,73,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+        }
+
+        .signup-success .success-check svg {
+            width: 28px;
+            height: 28px;
+            color: #e8a849;
+        }
+
+        .signup-success .success-heading {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #e8a849;
+            margin-bottom: 0.5rem;
             letter-spacing: 0.03em;
+        }
+
+        .signup-success .success-body {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        @keyframes successFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .signup-error {
@@ -1413,7 +1455,11 @@ function toggleFoundation() {
             <button type="submit" id="form-btn">Continue</button>
         </form>
         <div class="signup-success" id="form-success">
-            You're in! Watch for premiere updates.
+            <div class="success-check">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="success-heading">You're In</div>
+            <div class="success-body">Thank you for joining the Mountain Goats community. Watch your inbox for premiere updates, behind-the-scenes content, and early access to screenings at The Roxy Theater.</div>
         </div>
 
         <script>
