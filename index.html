@@ -791,6 +791,32 @@
         /* ===================== FOUNDATION ===================== */
         .foundation {
             background: linear-gradient(to bottom, transparent, rgba(232,168,73,0.05), transparent);
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.6s ease, opacity 0.5s ease, padding 0.5s ease;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .foundation.visible {
+            max-height: 800px;
+            opacity: 1;
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+
+        .foundation-link {
+            color: #e8a849;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-color: rgba(232,168,73,0.4);
+            text-underline-offset: 2px;
+            transition: text-decoration-color 0.3s;
+        }
+
+        .foundation-link:hover {
+            text-decoration-color: #e8a849;
         }
 
         .foundation-grid {
@@ -1270,7 +1296,7 @@
         <h2 class="section-heading">More than a film. A <span class="gold">platform.</span></h2>
         <div class="divider"></div>
         <p class="section-body">
-            Mountain Goats is the first project produced by Mountain Goats Media, LLC - an independent media company dedicated to telling authentic stories rooted in community, athletics, and education. Our mission is to build a national storytelling platform while funding opportunities for student filmmakers and athletes through the Mountain Goats Foundation.
+            Mountain Goats is the first project produced by Mountain Goats Media, LLC - an independent media company dedicated to telling authentic stories rooted in community, athletics, and education. Our mission is to build a national storytelling platform while funding opportunities for student filmmakers and athletes through the <span class="foundation-link" onclick="toggleFoundation()">Mountain Goats Foundation</span>.
         </p>
         <div class="mission-entity">Mountain Goats Media, LLC &bull; Missoula, Montana</div>
     </div>
@@ -1310,6 +1336,18 @@
         </div>
     </div>
 </section>
+
+<script>
+function toggleFoundation() {
+    const section = document.getElementById('foundation');
+    section.classList.toggle('visible');
+    if (section.classList.contains('visible')) {
+        setTimeout(() => {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    }
+}
+</script>
 
 <!-- Distribution & Timeline -->
 <section id="distribution" class="distribution">
@@ -1372,7 +1410,7 @@
             <input type="text" name="first_name" placeholder="First name" autocomplete="given-name" />
             <input type="email" name="email" placeholder="Email address" required autocomplete="email" />
             <p class="signup-error" id="form-error"></p>
-            <button type="submit" id="form-btn">Join the Community</button>
+            <button type="submit" id="form-btn">Continue</button>
         </form>
         <div class="signup-success" id="form-success">
             You're in! Watch for premiere updates.
@@ -1391,7 +1429,7 @@
             if (!email) return false;
 
             btn.disabled = true;
-            btn.textContent = 'Joining...';
+            btn.textContent = 'Submitting...';
             errEl.style.display = 'none';
 
             try {
@@ -1413,7 +1451,7 @@
                 errEl.textContent = 'Something went wrong. Try again.';
                 errEl.style.display = 'block';
                 btn.disabled = false;
-                btn.textContent = 'Join the Community';
+                btn.textContent = 'Continue';
             }
             return false;
         }
