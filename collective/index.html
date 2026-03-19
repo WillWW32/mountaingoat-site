@@ -1647,6 +1647,46 @@
     .tpl-bts .tpl-title { font-family: 'Oswald', sans-serif; font-size: 1.3rem; font-weight: 700; text-transform: uppercase; color: #fff; line-height: 1.15; margin-bottom: 6px; }
     .tpl-bts .tpl-desc { font-size: 0.48rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
 
+    /* Clickable placeholders */
+    .tpl-bg-placeholder, .tpl-photo-placeholder {
+      cursor: pointer;
+    }
+    .tpl-bg-placeholder:hover, .tpl-photo-placeholder:hover {
+      opacity: 0.8;
+    }
+
+    /* Repositionable images */
+    .tpl-post img.tpl-bg.tpl-repositionable,
+    .tpl-post video.tpl-bg.tpl-repositionable,
+    .tpl-nil .tpl-photo-area img.tpl-repositionable,
+    .tpl-nil .tpl-photo-area video.tpl-repositionable {
+      cursor: grab;
+    }
+    .tpl-post img.tpl-bg.tpl-dragging,
+    .tpl-post video.tpl-bg.tpl-dragging,
+    .tpl-nil .tpl-photo-area img.tpl-dragging,
+    .tpl-nil .tpl-photo-area video.tpl-dragging {
+      cursor: grabbing;
+    }
+    .tpl-reposition-hint {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      z-index: 55;
+      background: rgba(0,0,0,0.7);
+      color: rgba(255,255,255,0.6);
+      font-size: 0.55rem;
+      font-family: 'Inter', sans-serif;
+      padding: 4px 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .tpl-post:hover .tpl-reposition-hint {
+      opacity: 1;
+    }
+
     /* Mini previews in gallery cards */
     .tpl-mini { width: 100%; height: 100%; position: relative; overflow: hidden; }
     .tpl-mini * { pointer-events: none; }
@@ -2504,7 +2544,7 @@
       <button class="tpl-modal-close" onclick="closeTplModal()">Close</button>
     </div>
     <div class="tpl-modal-body" id="tpl-modal-body"></div>
-    <div class="tpl-modal-hint">Click any text to edit — drag &amp; drop a photo or video onto the template</div>
+    <div class="tpl-modal-hint">Click any text to edit — click placeholder or drag &amp; drop to add photo/video — drag image to reposition</div>
   </div>
 
   <!-- Toast Container -->
@@ -4139,7 +4179,8 @@
         html: `
           <div class="tpl-post tpl-nil" data-tpl-drop="nil">
             <div class="tpl-drop-zone"><span>Drop photo or video</span></div>
-            <div class="tpl-photo-area"><div class="tpl-photo-placeholder">Drop athlete photo here</div></div>
+            <input type="file" class="tpl-file-input" accept="image/*,video/*" style="display:none;">
+            <div class="tpl-photo-area"><div class="tpl-photo-placeholder">Click or drop photo here</div></div>
             <div class="tpl-gold-stripe"></div>
             <div class="tpl-overlay"></div>
             <div class="tpl-badge">Mountain Goats</div>
@@ -4158,7 +4199,8 @@
         html: `
           <div class="tpl-post tpl-spotlight" data-tpl-drop="bg">
             <div class="tpl-drop-zone"><span>Drop photo or video</span></div>
-            <div class="tpl-bg-placeholder">Drop athlete photo here</div>
+            <input type="file" class="tpl-file-input" accept="image/*,video/*" style="display:none;">
+            <div class="tpl-bg-placeholder">Click or drop photo here</div>
             <div class="tpl-overlay"></div>
             <div class="tpl-brand">Mountain Goats</div>
             <div class="tpl-content">
@@ -4166,10 +4208,10 @@
               <div class="tpl-name" contenteditable="true">ATHLETE NAME</div>
               <div class="tpl-school" contenteditable="true">School · Position · Class of 2026</div>
               <div class="tpl-stats">
-                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">18.4</div><div class="tpl-stat-lbl">PPG</div></div>
-                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">52%</div><div class="tpl-stat-lbl">FG%</div></div>
-                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">4.2</div><div class="tpl-stat-lbl">APG</div></div>
-                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">#1</div><div class="tpl-stat-lbl">Scoring</div></div>
+                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">18.4</div><div class="tpl-stat-lbl" contenteditable="true">PPG</div></div>
+                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">52%</div><div class="tpl-stat-lbl" contenteditable="true">FG%</div></div>
+                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">4.2</div><div class="tpl-stat-lbl" contenteditable="true">APG</div></div>
+                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">#1</div><div class="tpl-stat-lbl" contenteditable="true">Scoring</div></div>
               </div>
             </div>
           </div>`
@@ -4179,7 +4221,8 @@
         html: `
           <div class="tpl-post tpl-hype" data-tpl-drop="bg">
             <div class="tpl-drop-zone"><span>Drop photo or video</span></div>
-            <div class="tpl-bg-placeholder">Drop action photo here</div>
+            <input type="file" class="tpl-file-input" accept="image/*,video/*" style="display:none;">
+            <div class="tpl-bg-placeholder">Click or drop photo here</div>
             <div class="tpl-overlay"></div>
             <div class="tpl-brand">MTN GOATS</div>
             <div class="tpl-content">
@@ -4220,7 +4263,8 @@
         html: `
           <div class="tpl-post tpl-bts" data-tpl-drop="bg">
             <div class="tpl-drop-zone"><span>Drop photo or video</span></div>
-            <div class="tpl-bg-placeholder">Drop BTS photo here</div>
+            <input type="file" class="tpl-file-input" accept="image/*,video/*" style="display:none;">
+            <div class="tpl-bg-placeholder">Click or drop photo here</div>
             <div class="tpl-overlay"></div>
             <div class="tpl-tag">Behind the Scenes</div>
             <div class="tpl-content">
@@ -4302,7 +4346,63 @@
       }
     });
 
+    function applyMediaToPost(post, file) {
+      var url = URL.createObjectURL(file);
+      var isVideo = file.type.startsWith('video/');
+      var dropType = post.getAttribute('data-tpl-drop');
+
+      if (dropType === 'nil') {
+        var area = post.querySelector('.tpl-photo-area');
+        if (!area) return;
+        area.innerHTML = '';
+        if (isVideo) {
+          var v = document.createElement('video');
+          v.src = url; v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
+          v.className = 'tpl-repositionable';
+          area.appendChild(v);
+          initReposition(v);
+        } else {
+          var img = document.createElement('img');
+          img.src = url; img.alt = 'Athlete';
+          img.className = 'tpl-repositionable';
+          area.appendChild(img);
+          initReposition(img);
+        }
+      } else {
+        var old = post.querySelector('.tpl-bg');
+        if (old) old.remove();
+        var ph = post.querySelector('.tpl-bg-placeholder');
+        if (ph) ph.remove();
+        // Remove old hint if any
+        var oldHint = post.querySelector('.tpl-reposition-hint');
+        if (oldHint) oldHint.remove();
+
+        var fileInput = post.querySelector('.tpl-file-input');
+        var insertAfter = fileInput || post.querySelector('.tpl-drop-zone');
+
+        if (isVideo) {
+          var v = document.createElement('video');
+          v.className = 'tpl-bg tpl-repositionable'; v.src = url; v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
+          if (insertAfter && insertAfter.nextSibling) post.insertBefore(v, insertAfter.nextSibling);
+          else post.insertBefore(v, post.firstChild);
+          initReposition(v);
+        } else {
+          var img = document.createElement('img');
+          img.className = 'tpl-bg tpl-repositionable'; img.src = url; img.alt = 'Background';
+          if (insertAfter && insertAfter.nextSibling) post.insertBefore(img, insertAfter.nextSibling);
+          else post.insertBefore(img, post.firstChild);
+          initReposition(img);
+        }
+        // Add reposition hint
+        var hint = document.createElement('div');
+        hint.className = 'tpl-reposition-hint';
+        hint.textContent = 'Drag image to reposition';
+        post.appendChild(hint);
+      }
+    }
+
     function initTplDrop(post) {
+      // Drag-and-drop
       post.addEventListener('dragover', function(e) {
         e.preventDefault();
         e.dataTransfer.dropEffect = 'copy';
@@ -4315,44 +4415,65 @@
         e.preventDefault();
         post.classList.remove('drag-over');
         var file = e.dataTransfer.files[0];
-        if (!file) return;
-        var url = URL.createObjectURL(file);
-        var isVideo = file.type.startsWith('video/');
-        var dropType = post.getAttribute('data-tpl-drop');
+        if (file) applyMediaToPost(post, file);
+      });
 
-        if (dropType === 'nil') {
-          var area = post.querySelector('.tpl-photo-area');
-          if (!area) return;
-          area.innerHTML = '';
-          if (isVideo) {
-            var v = document.createElement('video');
-            v.src = url; v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
-            area.appendChild(v);
-          } else {
-            var img = document.createElement('img');
-            img.src = url; img.alt = 'Athlete';
-            area.appendChild(img);
-          }
-        } else {
-          // Remove existing bg
-          var old = post.querySelector('.tpl-bg');
-          if (old) old.remove();
-          var ph = post.querySelector('.tpl-bg-placeholder');
-          if (ph) ph.remove();
+      // Click-to-browse on placeholder
+      var placeholder = post.querySelector('.tpl-bg-placeholder, .tpl-photo-placeholder');
+      var fileInput = post.querySelector('.tpl-file-input');
+      if (placeholder && fileInput) {
+        placeholder.addEventListener('click', function(e) {
+          e.stopPropagation();
+          fileInput.click();
+        });
+      }
+      if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+          var file = e.target.files[0];
+          if (file) applyMediaToPost(post, file);
+        });
+      }
+    }
 
-          var dropZone = post.querySelector('.tpl-drop-zone');
-          if (isVideo) {
-            var v = document.createElement('video');
-            v.className = 'tpl-bg'; v.src = url; v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
-            if (dropZone && dropZone.nextSibling) post.insertBefore(v, dropZone.nextSibling);
-            else post.insertBefore(v, post.firstChild);
-          } else {
-            var img = document.createElement('img');
-            img.className = 'tpl-bg'; img.src = url; img.alt = 'Background';
-            if (dropZone && dropZone.nextSibling) post.insertBefore(img, dropZone.nextSibling);
-            else post.insertBefore(img, post.firstChild);
-          }
+    // Image/video repositioning via drag
+    function initReposition(el) {
+      var startX, startY, startObjX, startObjY;
+
+      el.addEventListener('mousedown', function(e) {
+        // Don't interfere with contenteditable
+        if (e.target.getAttribute('contenteditable')) return;
+        e.preventDefault();
+        el.classList.add('tpl-dragging');
+
+        var rect = el.getBoundingClientRect();
+        var style = window.getComputedStyle(el);
+        startObjX = parseFloat(style.left) || 0;
+        startObjY = parseFloat(style.top) || 0;
+        // Use object-position for object-fit: cover images
+        var objPos = style.objectPosition || '50% 50%';
+        var parts = objPos.split(/\s+/);
+        startObjX = parseFloat(parts[0]) || 50;
+        startObjY = parseFloat(parts[1]) || 50;
+        startX = e.clientX;
+        startY = e.clientY;
+
+        function onMove(ev) {
+          var dx = ev.clientX - startX;
+          var dy = ev.clientY - startY;
+          // Convert pixel movement to percentage (sensitivity)
+          var pctX = startObjX + (dx / rect.width) * 100;
+          var pctY = startObjY + (dy / rect.height) * 100;
+          pctX = Math.max(0, Math.min(100, pctX));
+          pctY = Math.max(0, Math.min(100, pctY));
+          el.style.objectPosition = pctX + '% ' + pctY + '%';
         }
+        function onUp() {
+          el.classList.remove('tpl-dragging');
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+        }
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
       });
     }
 
