@@ -1365,6 +1365,292 @@
       background: rgba(232,168,73,0.2);
     }
 
+    /* ── Template Gallery ── */
+    .tpl-gallery {
+      margin-bottom: 2rem;
+    }
+    .tpl-gallery-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .tpl-gallery-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #e8a849;
+    }
+    .tpl-gallery-sub {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+    }
+    .tpl-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+    @media (max-width: 480px) {
+      .tpl-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .tpl-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .tpl-card:hover {
+      border-color: rgba(232,168,73,0.35);
+      transform: translateY(-2px);
+    }
+    .tpl-card-preview {
+      aspect-ratio: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    .tpl-card-info {
+      padding: 0.6rem 0.75rem;
+    }
+    .tpl-card-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+    .tpl-card-desc {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.35);
+      margin-top: 2px;
+    }
+    .tpl-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin: 1.5rem 0;
+    }
+
+    /* ── Template Modal ── */
+    .tpl-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 9999;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .tpl-modal.open {
+      display: flex;
+    }
+    .tpl-modal-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      width: 100%;
+      max-width: 520px;
+    }
+    .tpl-modal-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #e8a849;
+      flex: 1;
+    }
+    .tpl-modal-download {
+      background: #e8a849;
+      color: #0a0a0a;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .tpl-modal-download:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .tpl-modal-download:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .tpl-modal-close {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: background 0.2s;
+    }
+    .tpl-modal-close:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    .tpl-modal-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+      padding: 0 1.5rem 2rem;
+      width: 100%;
+    }
+    .tpl-modal-hint {
+      text-align: center;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.3);
+      padding: 0 1rem 1.5rem;
+      max-width: 520px;
+    }
+
+    /* ── Template post styles (scoped for modal) ── */
+    .tpl-modal .tpl-post {
+      width: 420px;
+      height: 420px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 8px 40px rgba(0,0,0,0.6);
+    }
+    @media (max-width: 480px) {
+      .tpl-modal .tpl-post { width: 340px; height: 340px; }
+    }
+    .tpl-post img.tpl-bg {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0; left: 0; z-index: 0;
+    }
+    .tpl-post video.tpl-bg {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0; left: 0; z-index: 0;
+    }
+    .tpl-post .tpl-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+    }
+    .tpl-post [contenteditable] {
+      outline: none; cursor: text;
+    }
+    .tpl-post [contenteditable]:hover {
+      outline: 1px dashed rgba(232,168,73,0.4);
+    }
+    .tpl-post [contenteditable]:focus {
+      outline: 1px solid #e8a849;
+    }
+    .tpl-post .tpl-drop-zone {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(232,168,73,0.12);
+      border: 3px dashed #e8a849;
+      border-radius: 6px;
+      pointer-events: none;
+    }
+    .tpl-post .tpl-drop-zone span {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #e8a849;
+      background: rgba(0,0,0,0.7);
+      padding: 8px 16px;
+      border-radius: 4px;
+    }
+    .tpl-post.drag-over .tpl-drop-zone {
+      display: flex;
+    }
+
+    /* NIL */
+    .tpl-nil .tpl-overlay { background: linear-gradient(135deg, #1a1a2e 0%, #1a1a2e 45%, transparent 45%); }
+    .tpl-nil .tpl-gold-stripe { position: absolute; left: 44%; top: 0; width: 4px; height: 100%; background: #e8a849; z-index: 2; transform: skewX(-3deg); }
+    .tpl-nil .tpl-photo-area { position: absolute; right: 0; bottom: 0; width: 60%; height: 100%; z-index: 0; }
+    .tpl-nil .tpl-photo-area img, .tpl-nil .tpl-photo-area video { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .tpl-nil .tpl-photo-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #3a3a50, #28283e); display: flex; align-items: center; justify-content: center; color: #555; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .tpl-nil .tpl-badge { position: absolute; top: 24px; left: 24px; z-index: 3; font-family: 'Oswald', sans-serif; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.2em; color: #e8a849; }
+    .tpl-nil .tpl-content { position: absolute; top: 60px; left: 24px; z-index: 3; max-width: 55%; }
+    .tpl-nil .tpl-athlete { font-family: 'Oswald', sans-serif; font-size: 1.6rem; font-weight: 700; text-transform: uppercase; line-height: 1.1; color: #fff; margin-bottom: 4px; }
+    .tpl-nil .tpl-x { font-family: 'Oswald', sans-serif; font-size: 0.9rem; color: #e8a849; font-style: italic; margin-bottom: 2px; }
+    .tpl-nil .tpl-partner { font-family: 'Oswald', sans-serif; font-size: 1.2rem; font-weight: 700; text-transform: uppercase; color: #fff; line-height: 1.1; margin-bottom: 12px; }
+    .tpl-nil .tpl-deal-badge { display: inline-block; background: #e8a849; color: #1a1a2e; font-family: 'Oswald', sans-serif; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; padding: 6px 14px; margin-bottom: 16px; }
+    .tpl-nil .tpl-details { font-size: 0.48rem; color: rgba(255,255,255,0.65); line-height: 1.6; }
+    .tpl-nil .tpl-logo { position: absolute; bottom: 20px; left: 24px; z-index: 3; font-family: 'Oswald', sans-serif; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #fff; border: 1px solid rgba(255,255,255,0.25); padding: 4px 8px; }
+
+    /* Spotlight */
+    .tpl-spotlight .tpl-overlay { background: linear-gradient(to top, #1a1a2e 0%, #1a1a2e 35%, transparent 70%); }
+    .tpl-spotlight .tpl-bg-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #3a3a50, #28283e); display: flex; align-items: center; justify-content: center; color: #555; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .tpl-spotlight .tpl-brand { position: absolute; top: 20px; left: 20px; z-index: 2; font-family: 'Oswald', sans-serif; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.45); }
+    .tpl-spotlight .tpl-content { position: absolute; bottom: 20px; left: 24px; right: 24px; z-index: 2; }
+    .tpl-spotlight .tpl-label { font-size: 0.48rem; text-transform: uppercase; letter-spacing: 0.25em; color: #e8a849; margin-bottom: 6px; }
+    .tpl-spotlight .tpl-name { font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 700; text-transform: uppercase; line-height: 1; color: #fff; margin-bottom: 4px; }
+    .tpl-spotlight .tpl-school { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.55); margin-bottom: 12px; }
+    .tpl-spotlight .tpl-stats { display: flex; gap: 20px; }
+    .tpl-spotlight .tpl-stat-num { font-family: 'Oswald', sans-serif; font-size: 1.4rem; font-weight: 700; color: #e8a849; line-height: 1; }
+    .tpl-spotlight .tpl-stat-lbl { font-size: 0.38rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+    /* Hype */
+    .tpl-hype .tpl-overlay { background: radial-gradient(ellipse at center bottom, transparent 20%, rgba(10,10,10,0.85) 80%); }
+    .tpl-hype .tpl-bg-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #3a3a50, #28283e); display: flex; align-items: center; justify-content: center; color: #555; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .tpl-hype .tpl-brand { position: absolute; top: 20px; right: 20px; z-index: 2; font-family: 'Oswald', sans-serif; font-size: 0.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); }
+    .tpl-hype .tpl-content { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; text-align: center; padding: 30px 24px; }
+    .tpl-hype .tpl-big { font-family: 'Oswald', sans-serif; font-size: 2.4rem; font-weight: 700; text-transform: uppercase; line-height: 1; color: #fff; margin-bottom: 6px; }
+    .tpl-hype .tpl-sub { font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.2em; color: #e8a849; }
+
+    /* Quote */
+    .tpl-quote { background: #1a1a2e; }
+    .tpl-quote .tpl-border { position: absolute; top: 16px; left: 16px; width: calc(100% - 32px); height: calc(100% - 32px); border: 2px solid rgba(232,168,73,0.2); z-index: 1; pointer-events: none; }
+    .tpl-quote .tpl-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 50px 40px; text-align: center; }
+    .tpl-quote .tpl-mark { font-family: 'Oswald', sans-serif; font-size: 3rem; color: #e8a849; line-height: 1; margin-bottom: 10px; }
+    .tpl-quote .tpl-text { font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 400; line-height: 1.7; color: #fff; margin-bottom: 20px; }
+    .tpl-quote .tpl-attr { font-family: 'Oswald', sans-serif; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.2em; color: #e8a849; }
+    .tpl-quote .tpl-brand { position: absolute; bottom: 24px; z-index: 2; font-family: 'Oswald', sans-serif; font-size: 0.45rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.25); }
+
+    /* Countdown */
+    .tpl-countdown { background: #0a0a0a; }
+    .tpl-countdown .tpl-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px; }
+    .tpl-countdown .tpl-number { font-family: 'Oswald', sans-serif; font-size: 8rem; font-weight: 700; color: #e8a849; line-height: 1; }
+    .tpl-countdown .tpl-unit { font-family: 'Oswald', sans-serif; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.3em; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+    .tpl-countdown .tpl-line { width: 40px; height: 2px; background: #e8a849; margin: 16px 0; }
+    .tpl-countdown .tpl-title { font-family: 'Oswald', sans-serif; font-size: 1.4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #fff; margin-bottom: 6px; }
+    .tpl-countdown .tpl-details { font-size: 0.5rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.15em; }
+    .tpl-countdown .tpl-brand { position: absolute; bottom: 24px; font-family: 'Oswald', sans-serif; font-size: 0.45rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.2); }
+
+    /* BTS */
+    .tpl-bts .tpl-overlay { background: linear-gradient(to top, rgba(26,26,46,0.95) 0%, rgba(26,26,46,0.6) 30%, transparent 60%); }
+    .tpl-bts .tpl-bg-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #3a3a50, #28283e); display: flex; align-items: center; justify-content: center; color: #555; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .tpl-bts .tpl-tag { position: absolute; top: 20px; left: 20px; z-index: 2; background: rgba(232,168,73,0.9); color: #1a1a2e; font-family: 'Oswald', sans-serif; font-size: 0.48rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; padding: 5px 12px; }
+    .tpl-bts .tpl-content { position: absolute; bottom: 20px; left: 24px; right: 24px; z-index: 2; }
+    .tpl-bts .tpl-title { font-family: 'Oswald', sans-serif; font-size: 1.3rem; font-weight: 700; text-transform: uppercase; color: #fff; line-height: 1.15; margin-bottom: 6px; }
+    .tpl-bts .tpl-desc { font-size: 0.48rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* Mini previews in gallery cards */
+    .tpl-mini { width: 100%; height: 100%; position: relative; overflow: hidden; }
+    .tpl-mini * { pointer-events: none; }
+
     /* ── Media Hub ── */
     .media-dropzone {
       border: 2px dashed rgba(255,255,255,0.15);
@@ -1909,6 +2195,135 @@
 
       <!-- ── SOCIAL KIT TAB ── -->
       <div class="tab-panel" id="panel-social">
+
+        <!-- ── Template Gallery ── -->
+        <div class="tpl-gallery">
+          <div class="tpl-gallery-header">
+            <span class="tpl-gallery-title">Post Templates</span>
+            <span class="tpl-gallery-sub">Click to open editor — edit text, drop photos/videos</span>
+          </div>
+          <div class="tpl-grid">
+
+            <!-- NIL Announcement -->
+            <div class="tpl-card" onclick="openTplModal('nil')">
+              <div class="tpl-card-preview">
+                <div class="tpl-mini tpl-post tpl-nil">
+                  <div class="tpl-photo-area"><div class="tpl-photo-placeholder">Photo</div></div>
+                  <div class="tpl-gold-stripe"></div>
+                  <div class="tpl-overlay"></div>
+                  <div class="tpl-content" style="top:20px;left:10px;max-width:50%">
+                    <div class="tpl-athlete" style="font-size:0.6rem">ATHLETE</div>
+                    <div class="tpl-x" style="font-size:0.35rem">x</div>
+                    <div class="tpl-partner" style="font-size:0.45rem">PARTNER</div>
+                    <div class="tpl-deal-badge" style="font-size:0.28rem;padding:3px 6px">NIL</div>
+                  </div>
+                </div>
+              </div>
+              <div class="tpl-card-info">
+                <div class="tpl-card-name">NIL Announcement</div>
+                <div class="tpl-card-desc">Athlete + brand deals</div>
+              </div>
+            </div>
+
+            <!-- Athlete Spotlight -->
+            <div class="tpl-card" onclick="openTplModal('spotlight')">
+              <div class="tpl-card-preview">
+                <div class="tpl-mini tpl-post tpl-spotlight">
+                  <div class="tpl-bg-placeholder">Photo</div>
+                  <div class="tpl-overlay"></div>
+                  <div class="tpl-content" style="bottom:10px;left:10px;right:10px">
+                    <div class="tpl-label" style="font-size:0.3rem;margin-bottom:2px">Spotlight</div>
+                    <div class="tpl-name" style="font-size:0.85rem">ATHLETE</div>
+                    <div class="tpl-school" style="font-size:0.25rem">School · Position</div>
+                  </div>
+                </div>
+              </div>
+              <div class="tpl-card-info">
+                <div class="tpl-card-name">Athlete Spotlight</div>
+                <div class="tpl-card-desc">Feature with stats</div>
+              </div>
+            </div>
+
+            <!-- Game Hype -->
+            <div class="tpl-card" onclick="openTplModal('hype')">
+              <div class="tpl-card-preview">
+                <div class="tpl-mini tpl-post tpl-hype">
+                  <div class="tpl-bg-placeholder">Photo</div>
+                  <div class="tpl-overlay"></div>
+                  <div class="tpl-content" style="padding:10px">
+                    <div class="tpl-big" style="font-size:0.9rem">GOAT GAME</div>
+                    <div class="tpl-sub" style="font-size:0.28rem">Action · Energy</div>
+                  </div>
+                </div>
+              </div>
+              <div class="tpl-card-info">
+                <div class="tpl-card-name">Game Hype</div>
+                <div class="tpl-card-desc">Action clips, plays</div>
+              </div>
+            </div>
+
+            <!-- Quote -->
+            <div class="tpl-card" onclick="openTplModal('quote')">
+              <div class="tpl-card-preview">
+                <div class="tpl-mini tpl-post tpl-quote">
+                  <div class="tpl-border"></div>
+                  <div class="tpl-content" style="padding:16px">
+                    <div class="tpl-mark" style="font-size:1.2rem;margin-bottom:4px">"</div>
+                    <div class="tpl-text" style="font-size:0.3rem">Made in the life.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="tpl-card-info">
+                <div class="tpl-card-name">Quote / Community</div>
+                <div class="tpl-card-desc">Text-only quotes</div>
+              </div>
+            </div>
+
+            <!-- Countdown -->
+            <div class="tpl-card" onclick="openTplModal('countdown')">
+              <div class="tpl-card-preview">
+                <div class="tpl-mini tpl-post tpl-countdown">
+                  <div class="tpl-content">
+                    <div class="tpl-number" style="font-size:3rem">7</div>
+                    <div class="tpl-unit" style="font-size:0.4rem">Days</div>
+                    <div class="tpl-line" style="width:16px;margin:4px 0"></div>
+                    <div class="tpl-title" style="font-size:0.5rem">Premiere</div>
+                  </div>
+                </div>
+              </div>
+              <div class="tpl-card-info">
+                <div class="tpl-card-name">Premiere Countdown</div>
+                <div class="tpl-card-desc">Date announcements</div>
+              </div>
+            </div>
+
+            <!-- BTS -->
+            <div class="tpl-card" onclick="openTplModal('bts')">
+              <div class="tpl-card-preview">
+                <div class="tpl-mini tpl-post tpl-bts">
+                  <div class="tpl-bg-placeholder">Photo</div>
+                  <div class="tpl-overlay"></div>
+                  <div class="tpl-tag" style="font-size:0.25rem;padding:2px 5px;top:8px;left:8px">BTS</div>
+                  <div class="tpl-content" style="bottom:8px;left:8px;right:8px">
+                    <div class="tpl-title" style="font-size:0.5rem">Behind the Scenes</div>
+                  </div>
+                </div>
+              </div>
+              <div class="tpl-card-info">
+                <div class="tpl-card-name">Behind the Scenes</div>
+                <div class="tpl-card-desc">Production, day-in-the-life</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <hr class="tpl-divider">
+
+        <!-- ── Uploaded Assets ── -->
+        <div class="tpl-gallery-header" style="margin-bottom:0.75rem;">
+          <span class="tpl-gallery-title">Uploaded Assets</span>
+        </div>
         <div class="admin-only" style="margin-bottom:1rem;">
           <button class="btn-primary btn-sm" id="btn-new-social">Add Social Post</button>
         </div>
@@ -2081,12 +2496,24 @@
     </div><!-- .content-area -->
   </div><!-- #hub -->
 
+  <!-- ── Template Editor Modal ── -->
+  <div class="tpl-modal" id="tpl-modal">
+    <div class="tpl-modal-toolbar">
+      <span class="tpl-modal-title" id="tpl-modal-title">Template</span>
+      <button class="tpl-modal-download" onclick="downloadTplJpg()">Download JPG</button>
+      <button class="tpl-modal-close" onclick="closeTplModal()">Close</button>
+    </div>
+    <div class="tpl-modal-body" id="tpl-modal-body"></div>
+    <div class="tpl-modal-hint">Click any text to edit — drag &amp; drop a photo or video onto the template</div>
+  </div>
+
   <!-- Toast Container -->
   <div id="toast-container"></div>
 
   <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <script>
     // ═══════════════════════════════════
@@ -3702,6 +4129,232 @@
         console.error(err);
       }
     };
+
+    // ═══════════════════════════════════
+    // TEMPLATE MODAL
+    // ═══════════════════════════════════
+    const TPL_DATA = {
+      nil: {
+        title: 'NIL Announcement',
+        html: `
+          <div class="tpl-post tpl-nil" data-tpl-drop="nil">
+            <div class="tpl-drop-zone"><span>Drop photo or video</span></div>
+            <div class="tpl-photo-area"><div class="tpl-photo-placeholder">Drop athlete photo here</div></div>
+            <div class="tpl-gold-stripe"></div>
+            <div class="tpl-overlay"></div>
+            <div class="tpl-badge">Mountain Goats</div>
+            <div class="tpl-content">
+              <div class="tpl-athlete" contenteditable="true">ATHLETE<br>NAME</div>
+              <div class="tpl-x">x</div>
+              <div class="tpl-partner" contenteditable="true">PARTNER<br>NAME</div>
+              <div class="tpl-deal-badge">NIL Agreement</div>
+              <div class="tpl-details" contenteditable="true">Please welcome our newest NIL athlete.<br>Class of 2026 · Position<br>School Name · Sport</div>
+            </div>
+            <div class="tpl-logo">MTN GOATS</div>
+          </div>`
+      },
+      spotlight: {
+        title: 'Athlete Spotlight',
+        html: `
+          <div class="tpl-post tpl-spotlight" data-tpl-drop="bg">
+            <div class="tpl-drop-zone"><span>Drop photo or video</span></div>
+            <div class="tpl-bg-placeholder">Drop athlete photo here</div>
+            <div class="tpl-overlay"></div>
+            <div class="tpl-brand">Mountain Goats</div>
+            <div class="tpl-content">
+              <div class="tpl-label" contenteditable="true">Athlete Spotlight</div>
+              <div class="tpl-name" contenteditable="true">ATHLETE NAME</div>
+              <div class="tpl-school" contenteditable="true">School · Position · Class of 2026</div>
+              <div class="tpl-stats">
+                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">18.4</div><div class="tpl-stat-lbl">PPG</div></div>
+                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">52%</div><div class="tpl-stat-lbl">FG%</div></div>
+                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">4.2</div><div class="tpl-stat-lbl">APG</div></div>
+                <div style="text-align:center"><div class="tpl-stat-num" contenteditable="true">#1</div><div class="tpl-stat-lbl">Scoring</div></div>
+              </div>
+            </div>
+          </div>`
+      },
+      hype: {
+        title: 'Game Hype',
+        html: `
+          <div class="tpl-post tpl-hype" data-tpl-drop="bg">
+            <div class="tpl-drop-zone"><span>Drop photo or video</span></div>
+            <div class="tpl-bg-placeholder">Drop action photo here</div>
+            <div class="tpl-overlay"></div>
+            <div class="tpl-brand">MTN GOATS</div>
+            <div class="tpl-content">
+              <div class="tpl-big" contenteditable="true">GOAT GAME</div>
+              <div class="tpl-sub" contenteditable="true">The greatest high school basketball game of all time</div>
+            </div>
+          </div>`
+      },
+      quote: {
+        title: 'Quote / Community',
+        html: `
+          <div class="tpl-post tpl-quote">
+            <div class="tpl-border"></div>
+            <div class="tpl-content">
+              <div class="tpl-mark">"</div>
+              <div class="tpl-text" contenteditable="true">They weren't made in a lab. They were made in the life.</div>
+              <div class="tpl-attr" contenteditable="true">— Mountain Goats</div>
+            </div>
+            <div class="tpl-brand">Mountain Goats</div>
+          </div>`
+      },
+      countdown: {
+        title: 'Premiere Countdown',
+        html: `
+          <div class="tpl-post tpl-countdown">
+            <div class="tpl-content">
+              <div class="tpl-number" contenteditable="true">7</div>
+              <div class="tpl-unit" contenteditable="true">Days</div>
+              <div class="tpl-line"></div>
+              <div class="tpl-title" contenteditable="true">Mountain Goats Premiere</div>
+              <div class="tpl-details" contenteditable="true">The Roxy Theater · Missoula, MT · July 2026</div>
+            </div>
+            <div class="tpl-brand">Mountain Goats</div>
+          </div>`
+      },
+      bts: {
+        title: 'Behind the Scenes',
+        html: `
+          <div class="tpl-post tpl-bts" data-tpl-drop="bg">
+            <div class="tpl-drop-zone"><span>Drop photo or video</span></div>
+            <div class="tpl-bg-placeholder">Drop BTS photo here</div>
+            <div class="tpl-overlay"></div>
+            <div class="tpl-tag">Behind the Scenes</div>
+            <div class="tpl-content">
+              <div class="tpl-title" contenteditable="true">The Kids Behind<br>the Camera</div>
+              <div class="tpl-desc" contenteditable="true">Student filmmakers captured what no adult crew ever could. Peers filming peers.</div>
+            </div>
+          </div>`
+      }
+    };
+
+    window.openTplModal = function(type) {
+      const tpl = TPL_DATA[type];
+      if (!tpl) return;
+      const modal = document.getElementById('tpl-modal');
+      const body = document.getElementById('tpl-modal-body');
+      const title = document.getElementById('tpl-modal-title');
+      title.textContent = tpl.title;
+      body.innerHTML = tpl.html;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+
+      // Wire up drag-and-drop on the post
+      const post = body.querySelector('.tpl-post[data-tpl-drop]');
+      if (post) initTplDrop(post);
+    };
+
+    window.closeTplModal = function() {
+      const modal = document.getElementById('tpl-modal');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      document.getElementById('tpl-modal-body').innerHTML = '';
+    };
+
+    window.downloadTplJpg = async function() {
+      const post = document.querySelector('#tpl-modal-body .tpl-post');
+      if (!post) return;
+      const btn = document.querySelector('.tpl-modal-download');
+      const origText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Rendering...';
+
+      try {
+        // Remove contenteditable outlines during capture
+        post.querySelectorAll('[contenteditable]').forEach(function(el) { el.blur(); });
+
+        const canvas = await html2canvas(post, {
+          scale: 1080 / post.offsetWidth,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: null,
+          logging: false
+        });
+
+        canvas.toBlob(function(blob) {
+          var a = document.createElement('a');
+          var title = document.getElementById('tpl-modal-title').textContent || 'template';
+          a.download = title.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase() + '_' + Date.now() + '.jpg';
+          a.href = URL.createObjectURL(blob);
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(a.href);
+          btn.disabled = false;
+          btn.textContent = origText;
+          if (typeof showToast === 'function') showToast('Downloaded!', 'success');
+        }, 'image/jpeg', 0.95);
+      } catch (err) {
+        console.error('Download failed:', err);
+        btn.disabled = false;
+        btn.textContent = origText;
+        if (typeof showToast === 'function') showToast('Download failed', 'error');
+      }
+    };
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.getElementById('tpl-modal').classList.contains('open')) {
+        closeTplModal();
+      }
+    });
+
+    function initTplDrop(post) {
+      post.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+        post.classList.add('drag-over');
+      });
+      post.addEventListener('dragleave', function(e) {
+        if (!post.contains(e.relatedTarget)) post.classList.remove('drag-over');
+      });
+      post.addEventListener('drop', function(e) {
+        e.preventDefault();
+        post.classList.remove('drag-over');
+        var file = e.dataTransfer.files[0];
+        if (!file) return;
+        var url = URL.createObjectURL(file);
+        var isVideo = file.type.startsWith('video/');
+        var dropType = post.getAttribute('data-tpl-drop');
+
+        if (dropType === 'nil') {
+          var area = post.querySelector('.tpl-photo-area');
+          if (!area) return;
+          area.innerHTML = '';
+          if (isVideo) {
+            var v = document.createElement('video');
+            v.src = url; v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
+            area.appendChild(v);
+          } else {
+            var img = document.createElement('img');
+            img.src = url; img.alt = 'Athlete';
+            area.appendChild(img);
+          }
+        } else {
+          // Remove existing bg
+          var old = post.querySelector('.tpl-bg');
+          if (old) old.remove();
+          var ph = post.querySelector('.tpl-bg-placeholder');
+          if (ph) ph.remove();
+
+          var dropZone = post.querySelector('.tpl-drop-zone');
+          if (isVideo) {
+            var v = document.createElement('video');
+            v.className = 'tpl-bg'; v.src = url; v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
+            if (dropZone && dropZone.nextSibling) post.insertBefore(v, dropZone.nextSibling);
+            else post.insertBefore(v, post.firstChild);
+          } else {
+            var img = document.createElement('img');
+            img.className = 'tpl-bg'; img.src = url; img.alt = 'Background';
+            if (dropZone && dropZone.nextSibling) post.insertBefore(img, dropZone.nextSibling);
+            else post.insertBefore(img, post.firstChild);
+          }
+        }
+      });
+    }
 
     // ═══════════════════════════════════
     // MEDIA HUB
