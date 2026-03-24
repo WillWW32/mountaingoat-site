@@ -150,40 +150,41 @@
 
         .premiere-badge {
             display: inline-block;
-            padding: 0.6rem 1.75rem;
+            padding: 0.65rem 2rem;
             border: 1px solid rgba(232,168,73,0.5);
             font-family: 'Oswald', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            margin-bottom: 2rem;
+            margin-top: 2.5rem;
             backdrop-filter: blur(10px);
             background: rgba(232,168,73,0.08);
             color: #e8a849;
+            border-radius: 4px;
         }
 
         .title {
             font-family: 'Oswald', sans-serif;
-            font-size: clamp(4rem, 15vw, 10rem);
+            font-size: clamp(4.5rem, 16vw, 11rem);
             font-weight: 700;
             letter-spacing: 0.02em;
-            line-height: 0.9;
+            line-height: 0.88;
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1.25rem;
             text-shadow: 0 4px 30px rgba(0,0,0,0.5);
         }
 
         .subtitle {
-            font-size: clamp(1rem, 3vw, 1.4rem);
+            font-size: clamp(1.1rem, 3.5vw, 1.6rem);
             font-weight: 300;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.35em;
             text-transform: lowercase;
             opacity: 0.8;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .hero-tagline {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             color: rgba(255,255,255,0.55);
             max-width: 500px;
             margin: 0 auto;
@@ -895,6 +896,32 @@
             overflow: hidden;
         }
 
+        /* ===================== INSTAGRAM ===================== */
+        .instagram-section {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, rgba(232,168,73,0.03), transparent);
+        }
+        .ig-follow-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.85rem 2.5rem;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .ig-follow-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(232,168,73,0.2);
+        }
+
         /* ===================== COLLAPSIBLE SECTIONS ===================== */
         .collapsible-toggle {
             display: inline-flex;
@@ -1239,11 +1266,13 @@
     <div class="hero-overlay"></div>
     <div class="hero-top-cover"></div>
     <div class="hero-content">
-        <div class="premiere-badge hero-fade hero-fade-1">Premiere Coming Soon</div>
-        <h1 class="title hero-fade hero-fade-2">Mountain<br>Goats</h1>
-        <p class="subtitle hero-fade hero-fade-3">a basketball documentary</p>
-        <p class="subtitle hero-fade hero-fade-3" style="margin-top: -0.5rem; animation-delay: 1.6s; font-size: clamp(0.85rem, 2.5vw, 1.1rem); letter-spacing: 0.25em; opacity: 0.6;">in the heart of Montana</p>
-        <p class="hero-tagline hero-fade hero-fade-4" style="animation-delay: 2.2s;">Built by Montana. Driven by each other.</p>
+        <h1 class="title hero-fade hero-fade-1">Mountain<br>Goats</h1>
+        <p class="subtitle hero-fade hero-fade-2">a basketball documentary</p>
+        <p class="subtitle hero-fade hero-fade-2" style="margin-top: -0.25rem; animation-delay: 1.4s; font-size: clamp(0.95rem, 2.8vw, 1.2rem); letter-spacing: 0.25em; opacity: 0.6;">in the heart of Montana</p>
+        <p class="hero-tagline hero-fade hero-fade-3" style="animation-delay: 1.8s;">Built by Montana. Driven by each other.</p>
+        <div class="hero-fade hero-fade-4" style="animation-delay: 2.4s;">
+            <div class="premiere-badge">Premiere Coming Soon</div>
+        </div>
     </div>
     <a href="#story" class="scroll-indicator">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1694,6 +1723,24 @@ function toggleSection(btn, contentId) {
             return false;
         }
         </script>
+    </div>
+</section>
+
+<!-- Instagram -->
+<section id="instagram" class="instagram-section">
+    <div class="section-inner fade-in" style="text-align: center;">
+        <p class="section-label" style="text-align: center;">Follow the Journey</p>
+        <h2 class="section-heading" style="text-align: center;">@mountain<span class="gold">goats</span>movie</h2>
+        <div class="divider" style="margin: 1.5rem auto;"></div>
+        <p class="section-body" style="text-align: center; margin: 0 auto 2rem;">
+            Athlete spotlights. Senior salutes. Behind the scenes. Premiere countdown.
+        </p>
+        <div class="ig-embed-wrap">
+            <a href="https://instagram.com/mountaingoatsmovie" target="_blank" rel="noopener" class="ig-follow-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" style="vertical-align: middle; margin-right: 8px;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                Follow @mountaingoatsmovie
+            </a>
+        </div>
     </div>
 </section>
 
