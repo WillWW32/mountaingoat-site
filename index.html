@@ -830,6 +830,113 @@
             color: #e8a849;
         }
 
+        /* ===================== PRODUCTION TEAM ===================== */
+        .team-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(to bottom, transparent, rgba(232,168,73,0.03), transparent);
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 2rem auto 0;
+        }
+        .team-card {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.02);
+        }
+        .team-initials {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 2px solid #e8a849;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.75rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e8a849;
+        }
+        .team-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .team-role {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #e8a849;
+            margin-bottom: 0.5rem;
+        }
+        .team-card p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.5;
+        }
+
+        /* ===================== SOUNDTRACK ===================== */
+        .soundtrack {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, rgba(232,168,73,0.03), transparent);
+        }
+        .soundtrack .spotify-wrap {
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* ===================== COLLAPSIBLE SECTIONS ===================== */
+        .collapsible-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #e8a849;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1px solid rgba(232,168,73,0.3);
+            background: transparent;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        .collapsible-toggle:hover {
+            background: rgba(232,168,73,0.08);
+            border-color: rgba(232,168,73,0.6);
+        }
+        .collapsible-toggle .arrow {
+            transition: transform 0.3s;
+            font-size: 0.7rem;
+        }
+        .collapsible-toggle.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.6s ease, opacity 0.5s ease, padding 0.5s ease;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .collapsible-content.visible {
+            opacity: 1;
+        }
+
         /* ===================== FOUNDATION ===================== */
         .foundation {
             background: linear-gradient(to bottom, transparent, rgba(232,168,73,0.05), transparent);
@@ -1118,7 +1225,7 @@
         <li><a href="#story">Story</a></li>
         <li><a href="#athletes">Athletes</a></li>
         <li><a href="#filmmakers">Filmmakers</a></li>
-        <li><a href="#foundation">Foundation</a></li>
+        <li><a href="#soundtrack">Soundtrack</a></li>
         <li><a href="#support">Support</a></li>
         <li><a href="#signup">Join</a></li>
     </ul>
@@ -1307,27 +1414,89 @@
     </div>
 </section>
 
+<!-- Production Team -->
+<section id="team" class="team-section">
+    <div class="section-inner fade-in">
+        <p class="section-label" style="text-align: center;">Production Team</p>
+        <h2 class="section-heading" style="text-align: center;">The <span class="gold">team.</span></h2>
+        <div class="divider" style="margin: 1.5rem auto;"></div>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-initials">JB</div>
+                <h3>Jesse Boone</h3>
+                <div class="team-role">Producer / Creator</div>
+                <p>Owner, 3 Birds Studio. 8 years at Rocky Mountain School of Photography, former Varsity Basketball coach, former media arts teacher.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-initials">RT</div>
+                <h3>Roy Tunnell</h3>
+                <div class="team-role">Director</div>
+                <p>Brings decades of filmmaking experience and a vision for authentic documentary storytelling.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-initials">TD</div>
+                <h3>Tim Danyo</h3>
+                <div class="team-role">DP / Editor</div>
+                <p>Owner, Imagination Media. Veteran cinematographer and editor with a gift for visual storytelling.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-initials">KW</div>
+                <h3>Kim Williams</h3>
+                <div class="team-role">Community Outreach</div>
+                <p>Connects the film to the Missoula community and ensures every family feels represented.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-initials">ST</div>
+                <h3>Taylor</h3>
+                <div class="team-role">Cinematographer</div>
+                <p>ShotsbyeTaylor. Captures the raw energy of game action and the quiet moments in between.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Quote -->
 <section class="quote-section fade-in">
     <p class="quote-text">"The game doesn't care where you're from. But where you're from is the whole story."</p>
     <p class="quote-attr"> - Mountain Goats</p>
 </section>
 
-<!-- The Movement -->
-<section class="movement">
+<!-- Soundtrack -->
+<section class="soundtrack" id="soundtrack">
     <div class="section-inner fade-in">
-        <p class="section-label">The Movement</p>
-        <h2 class="section-heading">Build your own <span class="gold">Goat Game.</span></h2>
-        <div class="divider"></div>
-        <p class="section-body">
-            Mountain Goats isn't just a film - it's a blueprint. High school basketball is the purest form of basketball. It's raw, community-driven, and the grind isn't paid for. It takes moms, dads, grandpas, grandmas, coaches, teachers, and an entire community to build these athletes.
+        <p class="section-label">The Soundtrack</p>
+        <h2 class="section-heading">Mountain Goats <span class="gold">Soundtrack.</span></h2>
+        <div class="divider" style="margin: 1.5rem auto;"></div>
+        <p class="section-body" style="text-align: center; margin: 0 auto;">
+            The sound of the season. Every track hand-picked for the film.
         </p>
-        <p class="section-body" style="margin-top: 1rem;">
-            The purpose of this project is to prove what happens when project-based education meets student-powered capability. Pair athletes with student filmmakers. Give them real tools, real stakes, and real freedom. Then step back and let them fly.
-        </p>
-        <p class="section-body" style="margin-top: 1rem;">
-            We want other cities and communities to adopt this model and build their own Goat Games. Every town has this story. Missoula just went first.
-        </p>
+        <div class="spotify-wrap">
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2MhKslaFp1cRdBgjlw6Mbs?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- The Movement (collapsible) -->
+<section class="movement" style="text-align: center; padding-bottom: 2rem;">
+    <div class="section-inner fade-in">
+        <button class="collapsible-toggle" onclick="toggleSection(this, 'movement-content')">
+            The Movement <span class="arrow">&#9660;</span>
+        </button>
+        <div id="movement-content" class="collapsible-content">
+            <div style="padding-top: 2rem;">
+                <h2 class="section-heading">Build your own <span class="gold">Goat Game.</span></h2>
+                <div class="divider" style="margin: 1.5rem auto;"></div>
+                <p class="section-body" style="text-align: center; margin: 0 auto;">
+                    Mountain Goats is not just a film - it is a blueprint. High school basketball is the purest form of basketball. It is raw, community-driven, and the grind is not paid for. It takes moms, dads, grandpas, grandmas, coaches, teachers, and an entire community to build these athletes.
+                </p>
+                <p class="section-body" style="text-align: center; margin: 1rem auto 0;">
+                    The purpose of this project is to prove what happens when project-based education meets student-powered capability. Pair athletes with student filmmakers. Give them real tools, real stakes, and real freedom. Then step back and let them fly.
+                </p>
+                <p class="section-body" style="text-align: center; margin: 1rem auto 0;">
+                    We want other cities and communities to adopt this model and build their own Goat Games. Every town has this story. Missoula just went first.
+                </p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -1341,6 +1510,11 @@
             Mountain Goats is the first project produced by Mountain Goats Media, LLC - an independent media company dedicated to telling authentic stories rooted in community, athletics, and education. Our mission is to build a national storytelling platform while funding opportunities for student filmmakers and athletes through the <span class="foundation-link" onclick="toggleFoundation()">Mountain Goats Foundation</span>.
         </p>
         <div class="mission-entity">Mountain Goats Media, LLC &bull; Missoula, Montana</div>
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <button id="foundation-toggle" class="collapsible-toggle" onclick="toggleFoundation()">
+                The Foundation <span class="arrow">&#9660;</span>
+            </button>
+        </div>
     </div>
 </section>
 
@@ -1383,10 +1557,28 @@
 function toggleFoundation() {
     const section = document.getElementById('foundation');
     section.classList.toggle('visible');
+    const btn = document.getElementById('foundation-toggle');
+    if (btn) btn.classList.toggle('open');
     if (section.classList.contains('visible')) {
         setTimeout(() => {
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
+    }
+}
+
+function toggleSection(btn, contentId) {
+    const content = document.getElementById(contentId);
+    btn.classList.toggle('open');
+    if (content.classList.contains('visible')) {
+        content.classList.remove('visible');
+        content.style.maxHeight = '0';
+        content.style.paddingTop = '0';
+        content.style.paddingBottom = '0';
+    } else {
+        content.classList.add('visible');
+        content.style.maxHeight = content.scrollHeight + 100 + 'px';
+        content.style.paddingTop = '1rem';
+        content.style.paddingBottom = '1rem';
     }
 }
 </script>
