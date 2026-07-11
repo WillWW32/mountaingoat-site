@@ -71,19 +71,18 @@ def main():
         for r in rows[:10]: print("  would sync:", r["started_at"], r["category"], (r["title"] or "")[:40])
         return
 
-    body = json.dumps(rows).encode()
-    req = urllib.request.Request(SB_URL + "/rest/v1/kit_leads", data=body, method="POST", headers={
-        "apikey": SB_KEY, "Authorization": "Bearer " + SB_KEY, "Content-Type": "application/json",
-        "Prefer": "resolution=ignore-duplicates,return=minimal"})
-    try:
-        urllib.request.urlopen(req, timeout=60)
-        print("synced to Supabase (duplicates ignored).")
-    except urllib.error.HTTPError as e:
-        msg = e.read().decode()[:200]
-        if "relation" in msg and "does not exist" in msg:
-            print("TABLE MISSING: run supabase_giveaway_setup.sql in the Supabase SQL editor first.")
-        else:
-            print("supabase error:", e.code, msg)
+    ok = dup = fail = 0
+    for r in rows:
+        req = urllib.request.Request(SB_URL + "/rest/v1/kit_leads", data=json.dumps(r).encode(), method="POST",
+            headers={"apikey": SB_KEY, "Authorization": "Bearer " + SB_KEY,
+                     "Content-Type": "application/json", "Prefer": "return=minimal"})
+        try:
+            urllib.request.urlopen(req, timeout=30); ok += 1
+        except urllib.error.HTTPError as e:
+            msg = e.read().decode()[:160]
+            if e.code == 409 or "duplicate" in msg or "23505" in msg: dup += 1
+            else: fail += 1; print("  row fail:", e.code, msg[:100])
+    print(f"synced: {ok} new, {dup} already there, {fail} failed.")
 
 if __name__ == "__main__":
     main()

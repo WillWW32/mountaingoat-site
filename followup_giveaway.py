@@ -14,10 +14,10 @@ SB_KEY = ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6
           "cm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MDY5OTgsImV4cCI6MjA4NDA4Mjk5OH0.J7bEn5YtQ69WbVMsga5oIEewapJV9Nf8OEK2xWefAYU")
 SECRET = open(os.path.join(HERE, ".worker_secret")).read().strip()
 _env = {}
-for line in open(os.path.join(HERE, ".sendgrid_env")):
+for line in open(os.path.join(HERE, ".mail_env")):
     if "=" in line and not line.startswith("#"):
         k, v = line.strip().split("=", 1); _env[k] = v
-SG_KEY = _env["SENDGRID_API_KEY"]; FROM = _env.get("EMAIL_FROM", "jesse@entreartists.com")
+RESEND_KEY = _env["RESEND_API_KEY"]; FROM = _env.get("EMAIL_FROM", "Mountain Goats <mountaingoats@artflowmail.com>")
 
 def sb(path, body):
     req = urllib.request.Request(SB_URL + path, data=json.dumps(body).encode(), method="POST",
@@ -32,12 +32,9 @@ def config():
     return {r["key"]: r["value"] for r in json.load(urllib.request.urlopen(req, timeout=30))}
 
 def send_email(to, subject, html):
-    body = {"personalizations": [{"to": [{"email": to}]}],
-            "from": {"email": FROM, "name": "Mountain Goats"},
-            "subject": subject,
-            "content": [{"type": "text/html", "value": html}]}
-    req = urllib.request.Request("https://api.sendgrid.com/v3/mail/send", data=json.dumps(body).encode(),
-        headers={"Authorization": "Bearer " + SG_KEY, "Content-Type": "application/json"}, method="POST")
+    body = {"from": FROM, "to": [to], "subject": subject, "html": html}
+    req = urllib.request.Request("https://api.resend.com/emails", data=json.dumps(body).encode(),
+        headers={"Authorization": "Bearer " + RESEND_KEY, "Content-Type": "application/json", "User-Agent": "mountaingoats-worker/1.0", "Accept": "application/json"}, method="POST")
     urllib.request.urlopen(req, timeout=30)
 
 STYLE = "font-family:Arial,Helvetica,sans-serif;background:#0d0d0d;color:#f2ede2;padding:28px;border-radius:12px;max-width:560px;margin:0 auto;"
