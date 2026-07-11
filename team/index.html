@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Mountain Goats — Team Tickets</title>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0a0a0a;color:#f2ede2;font-family:'Inter',sans-serif;min-height:100vh;padding:34px 18px 70px;}
+  .wrap{max-width:760px;margin:0 auto;text-align:center;}
+  img.badge{height:80px;border-radius:8px;}
+  h1{font-family:'Oswald';text-transform:uppercase;letter-spacing:.05em;font-size:clamp(24px,5vw,34px);margin:14px 0 6px;}
+  .gold{color:#e8a849;}
+  .sub{color:rgba(255,255,255,.65);font-size:15px;line-height:1.65;max-width:600px;margin:0 auto;}
+  #player{width:100%;aspect-ratio:16/9;background:#000;border:1px solid rgba(232,168,73,.4);border-radius:12px;overflow:hidden;margin:24px 0 8px;display:none;}
+  #player iframe{width:100%;height:100%;border:0;}
+  #pre{margin:22px 0 4px;font-family:'Oswald';font-size:20px;color:#e8a849;display:none;}
+  .card{background:#141414;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:26px 22px;margin-top:26px;text-align:left;}
+  .card h2{font-family:'Oswald';text-transform:uppercase;letter-spacing:.08em;font-size:17px;color:#e8a849;margin-bottom:6px;text-align:center;}
+  .card p.note{font-size:13px;color:rgba(255,255,255,.55);text-align:center;margin-bottom:16px;}
+  label{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:14px 0 6px;}
+  select,input{width:100%;padding:12px;background:#0f0f0f;border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#fff;font-size:15px;font-family:'Inter',sans-serif;}
+  .seats{display:flex;gap:8px;}
+  .seats button{flex:1;padding:12px 0;background:#0f0f0f;border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#fff;font-family:'Oswald';font-size:17px;cursor:pointer;}
+  .seats button.on{background:#e8a849;color:#111;border-color:#e8a849;font-weight:700;}
+  #claimBtn{width:100%;margin-top:20px;padding:14px;background:#e8a849;border:none;border-radius:9px;font-family:'Oswald';font-weight:700;font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:#111;cursor:pointer;}
+  #claimBtn:disabled{opacity:.45;cursor:default;}
+  #msg{text-align:center;margin-top:12px;font-size:14px;min-height:1.3em;color:rgba(255,255,255,.75);}
+  .done{font-family:'Oswald';font-size:22px;color:#e8a849;text-align:center;margin:8px 0;}
+  .sig-hint{font-size:11.5px;color:rgba(255,255,255,.4);margin-top:5px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img class="badge" src="/assets/badge.png" alt="Mountain Goats">
+  <h1>Team <span class="gold">First</span></h1>
+  <p class="sub">You built this. Before anyone else gets a seat, watch the trailer and sign for your tickets — <b class="gold">up to 5 seats</b>, locked in before the public giveaway opens.</p>
+
+  <div id="pre"></div>
+  <div id="player"></div>
+
+  <div class="card" id="claimCard">
+    <h2>Claim Your Tickets</h2>
+    <p class="note">One claim per team member. Your seats are guaranteed — no drawing, no waitlist.</p>
+    <label>Who are you?</label>
+    <select id="who"><option value="">Loading roster…</option></select>
+    <label>How many seats? (you + family/friends)</label>
+    <div class="seats" id="seats"></div>
+    <label>Guest names (optional — helps us at the door)</label>
+    <input id="guests" placeholder="e.g. Mom, Dad, Grandma Ruth">
+    <label>Sign for your tickets — type your full name</label>
+    <input id="sig" placeholder="Your full name as your signature">
+    <div class="sig-hint">Typing your name counts as your signature claiming these seats.</div>
+    <button id="claimBtn">Claim My Seats</button>
+    <div id="msg"></div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = window.supabase.createClient('https://nrfiomvamfcrvopynfdf.supabase.co',
+ 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yZmlvbXZhbWZjcnZvcHluZmRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MDY5OTgsImV4cCI6MjA4NDA4Mjk5OH0.J7bEn5YtQ69WbVMsga5oIEewapJV9Nf8OEK2xWefAYU');
+const $=id=>document.getElementById(id);
+let SEATS=5, roster=[], claimed=new Set();
+
+async function boot(){
+  // trailer (same source of truth as the rest of the site)
+  const { data: cfg } = await sb.from('site_config').select('key,value');
+  let drop=new Date('2026-07-19T19:00:00-06:00'), url='';
+  (cfg||[]).forEach(r=>{ if(r.key==='trailer_drop_at'&&r.value) drop=new Date(r.value);
+                         if(r.key==='trailer_url') url=r.value; });
+  if(url){ const p=$('player'); p.style.display='block';
+    p.innerHTML='<iframe src="'+url+'" allow="autoplay; fullscreen" allowfullscreen></iframe>'; }
+  else { const pre=$('pre'); pre.style.display='block';
+    pre.textContent='🎬 You get first look — the trailer lands here '+drop.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})+' at '+drop.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})+'.'; }
+  // roster + already-claimed
+  const [{ data: r }, { data: c }] = await Promise.all([
+    sb.from('team_roster').select('name,allocation').order('name'),
+    sb.rpc('team_claimed')
+  ]);
+  roster=(r||[]).filter(x=>x.name!=='TEST'); (c||[]).forEach(x=>claimed.add(x.name.toLowerCase()));
+  const sel=$('who');
+  sel.innerHTML='<option value="">Pick your name…</option>'+roster.map(x=>{
+    const done=claimed.has(x.name.toLowerCase());
+    return '<option value="'+x.name+'"'+(done?' disabled':'')+'>'+x.name+(done?' — claimed ✓':'')+'</option>';
+  }).join('');
+  sel.onchange=()=>{ const row=roster.find(x=>x.name===sel.value); SEATSMAX=row?row.allocation:5; drawSeats(); };
+  drawSeats();
+}
+let SEATSMAX=5, picked=5;
+function drawSeats(){
+  picked=Math.min(picked,SEATSMAX);
+  $('seats').innerHTML='';
+  for(let i=1;i<=SEATSMAX;i++){
+    const b=document.createElement('button'); b.type='button'; b.textContent=i;
+    if(i===picked) b.classList.add('on');
+    b.onclick=()=>{ picked=i; drawSeats(); };
+    $('seats').appendChild(b);
+  }
+}
+$('claimBtn').onclick=async ()=>{
+  const who=$('who').value, sig=$('sig').value.trim(), msg=$('msg');
+  if(!who){ msg.textContent='Pick your name first.'; return; }
+  if(sig.length<4){ msg.textContent='Type your full name as your signature.'; return; }
+  $('claimBtn').disabled=true; msg.textContent='Signing…';
+  const { error } = await sb.from('team_claims').insert({
+    name: who, seats: picked, guest_names: $('guests').value.trim()||null, signature: sig });
+  if(!error){
+    $('claimCard').innerHTML='<div class="done">🎟 '+picked+' seat'+(picked>1?'s':'')+' locked for '+who+'</div>'+
+      '<p class="note">Signed by '+sig.replace(/</g,'&lt;')+'. See you at the screening — details by text/email.</p>';
+  } else if((error.message||'').match(/duplicate|unique/i)){
+    msg.textContent='Those tickets are already claimed for '+who+'. Talk to Jesse if that\'s wrong.';
+    $('claimBtn').disabled=false;
+  } else { msg.textContent='Something went wrong — try again.'; $('claimBtn').disabled=false; }
+};
+boot();
+</script>
+</body>
+</html>
