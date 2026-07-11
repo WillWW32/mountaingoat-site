@@ -105,6 +105,16 @@
     </div>
 
     <div class="card">
+      <h3>Team Tickets <span id="tc-count" style="letter-spacing:0;color:var(--ink-3)"></span></h3>
+      <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>Team member</th><th>Seats</th><th>Guests</th><th>Signed</th><th>When</th></tr></thead>
+        <tbody id="tc-rows"><tr><td colspan="5" style="color:var(--ink-3)">No claims yet — send the crew to mountaingoats.co/team</td></tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="card">
       <h3>Giveaway entries per day</h3>
       <div id="chart"><div id="bars"></div><div class="xlab" id="xlab"></div></div>
       <div class="bar-note" id="chart-note"></div>
@@ -171,7 +181,20 @@ async function refresh(){
   $('t-seats').textContent = seats;
   $('t-signups').textContent = (signupCount==null?'—':signupCount);
   $('updated').textContent = 'Updated '+new Date().toLocaleTimeString()+' · auto-refreshes every 60s';
-  chart(ROWS); table(ROWS); kit();
+  chart(ROWS); table(ROWS); kit(); teamClaims();
+}
+async function teamClaims(){
+  const [{ data: c }, { data: r }] = await Promise.all([
+    sb.from('team_claims').select('*').order('created_at'),
+    sb.from('team_roster').select('name')
+  ]);
+  if (!c) return;
+  const seats=c.reduce((s,x)=>s+(x.seats||0),0);
+  $('tc-count').textContent='('+c.length+' of '+((r||[]).length||'—')+' claimed · '+seats+' seats)';
+  if(c.length) $('tc-rows').innerHTML=c.map(x=>'<tr>'+
+    '<td>'+esc(x.name)+'</td><td>'+x.seats+'</td><td>'+esc(x.guest_names||'—')+'</td>'+
+    '<td>'+esc(x.signature)+'</td>'+
+    '<td>'+new Date(x.created_at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+'</td></tr>').join('');
 }
 async function kit(){
   const KIT_CUTOFF = new Date('2026-07-11T22:00:00Z');   // launch: older backfilled calls stay in DB, hidden here
