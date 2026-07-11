@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mountain Goats | A Basketball Documentary</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/badge.png">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -1253,8 +1255,11 @@
 
 <!-- Navigation -->
 <nav class="nav" id="nav">
-    <a href="#" class="nav-logo" style="visibility: hidden;"></a>
+    <a href="#" class="nav-logo" style="display:flex;align-items:center;">
+        <img src="/assets/badge.png" alt="Mountain Goats" style="height:44px;width:auto;border-radius:6px;">
+    </a>
     <ul class="nav-links">
+        <li><a href="#giveaway" style="color:#e8a849;font-weight:600;">Tickets</a></li>
         <li><a href="#story">Story</a></li>
         <li><a href="#athletes">Athletes</a></li>
         <li><a href="#filmmakers">Filmmakers</a></li>
@@ -1277,7 +1282,7 @@
         <p class="subtitle hero-fade hero-fade-2" style="margin-top: -0.25rem; animation-delay: 1.4s; font-size: clamp(0.95rem, 2.8vw, 1.2rem); letter-spacing: 0.25em; opacity: 0.6;">in the heart of Montana</p>
         <p class="hero-tagline hero-fade hero-fade-3" style="animation-delay: 1.8s;">Built by Montana. Driven by each other.</p>
         <div class="hero-fade hero-fade-4" style="animation-delay: 2.4s;">
-            <div class="premiere-badge">Premiere Coming Soon</div>
+            <a href="#giveaway" style="text-decoration:none;"><div class="premiere-badge">Trailer Coming — Free Ticket Giveaway ➜</div></a>
         </div>
     </div>
     <a href="#story" class="scroll-indicator">
@@ -1285,6 +1290,99 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
     </a>
+</section>
+
+<!-- Trailer Countdown + Ticket Giveaway -->
+<section id="giveaway" style="background:#0d0d0d;border-top:1px solid rgba(232,168,73,.25);border-bottom:1px solid rgba(232,168,73,.25);padding:5rem 1.5rem;">
+  <div style="max-width:880px;margin:0 auto;text-align:center;">
+    <p class="section-label" style="text-align:center;">The Trailer</p>
+    <h2 class="section-heading" style="text-align:center;" id="gv-heading">The trailer drops in</h2>
+    <div id="gv-countdown" style="display:flex;justify-content:center;gap:14px;margin:1.6rem 0 0.6rem;font-family:'Oswald',sans-serif;">
+      <div style="min-width:78px;"><div id="cd-d" style="font-size:3rem;font-weight:700;color:#e8a849;line-height:1;">–</div><div style="font-size:.7rem;letter-spacing:.2em;color:rgba(255,255,255,.55);margin-top:6px;">DAYS</div></div>
+      <div style="min-width:78px;"><div id="cd-h" style="font-size:3rem;font-weight:700;color:#e8a849;line-height:1;">–</div><div style="font-size:.7rem;letter-spacing:.2em;color:rgba(255,255,255,.55);margin-top:6px;">HOURS</div></div>
+      <div style="min-width:78px;"><div id="cd-m" style="font-size:3rem;font-weight:700;color:#e8a849;line-height:1;">–</div><div style="font-size:.7rem;letter-spacing:.2em;color:rgba(255,255,255,.55);margin-top:6px;">MINUTES</div></div>
+      <div style="min-width:78px;"><div id="cd-s" style="font-size:3rem;font-weight:700;color:#e8a849;line-height:1;">–</div><div style="font-size:.7rem;letter-spacing:.2em;color:rgba(255,255,255,.55);margin-top:6px;">SECONDS</div></div>
+    </div>
+    <div id="gv-player" style="display:none;margin:1.4rem auto 0;max-width:840px;aspect-ratio:16/9;background:#000;border:1px solid rgba(232,168,73,.35);border-radius:12px;overflow:hidden;"></div>
+
+    <div style="height:1px;background:rgba(232,168,73,.25);max-width:520px;margin:2.6rem auto;"></div>
+
+    <p class="section-label" style="text-align:center;">Free Community Screening</p>
+    <h3 style="font-family:'Oswald',sans-serif;font-size:1.9rem;text-transform:uppercase;letter-spacing:.04em;margin:.4rem 0 .8rem;">Win Tickets — <span class="gold">Free</span></h3>
+    <p class="section-body" style="text-align:center;margin:0 auto 0.75rem;max-width:640px;">
+      We're not selling tickets to a story this town built — we're giving them away.
+      Register below for the ticket drop.
+      <strong style="color:#e8a849;" id="gv-bonusline">Enter before 24 hours after the trailer drops and every entry counts DOUBLE.</strong>
+    </p>
+
+    <form id="gv-form" style="max-width:560px;margin:1.4rem auto 0;display:grid;gap:10px;grid-template-columns:1fr 1fr;text-align:left;">
+      <input name="name" placeholder="Full name" required style="grid-column:1/-1;padding:.85rem 1rem;background:#161616;border:1px solid rgba(255,255,255,.14);border-radius:8px;color:#fff;font-family:'Inter',sans-serif;">
+      <input name="email" type="email" placeholder="Email" required style="padding:.85rem 1rem;background:#161616;border:1px solid rgba(255,255,255,.14);border-radius:8px;color:#fff;font-family:'Inter',sans-serif;">
+      <input name="phone" type="tel" placeholder="Phone (for ticket alerts)" style="padding:.85rem 1rem;background:#161616;border:1px solid rgba(255,255,255,.14);border-radius:8px;color:#fff;font-family:'Inter',sans-serif;">
+      <select name="party_size" style="padding:.85rem 1rem;background:#161616;border:1px solid rgba(255,255,255,.14);border-radius:8px;color:#fff;font-family:'Inter',sans-serif;">
+        <option value="1">Just me</option><option value="2" selected>2 seats</option><option value="3">3 seats</option><option value="4">4 seats</option>
+      </select>
+      <input name="how_known" placeholder="How do you know the Goats? (optional)" style="padding:.85rem 1rem;background:#161616;border:1px solid rgba(255,255,255,.14);border-radius:8px;color:#fff;font-family:'Inter',sans-serif;">
+      <button id="gv-btn" type="submit" style="grid-column:1/-1;padding:.95rem;background:#e8a849;border:none;border-radius:8px;font-family:'Oswald',sans-serif;font-size:1.05rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#111;cursor:pointer;">Enter the Giveaway</button>
+      <p id="gv-msg" style="grid-column:1/-1;text-align:center;font-size:.9rem;min-height:1.2em;color:rgba(255,255,255,.75);margin:0;"></p>
+    </form>
+    <p style="font-size:.78rem;color:rgba(255,255,255,.4);margin-top:1rem;">One entry per person. Winners get a claim link by email/text — claim by the deadline or seats release to the waitlist. No purchase necessary.</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  (function(){
+    const SB_URL='https://nrfiomvamfcrvopynfdf.supabase.co';
+    const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yZmlvbXZhbWZjcnZvcHluZmRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MDY5OTgsImV4cCI6MjA4NDA4Mjk5OH0.J7bEn5YtQ69WbVMsga5oIEewapJV9Nf8OEK2xWefAYU';
+    const sb = window.supabase.createClient(SB_URL, SB_KEY);
+    let dropAt = new Date('2026-07-19T19:00:00-06:00'); // fallback; real value loads from site_config
+    let trailerUrl = '';
+
+    sb.from('site_config').select('key,value').then(({data})=>{
+      (data||[]).forEach(r=>{
+        if(r.key==='trailer_drop_at' && r.value) dropAt = new Date(r.value);
+        if(r.key==='trailer_url') trailerUrl = r.value;
+      });
+    });
+
+    const $=id=>document.getElementById(id);
+    function tick(){
+      const now=new Date(), diff=dropAt-now;
+      if(diff<=0){
+        $('gv-countdown').style.display='none';
+        $('gv-heading').textContent='The trailer is here';
+        if(trailerUrl){ const p=$('gv-player'); if(p.style.display==='none'){ p.style.display='block';
+          p.innerHTML='<iframe src="'+trailerUrl+'" style="width:100%;height:100%;border:0;" allow="autoplay; fullscreen" allowfullscreen></iframe>'; } }
+        const end=new Date(dropAt.getTime()+24*3600*1000);
+        $('gv-bonusline').textContent = now<end ? 'DOUBLE-ENTRY WINDOW IS LIVE — enter in the next '+Math.ceil((end-now)/3600000)+' hours and your entry counts twice.' : 'The ticket drop is coming — enter now so you don\'t miss it.';
+        return;
+      }
+      const d=Math.floor(diff/86400000),h=Math.floor(diff/3600000)%24,m=Math.floor(diff/60000)%60,s=Math.floor(diff/1000)%60;
+      $('cd-d').textContent=d; $('cd-h').textContent=String(h).padStart(2,'0');
+      $('cd-m').textContent=String(m).padStart(2,'0'); $('cd-s').textContent=String(s).padStart(2,'0');
+    }
+    setInterval(tick,1000); tick();
+
+    document.getElementById('gv-form').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const f=e.target, btn=$('gv-btn'), msg=$('gv-msg');
+      btn.disabled=true; btn.textContent='Entering…'; msg.textContent='';
+      const row={ name:f.name.value.trim(), email:f.email.value.trim().toLowerCase(),
+                  phone:f.phone.value.trim()||null, party_size:parseInt(f.party_size.value,10),
+                  how_known:f.how_known.value.trim()||null };
+      const { error } = await sb.from('giveaway_entries').insert(row);
+      if(!error){
+        f.style.display='none';
+        msg.textContent='You\'re in! Watch your email/text for the ticket drop. 🏀';
+        msg.style.color='#e8a849'; msg.style.fontSize='1.05rem';
+      } else if((error.message||'').match(/duplicate|unique/i)){
+        msg.textContent='You\'re already entered with that email — you\'re good!';
+      } else {
+        msg.textContent='Something went wrong — try again.'; btn.disabled=false; btn.textContent='Enter the Giveaway';
+      }
+    });
+  })();
+  </script>
 </section>
 
 <!-- Story -->
@@ -1465,8 +1563,14 @@
             <div class="team-card">
                 <div class="team-initials">RT</div>
                 <h3>Roy Tunnell</h3>
-                <div class="team-role">Director</div>
+                <div class="team-role">Filmmaker</div>
                 <p>Brings decades of filmmaking experience and a vision for authentic documentary storytelling.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-initials">JO</div>
+                <h3>Jerrick Olson</h3>
+                <div class="team-role">Filmmaker</div>
+                <p>Professional filmmaker lending seasoned craft to the crew — helping the student-led team hit a cinematic standard without losing its homegrown voice.</p>
             </div>
             <div class="team-card">
                 <div class="team-initials">TD</div>
@@ -1485,6 +1589,18 @@
                 <h3>Taylor</h3>
                 <div class="team-role">Cinematographer</div>
                 <p>ShotsbyeTaylor. Captures the raw energy of game action and the quiet moments in between.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-initials">SE</div>
+                <h3>Sydney Emond</h3>
+                <div class="team-role">Photographer</div>
+                <p>Captures the still moments that tell the story — from game-day intensity to behind-the-scenes emotion.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-initials">CP</div>
+                <h3>Christian Palmer</h3>
+                <div class="team-role">Consultant</div>
+                <p>Strategic guidance and industry insight to help Mountain Goats reach the widest possible audience.</p>
             </div>
         </div>
     </div>
@@ -1704,6 +1820,15 @@ function toggleSection(btn, contentId) {
             btn.disabled = true;
             btn.textContent = 'Submitting...';
             errEl.style.display = 'none';
+
+            // Mirror to our own Supabase so we can see the list (fire-and-forget)
+            try {
+                const SB='https://nrfiomvamfcrvopynfdf.supabase.co';
+                const K='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yZmlvbXZhbWZjcnZvcHluZmRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MDY5OTgsImV4cCI6MjA4NDA4Mjk5OH0.J7bEn5YtQ69WbVMsga5oIEewapJV9Nf8OEK2xWefAYU';
+                fetch(SB+'/rest/v1/signups', { method:'POST',
+                    headers:{ apikey:K, Authorization:'Bearer '+K, 'Content-Type':'application/json', Prefer:'return=minimal' },
+                    body: JSON.stringify({ first_name, email: email.toLowerCase() }) }).catch(()=>{});
+            } catch(_) {}
 
             try {
                 const res = await fetch('https://artflowpro.io/api/forms/submit', {

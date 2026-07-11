@@ -1,0 +1,4 @@
+# local-only: contains worker RPC secret
+supabase_giveaway_setup.sql
+_trailer_qr_b64.txt
+.claude/

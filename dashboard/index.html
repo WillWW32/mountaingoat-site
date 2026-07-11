@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Mountain Goats — Dashboard</title>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --surface:#0d0d0d; --card:#151515; --line:rgba(255,255,255,.09);
+    --ink:#f2ede2; --ink-2:rgba(255,255,255,.62); --ink-3:rgba(255,255,255,.38);
+    --accent:#e8a849;        /* brand chrome */
+    --mark:#c07f22;          /* validated chart mark on dark */
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--surface);color:var(--ink);font-family:'Inter',sans-serif;min-height:100vh;}
+  .wrap{max-width:1060px;margin:0 auto;padding:28px 20px 60px;}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:26px;}
+  header img{height:46px;border-radius:6px;}
+  header h1{font-family:'Oswald';font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:.06em;}
+  header .sub{color:var(--ink-3);font-size:12px;margin-top:2px;}
+  .spacer{flex:1;}
+  button{cursor:pointer;font-family:'Inter',sans-serif;}
+  .ghost{background:none;border:1px solid var(--line);color:var(--ink-2);border-radius:8px;padding:8px 14px;font-size:12.5px;}
+  .ghost:hover{border-color:var(--accent);color:var(--ink);}
+  /* login */
+  .login{max-width:360px;margin:12vh auto 0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px;}
+  .login h2{font-family:'Oswald';font-size:18px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;}
+  .login input{width:100%;padding:11px 12px;margin-bottom:10px;background:#0f0f0f;border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:14px;}
+  .login button.go{width:100%;padding:11px;background:var(--accent);color:#111;border:none;border-radius:8px;font-family:'Oswald';font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+  .login .err{color:#e07a6a;font-size:12.5px;min-height:1.2em;margin-top:6px;}
+  /* tiles */
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:22px;}
+  .tile{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:12px;padding:16px 16px 14px;}
+  .tile .lab{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);}
+  .tile .val{font-family:'Oswald';font-weight:700;font-size:34px;line-height:1.1;margin-top:6px;color:var(--ink);}
+  .tile .note{font-size:11px;color:var(--ink-2);margin-top:3px;}
+  /* chart card */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:22px;}
+  .card h3{font-family:'Oswald';font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:14px;}
+  #chart{position:relative;height:180px;}
+  #chart .grid{position:absolute;left:34px;right:0;border-top:1px solid var(--line);}
+  #chart .gl{position:absolute;left:0;transform:translateY(-50%);font-size:10px;color:var(--ink-3);}
+  #bars{position:absolute;left:34px;right:0;bottom:18px;top:4px;display:flex;align-items:flex-end;gap:2px;}
+  .bar{flex:1;background:var(--mark);border-radius:4px 4px 0 0;min-height:2px;position:relative;}
+  .bar:hover{filter:brightness(1.25);}
+  .bar .dl{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10.5px;color:var(--ink-2);}
+  .xlab{position:absolute;bottom:0;left:34px;right:0;display:flex;gap:2px;}
+  .xlab div{flex:1;text-align:center;font-size:9.5px;color:var(--ink-3);overflow:hidden;white-space:nowrap;}
+  #tip{position:fixed;pointer-events:none;background:#1f1f1f;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:12px;display:none;z-index:9;box-shadow:0 6px 18px rgba(0,0,0,.5);}
+  #tip b{color:var(--accent);}
+  /* table */
+  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  th{font-family:'Oswald';font-weight:500;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);}
+  td{padding:8px 10px;border-bottom:1px solid var(--line);color:var(--ink-2);}
+  td:first-child{color:var(--ink);font-weight:500;}
+  .pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:10.5px;border:1px solid var(--line);}
+  .pill.x2{border-color:var(--accent);color:var(--accent);}
+  .bar-note{font-size:11px;color:var(--ink-3);margin-top:10px;}
+  .hide{display:none!important;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- LOGIN -->
+  <div class="login" id="login">
+    <h2>Goats <span style="color:var(--accent)">Dashboard</span></h2>
+    <input id="li-email" type="email" placeholder="Email" autocomplete="username">
+    <input id="li-pass" type="password" placeholder="Password" autocomplete="current-password">
+    <button class="go" id="li-go">Sign in</button>
+    <div class="err" id="li-err"></div>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="hide">
+    <header>
+      <img src="/assets/badge.png" alt="">
+      <div>
+        <h1>Launch Dashboard</h1>
+        <div class="sub" id="updated">—</div>
+      </div>
+      <div class="spacer"></div>
+      <button class="ghost" id="csv">Export CSV</button>
+      <button class="ghost" id="out">Sign out</button>
+    </header>
+
+    <div class="tiles">
+      <div class="tile"><div class="lab">Giveaway entries</div><div class="val" id="t-entries">–</div><div class="note" id="t-entries-n"></div></div>
+      <div class="tile"><div class="lab">Weighted entries</div><div class="val" id="t-weighted">–</div><div class="note">what the drawing uses</div></div>
+      <div class="tile"><div class="lab">Double-entry (2×)</div><div class="val" id="t-double">–</div><div class="note">entered in bonus window</div></div>
+      <div class="tile"><div class="lab">Seats requested</div><div class="val" id="t-seats">–</div><div class="note">sum of party sizes</div></div>
+      <div class="tile"><div class="lab">Email signups</div><div class="val" id="t-signups">–</div><div class="note">homepage list (mirror)</div></div>
+    </div>
+
+    <div class="card">
+      <h3>Giveaway entries per day</h3>
+      <div id="chart"><div id="bars"></div><div class="xlab" id="xlab"></div></div>
+      <div class="bar-note" id="chart-note"></div>
+    </div>
+
+    <div class="card">
+      <h3>Phone Leads — Kit <span id="kit-count" style="letter-spacing:0;color:var(--ink-3)"></span></h3>
+      <div class="tiles" style="margin-bottom:14px;">
+        <div class="tile"><div class="lab">Real leads</div><div class="val" id="k-leads">–</div><div class="note" id="k-new"></div></div>
+        <div class="tile"><div class="lab">Calls handled</div><div class="val" id="k-total">–</div><div class="note">all time</div></div>
+        <div class="tile"><div class="lab">Spam blocked</div><div class="val" id="k-spam">–</div><div class="note">Kit hung up for you</div></div>
+      </div>
+      <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>When</th><th>Caller</th><th>Call</th><th>Summary</th><th>Status</th><th></th></tr></thead>
+        <tbody id="kit-rows"><tr><td colspan="6" style="color:var(--ink-3)">No leads synced yet — run the SQL, then sync_kit_leads.py fills this.</td></tr></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Entries <span id="tbl-count" style="letter-spacing:0;color:var(--ink-3)"></span></h3>
+      <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Party</th><th>Entries</th><th>Follow-up</th><th>How they know the Goats</th><th>When</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="tip"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB_URL='https://nrfiomvamfcrvopynfdf.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yZmlvbXZhbWZjcnZvcHluZmRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MDY5OTgsImV4cCI6MjA4NDA4Mjk5OH0.J7bEn5YtQ69WbVMsga5oIEewapJV9Nf8OEK2xWefAYU';
+const sb = window.supabase.createClient(SB_URL, SB_KEY);
+const $ = id => document.getElementById(id);
+let ROWS = [];
+
+async function boot(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if (session) { $('login').classList.add('hide'); $('app').classList.remove('hide'); refresh(); }
+}
+$('li-go').onclick = async ()=>{
+  $('li-err').textContent='';
+  const { error } = await sb.auth.signInWithPassword({ email: $('li-email').value.trim(), password: $('li-pass').value });
+  if (error) { $('li-err').textContent = error.message; return; }
+  boot();
+};
+$('li-pass').addEventListener('keydown',e=>{ if(e.key==='Enter') $('li-go').click(); });
+$('out').onclick = async ()=>{ await sb.auth.signOut(); location.reload(); };
+
+async function refresh(){
+  const [{ data: entries, error: e1 }, { count: signupCount }] = await Promise.all([
+    sb.from('giveaway_entries').select('*').order('created_at',{ascending:false}).limit(2000),
+    sb.from('signups').select('*',{count:'exact',head:true})
+  ]);
+  if (e1) { $('updated').textContent = 'Read error: '+e1.message+' (did you run the SQL + create your login?)'; return; }
+  ROWS = entries||[];
+  const weighted = ROWS.reduce((s,r)=>s+(r.entry_weight||1),0);
+  const doubles  = ROWS.filter(r=>r.entry_weight===2).length;
+  const seats    = ROWS.reduce((s,r)=>s+(r.party_size||1),0);
+  $('t-entries').textContent = ROWS.length;
+  const today = ROWS.filter(r=>new Date(r.created_at).toDateString()===new Date().toDateString()).length;
+  $('t-entries-n').textContent = today+' today';
+  $('t-weighted').textContent = weighted;
+  $('t-double').textContent = doubles;
+  $('t-seats').textContent = seats;
+  $('t-signups').textContent = (signupCount==null?'—':signupCount);
+  $('updated').textContent = 'Updated '+new Date().toLocaleTimeString()+' · auto-refreshes every 60s';
+  chart(ROWS); table(ROWS); kit();
+}
+async function kit(){
+  const { data, error } = await sb.from('kit_leads').select('*').order('started_at',{ascending:false});
+  if (error || !data) return;                       // table not created yet
+  const leads=data.filter(r=>r.category==='lead'), spam=data.filter(r=>r.category==='spam');
+  $('k-leads').textContent=leads.length;
+  $('k-new').textContent=leads.filter(r=>r.status==='new').length+' awaiting callback';
+  $('k-total').textContent=data.length; $('k-spam').textContent=spam.length;
+  $('kit-count').textContent='('+data.length+' calls)';
+  const show=data.filter(r=>r.category!=='spam').slice(0,60);
+  $('kit-rows').innerHTML = show.map(r=>'<tr>'+
+    '<td>'+(r.started_at?new Date(r.started_at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'—')+'</td>'+
+    '<td>'+esc(r.from_number||'—')+'</td>'+
+    '<td>'+esc(r.title||'—')+(r.category==='lead'?' <span class="pill x2">LEAD</span>':'')+'</td>'+
+    '<td style="max-width:340px;">'+esc((r.summary||'').slice(0,160))+'</td>'+
+    '<td>'+esc(r.status)+'</td>'+
+    '<td>'+(r.status==='new'?'<button class="ghost" onclick="markCalled(\''+r.id+'\')">Called back</button>':'')+'</td>'+
+    '</tr>').join('') || '<tr><td colspan="6" style="color:var(--ink-3)">No non-spam calls yet.</td></tr>';
+}
+window.markCalled = async (id)=>{
+  await sb.from('kit_leads').update({status:'called_back'}).eq('id',id); kit();
+};
+function chart(rows){
+  const days=21, byDay={}, labels=[];
+  for(let i=days-1;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i);
+    const k=d.toISOString().slice(0,10); byDay[k]=0;
+    labels.push(d.toLocaleDateString(undefined,{month:'numeric',day:'numeric'})); }
+  rows.forEach(r=>{ const k=(r.created_at||'').slice(0,10); if(k in byDay) byDay[k]++; });
+  const vals=Object.values(byDay), max=Math.max(1,...vals);
+  const bars=$('bars'); bars.innerHTML='';
+  const grid=$('chart'); grid.querySelectorAll('.grid,.gl').forEach(n=>n.remove());
+  [0,.5,1].forEach(f=>{ const y=4+(1-f)*(180-22-4);
+    const g=document.createElement('div'); g.className='grid'; g.style.top=y+'px'; grid.appendChild(g);
+    const l=document.createElement('div'); l.className='gl'; l.style.top=y+'px'; l.textContent=Math.round(max*f); grid.appendChild(l); });
+  const keys=Object.keys(byDay);
+  vals.forEach((v,i)=>{
+    const b=document.createElement('div'); b.className='bar';
+    b.style.height=(v/max*100)+'%';
+    if(v===max&&v>0||i===vals.length-1&&v>0){ const dl=document.createElement('div'); dl.className='dl'; dl.textContent=v; b.appendChild(dl); }
+    b.onmousemove=e=>{ const t=$('tip'); t.style.display='block';
+      t.innerHTML='<b>'+v+'</b> entr'+(v===1?'y':'ies')+' · '+labels[i];
+      t.style.left=(e.clientX+12)+'px'; t.style.top=(e.clientY-10)+'px'; };
+    b.onmouseleave=()=>{ $('tip').style.display='none'; };
+    bars.appendChild(b);
+  });
+  const xl=$('xlab'); xl.innerHTML='';
+  labels.forEach((L,i)=>{ const d=document.createElement('div'); d.textContent=(i%3===0)?L:''; xl.appendChild(d); });
+  $('chart-note').textContent='Last '+days+' days · hover a bar for the exact count';
+}
+function table(rows){
+  $('tbl-count').textContent='('+rows.length+')';
+  $('rows').innerHTML = rows.slice(0,400).map(r=>'<tr>'+
+    '<td>'+esc(r.name)+'</td><td>'+esc(r.email)+'</td><td>'+esc(r.phone||'—')+'</td>'+
+    '<td>'+(r.party_size||1)+'</td>'+
+    '<td><span class="pill'+(r.entry_weight===2?' x2':'')+'">'+(r.entry_weight===2?'2× ':'1× ')+'</span></td>'+
+    '<td>'+(r.welcome_sent_at?'<span class="pill" style="border-color:#3f8f5f;color:#7fce9f;">welcomed ✓</span>':'<span class="pill">queued…</span>')+(r.drop_reminder_sent_at?' <span class="pill x2">drop ✓</span>':'')+'</td>'+
+    '<td>'+esc(r.how_known||'—')+'</td>'+
+    '<td>'+new Date(r.created_at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+'</td></tr>').join('');
+}
+function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+$('csv').onclick=()=>{
+  const head=['name','email','phone','party_size','entry_weight','how_known','status','created_at'];
+  const csv=[head.join(',')].concat(ROWS.map(r=>head.map(k=>'"'+String(r[k]??'').replace(/"/g,'""')+'"').join(','))).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download='giveaway_entries.csv'; a.click();
+};
+setInterval(()=>{ if(!$('app').classList.contains('hide')) refresh(); },60000);
+boot();
+</script>
+</body>
+</html>
