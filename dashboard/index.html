@@ -95,6 +95,16 @@
     </div>
 
     <div class="card">
+      <h3>Entries <span id="tbl-count" style="letter-spacing:0;color:var(--ink-3)"></span></h3>
+      <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Party</th><th>Entries</th><th>Follow-up</th><th>How they know the Goats</th><th>When</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="card">
       <h3>Giveaway entries per day</h3>
       <div id="chart"><div id="bars"></div><div class="xlab" id="xlab"></div></div>
       <div class="bar-note" id="chart-note"></div>
@@ -104,26 +114,20 @@
       <h3>Phone Leads — Kit <span id="kit-count" style="letter-spacing:0;color:var(--ink-3)"></span></h3>
       <div class="tiles" style="margin-bottom:14px;">
         <div class="tile"><div class="lab">Real leads</div><div class="val" id="k-leads">–</div><div class="note" id="k-new"></div></div>
-        <div class="tile"><div class="lab">Calls handled</div><div class="val" id="k-total">–</div><div class="note">all time</div></div>
+        <div class="tile"><div class="lab">Calls handled</div><div class="val" id="k-total">–</div><div class="note">since launch</div></div>
         <div class="tile"><div class="lab">Spam blocked</div><div class="val" id="k-spam">–</div><div class="note">Kit hung up for you</div></div>
       </div>
       <div style="overflow-x:auto;">
       <table>
         <thead><tr><th>When</th><th>Caller</th><th>Call</th><th>Summary</th><th>Status</th><th></th></tr></thead>
-        <tbody id="kit-rows"><tr><td colspan="6" style="color:var(--ink-3)">No leads synced yet — run the SQL, then sync_kit_leads.py fills this.</td></tr></tbody>
+        <tbody id="kit-rows"><tr><td colspan="6" style="color:var(--ink-3)">No calls since launch — Kit's on duty. New calls appear here within 15 minutes.</td></tr></tbody>
       </table>
       </div>
     </div>
 
-    <div class="card">
-      <h3>Entries <span id="tbl-count" style="letter-spacing:0;color:var(--ink-3)"></span></h3>
-      <div style="overflow-x:auto;">
-      <table>
-        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Party</th><th>Entries</th><th>Follow-up</th><th>How they know the Goats</th><th>When</th></tr></thead>
-        <tbody id="rows"></tbody>
-      </table>
-      </div>
-    </div>
+    
+
+    
   </div>
 </div>
 <div id="tip"></div>
@@ -170,8 +174,10 @@ async function refresh(){
   chart(ROWS); table(ROWS); kit();
 }
 async function kit(){
-  const { data, error } = await sb.from('kit_leads').select('*').order('started_at',{ascending:false});
+  const KIT_CUTOFF = new Date('2026-07-11T22:00:00Z');   // launch: older backfilled calls stay in DB, hidden here
+  let { data, error } = await sb.from('kit_leads').select('*').order('started_at',{ascending:false});
   if (error || !data) return;                       // table not created yet
+  data = data.filter(r => r.started_at && new Date(r.started_at) >= KIT_CUTOFF);
   const leads=data.filter(r=>r.category==='lead'), spam=data.filter(r=>r.category==='spam');
   $('k-leads').textContent=leads.length;
   $('k-new').textContent=leads.filter(r=>r.status==='new').length+' awaiting callback';
@@ -185,7 +191,7 @@ async function kit(){
     '<td style="max-width:340px;">'+esc((r.summary||'').slice(0,160))+'</td>'+
     '<td>'+esc(r.status)+'</td>'+
     '<td>'+(r.status==='new'?'<button class="ghost" onclick="markCalled(\''+r.id+'\')">Called back</button>':'')+'</td>'+
-    '</tr>').join('') || '<tr><td colspan="6" style="color:var(--ink-3)">No non-spam calls yet.</td></tr>';
+    '</tr>').join('') || '<tr><td colspan="6" style="color:var(--ink-3)">No calls since launch — Kit\'s on duty.</td></tr>';
 }
 window.markCalled = async (id)=>{
   await sb.from('kit_leads').update({status:'called_back'}).eq('id',id); kit();
