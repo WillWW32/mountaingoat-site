@@ -28,7 +28,7 @@
 <script>
 const SB='https://nrfiomvamfcrvopynfdf.supabase.co';
 const K='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yZmlvbXZhbWZjcnZvcHluZmRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MDY5OTgsImV4cCI6MjA4NDA4Mjk5OH0.J7bEn5YtQ69WbVMsga5oIEewapJV9Nf8OEK2xWefAYU';
-let drop=new Date('2026-07-19T19:00:00-06:00'), url='';
+let drop=new Date('2026-07-20T15:00:00-06:00'), url='';
 fetch(SB+'/rest/v1/site_config?select=key,value',{headers:{apikey:K,Authorization:'Bearer '+K}})
  .then(r=>r.json()).then(rows=>{(rows||[]).forEach(r=>{
    if(r.key==='trailer_drop_at'&&r.value) drop=new Date(r.value);

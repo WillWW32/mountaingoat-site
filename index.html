@@ -1335,7 +1335,7 @@
     const SB_URL='https://nrfiomvamfcrvopynfdf.supabase.co';
     const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yZmlvbXZhbWZjcnZvcHluZmRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MDY5OTgsImV4cCI6MjA4NDA4Mjk5OH0.J7bEn5YtQ69WbVMsga5oIEewapJV9Nf8OEK2xWefAYU';
     const sb = window.supabase.createClient(SB_URL, SB_KEY);
-    let dropAt = new Date('2026-07-19T19:00:00-06:00'); // fallback; real value loads from site_config
+    let dropAt = new Date('2026-07-20T15:00:00-06:00'); // fallback; real value loads from site_config
     let trailerUrl = '';
 
     sb.from('site_config').select('key,value').then(({data})=>{

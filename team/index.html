@@ -67,7 +67,7 @@ let SEATS=5, roster=[], claimed=new Set();
 async function boot(){
   // trailer (same source of truth as the rest of the site)
   const { data: cfg } = await sb.from('site_config').select('key,value');
-  let drop=new Date('2026-07-19T19:00:00-06:00'), url='';
+  let drop=new Date('2026-07-20T15:00:00-06:00'), url='';
   (cfg||[]).forEach(r=>{ if(r.key==='trailer_drop_at'&&r.value) drop=new Date(r.value);
                          if(r.key==='trailer_url') url=r.value; });
   if(url){ const p=$('player'); p.style.display='block';
