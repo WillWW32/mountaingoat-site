@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
-<title>Mountain Goats — Team Tickets</title>
+<title>Mountain Goats Team Tickets</title>
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -36,21 +36,21 @@
 <div class="wrap">
   <img class="badge" src="/assets/badge.png" alt="Mountain Goats">
   <h1>Team <span class="gold">First</span></h1>
-  <p class="sub">You built this. Before anyone else gets a seat, watch the trailer and sign for your tickets — <b class="gold">up to 5 seats</b>, locked in before the public giveaway opens.</p>
+  <p class="sub">You built this. Before anyone else gets a seat, watch the trailer and sign for your tickets: <b class="gold">up to 5 seats</b>, locked in before the public giveaway opens.</p>
 
   <div id="pre"></div>
   <div id="player"></div>
 
   <div class="card" id="claimCard">
     <h2>Claim Your Tickets</h2>
-    <p class="note">One claim per team member. Your seats are guaranteed — no drawing, no waitlist.</p>
+    <p class="note">One claim per team member. Your seats are guaranteed. No drawing, no waitlist.</p>
     <label>Who are you?</label>
     <select id="who"><option value="">Loading roster…</option></select>
     <label>How many seats? (you + family/friends)</label>
     <div class="seats" id="seats"></div>
-    <label>Guest names (optional — helps us at the door)</label>
+    <label>Guest names (optional, helps us at the door)</label>
     <input id="guests" placeholder="e.g. Mom, Dad, Grandma Ruth">
-    <label>Sign for your tickets — type your full name</label>
+    <label>Sign for your tickets by typing your full name</label>
     <input id="sig" placeholder="Your full name as your signature">
     <div class="sig-hint">Typing your name counts as your signature claiming these seats.</div>
     <button id="claimBtn">Claim My Seats</button>
@@ -73,7 +73,7 @@ async function boot(){
   if(url){ const p=$('player'); p.style.display='block';
     p.innerHTML='<iframe src="'+url+'" allow="autoplay; fullscreen" allowfullscreen></iframe>'; }
   else { const pre=$('pre'); pre.style.display='block';
-    pre.textContent='🎬 You get first look — the trailer lands here '+drop.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})+' at '+drop.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})+'.'; }
+    pre.textContent='🎬 You get first look. The trailer lands here '+drop.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})+' at '+drop.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})+'.'; }
   // roster + already-claimed
   const [{ data: r }, { data: c }] = await Promise.all([
     sb.from('team_roster').select('name,allocation').order('name'),
@@ -83,7 +83,7 @@ async function boot(){
   const sel=$('who');
   sel.innerHTML='<option value="">Pick your name…</option>'+roster.map(x=>{
     const done=claimed.has(x.name.toLowerCase());
-    return '<option value="'+x.name+'"'+(done?' disabled':'')+'>'+x.name+(done?' — claimed ✓':'')+'</option>';
+    return '<option value="'+x.name+'"'+(done?' disabled':'')+'>'+x.name+(done?' (claimed ✓)':'')+'</option>';
   }).join('');
   sel.onchange=()=>{ const row=roster.find(x=>x.name===sel.value); SEATSMAX=row?row.allocation:5; drawSeats(); };
   drawSeats();
@@ -108,7 +108,7 @@ $('claimBtn').onclick=async ()=>{
     name: who, seats: picked, guest_names: $('guests').value.trim()||null, signature: sig });
   if(!error){
     $('claimCard').innerHTML='<div class="done">🎟 '+picked+' seat'+(picked>1?'s':'')+' locked for '+who+'</div>'+
-      '<p class="note">Signed by '+sig.replace(/</g,'&lt;')+'. See you at the screening — details by text/email.</p>';
+      '<p class="note">Signed by '+sig.replace(/</g,'&lt;')+'. See you at the screening. Details by text or email.</p>';
   } else if((error.message||'').match(/duplicate|unique/i)){
     msg.textContent='Those tickets are already claimed for '+who+'. Talk to Jesse if that\'s wrong.';
     $('claimBtn').disabled=false;

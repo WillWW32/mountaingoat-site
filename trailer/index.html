@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mountain Goats — Trailer</title>
+<title>Mountain Goats Trailer</title>
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -23,7 +23,7 @@
   <h1 id="head">The trailer drops in</h1>
   <div id="cd">—</div>
   <div id="player"></div>
-  <p class="sub" id="sub">A Hoop Dreams-style documentary about the kids Missoula raised. Enter the free ticket giveaway — early entries count double.</p>
+  <p class="sub" id="sub">A Hoop Dreams-style documentary about the kids Missoula raised. Enter the free ticket giveaway. Early entries count double.</p>
   <a class="btn" href="/#giveaway">Enter the Ticket Giveaway</a>
 <script>
 const SB='https://nrfiomvamfcrvopynfdf.supabase.co';
@@ -36,11 +36,11 @@ fetch(SB+'/rest/v1/site_config?select=key,value',{headers:{apikey:K,Authorizatio
 function tick(){
   const now=new Date(), d=drop-now;
   if(d<=0 && url){
-    document.getElementById('head').innerHTML='Mountain <span class="gold">Goats</span> — Official Trailer';
+    document.getElementById('head').innerHTML='Mountain <span class="gold">Goats</span>: Official Trailer';
     document.getElementById('cd').style.display='none';
     const p=document.getElementById('player');
     if(p.style.display!=='block'){p.style.display='block';p.innerHTML='<iframe src="'+url+'" allow="autoplay; fullscreen" allowfullscreen></iframe>';}
-    document.getElementById('sub').textContent='Share it — and enter the free ticket giveaway for the community screening.';
+    document.getElementById('sub').textContent='Share it, then enter the free ticket giveaway for the community screening.';
     return;
   }
   if(d<=0){ document.getElementById('cd').textContent='Any minute now…'; setTimeout(tick,30000); return; }

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
-<title>Mountain Goats — Dashboard</title>
+<title>Mountain Goats Dashboard</title>
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -60,6 +60,13 @@
   .pill.x2{border-color:var(--accent);color:var(--accent);}
   .bar-note{font-size:11px;color:var(--ink-3);margin-top:10px;}
   .hide{display:none!important;}
+  td.howk{max-width:180px;font-size:11px;line-height:1.4;color:var(--ink-3);white-space:normal;word-break:break-word;}
+  @media (max-width:640px){
+    table{font-size:11px;}
+    th,td{padding:6px 6px;}
+    td.howk{max-width:110px;font-size:10px;}
+    .tile .val{font-size:26px;}
+  }
 </style>
 </head>
 <body>
@@ -109,7 +116,7 @@
       <div style="overflow-x:auto;">
       <table>
         <thead><tr><th>Team member</th><th>Seats</th><th>Guests</th><th>Signed</th><th>When</th></tr></thead>
-        <tbody id="tc-rows"><tr><td colspan="5" style="color:var(--ink-3)">No claims yet — send the crew to mountaingoats.co/team</td></tr></tbody>
+        <tbody id="tc-rows"><tr><td colspan="5" style="color:var(--ink-3)">No claims yet. Send the crew to mountaingoats.co/team</td></tr></tbody>
       </table>
       </div>
     </div>
@@ -130,7 +137,7 @@
       <div style="overflow-x:auto;">
       <table>
         <thead><tr><th>When</th><th>Caller</th><th>Call</th><th>Summary</th><th>Status</th><th></th></tr></thead>
-        <tbody id="kit-rows"><tr><td colspan="6" style="color:var(--ink-3)">No calls since launch — Kit's on duty. New calls appear here within 15 minutes.</td></tr></tbody>
+        <tbody id="kit-rows"><tr><td colspan="6" style="color:var(--ink-3)">No calls since launch. Kit is on duty and new calls appear here within 15 minutes.</td></tr></tbody>
       </table>
       </div>
     </div>
@@ -214,7 +221,7 @@ async function kit(){
     '<td style="max-width:340px;">'+esc((r.summary||'').slice(0,160))+'</td>'+
     '<td>'+esc(r.status)+'</td>'+
     '<td>'+(r.status==='new'?'<button class="ghost" onclick="markCalled(\''+r.id+'\')">Called back</button>':'')+'</td>'+
-    '</tr>').join('') || '<tr><td colspan="6" style="color:var(--ink-3)">No calls since launch — Kit\'s on duty.</td></tr>';
+    '</tr>').join('') || '<tr><td colspan="6" style="color:var(--ink-3)">No calls since launch. Kit\'s on duty.</td></tr>';
 }
 window.markCalled = async (id)=>{
   await sb.from('kit_leads').update({status:'called_back'}).eq('id',id); kit();
@@ -253,7 +260,7 @@ function table(rows){
     '<td>'+(r.party_size||1)+'</td>'+
     '<td><span class="pill'+(r.entry_weight===2?' x2':'')+'">'+(r.entry_weight===2?'2× ':'1× ')+'</span></td>'+
     '<td>'+(r.welcome_sent_at?'<span class="pill" style="border-color:#3f8f5f;color:#7fce9f;">welcomed ✓</span>':'<span class="pill">queued…</span>')+(r.drop_reminder_sent_at?' <span class="pill x2">drop ✓</span>':'')+'</td>'+
-    '<td>'+esc(r.how_known||'—')+'</td>'+
+    '<td class="howk">'+esc(r.how_known||'-')+'</td>'+
     '<td>'+new Date(r.created_at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+'</td></tr>').join('');
 }
 function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }

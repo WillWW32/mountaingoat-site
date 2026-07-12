@@ -32,7 +32,7 @@ def config():
     return {r["key"]: r["value"] for r in json.load(urllib.request.urlopen(req, timeout=30))}
 
 def send_email(to, subject, html):
-    body = {"from": FROM, "to": [to], "subject": subject, "html": html}
+    body = {"from": FROM, "to": [to], "reply_to": "jesse@entreartists.com", "subject": subject, "html": html}
     req = urllib.request.Request("https://api.resend.com/emails", data=json.dumps(body).encode(),
         headers={"Authorization": "Bearer " + RESEND_KEY, "Content-Type": "application/json", "User-Agent": "mountaingoats-worker/1.0", "Accept": "application/json"}, method="POST")
     urllib.request.urlopen(req, timeout=30)
@@ -41,24 +41,24 @@ STYLE = "font-family:Arial,Helvetica,sans-serif;background:#0d0d0d;color:#f2ede2
 GOLD = "color:#e8a849;"
 
 def welcome_html(name, weight):
-    dbl = ("<p style='%s'><b>Your entry counts DOUBLE</b> — you got in during the early window. 🐐</p>" % GOLD) if weight == 2 else ""
+    dbl = ("<p style='%s'><b>Your entry counts DOUBLE</b>. You got in during the early window. 🐐</p>" % GOLD) if weight == 2 else ""
     return f"""<div style="{STYLE}">
 <h2 style="{GOLD}margin:0 0 12px;">You're in, {name.split()[0] if name else 'friend'}. 🏀</h2>
 <p>You're officially entered in the <b>Mountain Goats free ticket giveaway</b> for the community screening.</p>{dbl}
 <p>What happens next:</p>
-<ol><li>The trailer drops — watch for it at <a href="https://mountaingoats.co" style="{GOLD}">mountaingoats.co</a></li>
-<li>We announce the <b>ticket drop night</b> — winners claim seats first-come</li>
-<li>Claim fast — unclaimed seats release to the waitlist</li></ol>
-<p style="margin-top:18px;">Made in Missoula, for Missoula.<br>— Jesse &amp; the Mountain Goats crew</p></div>"""
+<ol><li>The trailer drops. Watch for it at <a href="https://mountaingoats.co" style="{GOLD}">mountaingoats.co</a></li>
+<li>We announce the <b>ticket drop night</b>. Winners claim seats first-come</li>
+<li>Claim fast. Unclaimed seats release to the waitlist</li></ol>
+<p style="margin-top:18px;">Made in Missoula, for Missoula.<br>Jesse &amp; the Mountain Goats crew</p></div>"""
 
 def drop_html(name):
     return f"""<div style="{STYLE}">
 <h2 style="{GOLD}margin:0 0 12px;">The trailer is LIVE. 🎬</h2>
-<p>{name.split()[0] if name else 'Hey'} — the Mountain Goats trailer just dropped. Watch it now at
+<p>{name.split()[0] if name else 'Hey'}, the Mountain Goats trailer just dropped. Watch it now at
 <a href="https://mountaingoats.co/trailer" style="{GOLD}">mountaingoats.co/trailer</a>.</p>
-<p><b>For the next 24 hours, new entries count double</b> — share the giveaway with a friend who should be in the building:
+<p><b>For the next 24 hours, new entries count double.</b> Share the giveaway with a friend who should be in the building:
 <a href="https://mountaingoats.co/#giveaway" style="{GOLD}">mountaingoats.co</a></p>
-<p>Ticket drop night gets announced soon. Eyes on your inbox.<br>— The Mountain Goats crew</p></div>"""
+<p>Ticket drop night gets announced soon. Eyes on your inbox.<br>The Mountain Goats crew</p></div>"""
 
 def main():
     dry = "--dry" in sys.argv
@@ -70,7 +70,7 @@ def main():
     for e in pend:
         if dry: log("  would welcome:", e["email"], "w", e.get("entry_weight")); continue
         try:
-            send_email(e["email"], "You're in — Mountain Goats ticket giveaway 🏀", welcome_html(e.get("name") or "", e.get("entry_weight") or 1))
+            send_email(e["email"], "You're in! Mountain Goats ticket giveaway 🏀", welcome_html(e.get("name") or "", e.get("entry_weight") or 1))
             done.append(e["id"]); log("  welcomed", e["email"])
         except Exception as ex: log("  send fail", e["email"], str(ex)[:80])
     if done: sb("/rest/v1/rpc/mark_followup", {"kind": "welcome", "ids": done, "secret": SECRET})

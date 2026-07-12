@@ -1282,7 +1282,7 @@
         <p class="subtitle hero-fade hero-fade-2" style="margin-top: -0.25rem; animation-delay: 1.4s; font-size: clamp(0.95rem, 2.8vw, 1.2rem); letter-spacing: 0.25em; opacity: 0.6;">in the heart of Montana</p>
         <p class="hero-tagline hero-fade hero-fade-3" style="animation-delay: 1.8s;">Built by Montana. Driven by each other.</p>
         <div class="hero-fade hero-fade-4" style="animation-delay: 2.4s;">
-            <a href="#giveaway" style="text-decoration:none;"><div class="premiere-badge">Trailer Coming — Free Ticket Giveaway ➜</div></a>
+            <a href="#giveaway" style="text-decoration:none;"><div class="premiere-badge">Trailer Coming: Free Ticket Giveaway ➜</div></a>
         </div>
     </div>
     <a href="#story" class="scroll-indicator">
@@ -1293,6 +1293,17 @@
 </section>
 
 <!-- Trailer Countdown + Ticket Giveaway -->
+<style>
+@media (max-width:640px){
+  #giveaway{padding:3.4rem 1rem !important;}
+  #gv-countdown{gap:8px !important;}
+  #gv-countdown > div{min-width:62px !important;}
+  #gv-countdown [id^="cd-"]{font-size:2.1rem !important;}
+  #gv-form{grid-template-columns:1fr !important;}
+  #gv-form input,#gv-form select{font-size:13px !important;padding:.75rem .8rem !important;}
+  #gv-form input::placeholder{font-size:12.5px;}
+}
+</style>
 <section id="giveaway" style="background:#0d0d0d;border-top:1px solid rgba(232,168,73,.25);border-bottom:1px solid rgba(232,168,73,.25);padding:5rem 1.5rem;">
   <div style="max-width:880px;margin:0 auto;text-align:center;">
     <p class="section-label" style="text-align:center;">The Trailer</p>
@@ -1308,9 +1319,9 @@
     <div style="height:1px;background:rgba(232,168,73,.25);max-width:520px;margin:2.6rem auto;"></div>
 
     <p class="section-label" style="text-align:center;">Free Community Screening</p>
-    <h3 style="font-family:'Oswald',sans-serif;font-size:1.9rem;text-transform:uppercase;letter-spacing:.04em;margin:.4rem 0 .8rem;">Win Tickets — <span class="gold">Free</span></h3>
+    <h3 style="font-family:'Oswald',sans-serif;font-size:1.9rem;text-transform:uppercase;letter-spacing:.04em;margin:.4rem 0 .8rem;">Win <span class="gold">Free</span> Tickets</h3>
     <p class="section-body" style="text-align:center;margin:0 auto 0.75rem;max-width:640px;">
-      We're not selling tickets to a story this town built — we're giving them away.
+      We're not selling tickets to a story this town built. We're giving them away.
       Register below for the ticket drop.
       <strong style="color:#e8a849;" id="gv-bonusline">Enter before 24 hours after the trailer drops and every entry counts DOUBLE.</strong>
     </p>
@@ -1326,7 +1337,7 @@
       <button id="gv-btn" type="submit" style="grid-column:1/-1;padding:.95rem;background:#e8a849;border:none;border-radius:8px;font-family:'Oswald',sans-serif;font-size:1.05rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#111;cursor:pointer;">Enter the Giveaway</button>
       <p id="gv-msg" style="grid-column:1/-1;text-align:center;font-size:.9rem;min-height:1.2em;color:rgba(255,255,255,.75);margin:0;"></p>
     </form>
-    <p style="font-size:.78rem;color:rgba(255,255,255,.4);margin-top:1rem;">One entry per person. Winners get a claim link by email/text — claim by the deadline or seats release to the waitlist. No purchase necessary.</p>
+    <p style="font-size:.78rem;color:rgba(255,255,255,.4);margin-top:1rem;">One entry per person. Winners get a claim link by email/text. Claim by the deadline or seats release to the waitlist. No purchase necessary.</p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1354,7 +1365,7 @@
         if(trailerUrl){ const p=$('gv-player'); if(p.style.display==='none'){ p.style.display='block';
           p.innerHTML='<iframe src="'+trailerUrl+'" style="width:100%;height:100%;border:0;" allow="autoplay; fullscreen" allowfullscreen></iframe>'; } }
         const end=new Date(dropAt.getTime()+24*3600*1000);
-        $('gv-bonusline').textContent = now<end ? 'DOUBLE-ENTRY WINDOW IS LIVE — enter in the next '+Math.ceil((end-now)/3600000)+' hours and your entry counts twice.' : 'The ticket drop is coming — enter now so you don\'t miss it.';
+        $('gv-bonusline').textContent = now<end ? 'DOUBLE-ENTRY WINDOW IS LIVE: enter in the next '+Math.ceil((end-now)/3600000)+' hours and your entry counts twice.' : 'The ticket drop is coming. Enter now so you don\'t miss it.';
         return;
       }
       const d=Math.floor(diff/86400000),h=Math.floor(diff/3600000)%24,m=Math.floor(diff/60000)%60,s=Math.floor(diff/1000)%60;
@@ -1570,7 +1581,7 @@
                 <div class="team-initials">JO</div>
                 <h3>Jerrick Olson</h3>
                 <div class="team-role">Filmmaker</div>
-                <p>Professional filmmaker lending seasoned craft to the crew — helping the student-led team hit a cinematic standard without losing its homegrown voice.</p>
+                <p>Professional filmmaker lending seasoned craft to the crew, helping the student-led team hit a cinematic standard without losing its homegrown voice.</p>
             </div>
             <div class="team-card">
                 <div class="team-initials">TD</div>
