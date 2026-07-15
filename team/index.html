@@ -112,7 +112,7 @@ $('claimBtn').onclick=async ()=>{
   } else if((error.message||'').match(/duplicate|unique/i)){
     msg.textContent='Those tickets are already claimed for '+who+'. Talk to Jesse if that\'s wrong.';
     $('claimBtn').disabled=false;
-  } else { msg.textContent='Something went wrong — try again.'; $('claimBtn').disabled=false; }
+  } else { console.error('claim failed:',error); msg.textContent='That did not go through. Please try again in a minute.'; $('claimBtn').disabled=false; }
 };
 boot();
 </script>

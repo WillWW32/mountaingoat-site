@@ -1389,7 +1389,7 @@
       } else if((error.message||'').match(/duplicate|unique/i)){
         msg.textContent='You\'re already entered with that email — you\'re good!';
       } else {
-        msg.textContent='Something went wrong — try again.'; btn.disabled=false; btn.textContent='Enter the Giveaway';
+        console.error('giveaway insert failed:', error); msg.textContent='That did not go through (a hiccup on our end). Please try again in a minute.'; btn.disabled=false; btn.textContent='Enter the Giveaway';
       }
     });
   })();
