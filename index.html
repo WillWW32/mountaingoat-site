@@ -1381,7 +1381,9 @@
       const row={ name:f.name.value.trim(), email:f.email.value.trim().toLowerCase(),
                   phone:f.phone.value.trim()||null, party_size:parseInt(f.party_size.value,10),
                   how_known:f.how_known.value.trim()||null };
-      const { error } = await sb.from('giveaway_entries').insert(row);
+      let error=null;
+      try { ({ error } = await sb.from('giveaway_entries').insert(row)); }
+      catch(ex){ error={message:'request blocked or failed: '+(ex && ex.message ? ex.message : ex)}; }
       if(!error){
         f.style.display='none';
         msg.textContent='You\'re in! Watch your email/text for the ticket drop. 🏀';
@@ -1389,7 +1391,10 @@
       } else if((error.message||'').match(/duplicate|unique/i)){
         msg.textContent='You\'re already entered with that email — you\'re good!';
       } else {
-        console.error('giveaway insert failed:', error); msg.textContent='That did not go through (a hiccup on our end). Please try again in a minute.'; btn.disabled=false; btn.textContent='Enter the Giveaway';
+        console.error('giveaway insert failed:', error);
+        const det=(error && (error.message||error.details||error.code)) ? String(error.message||error.details||error.code).slice(0,140) : 'no response (network or a blocker?)';
+        msg.innerHTML='That did not go through. Please try again in a minute.<br><span style="font-size:11px;color:rgba(255,255,255,.45);">detail: '+det.replace(/</g,'&lt;')+'</span>';
+        btn.disabled=false; btn.textContent='Enter the Giveaway';
       }
     });
   })();
