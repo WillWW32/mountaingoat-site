@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Mountain Goats Ticket Claim</title>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0a0a0a;color:#f2ede2;font-family:'Inter',sans-serif;min-height:100vh;padding:34px 18px 70px;}
+  .wrap{max-width:620px;margin:0 auto;text-align:center;}
+  img.badge{height:80px;border-radius:8px;}
+  h1{font-family:'Oswald';text-transform:uppercase;letter-spacing:.05em;font-size:clamp(24px,5vw,34px);margin:14px 0 6px;}
+  .gold{color:#e8a849;}
+  .sub{color:rgba(255,255,255,.65);font-size:15px;line-height:1.65;max-width:540px;margin:0 auto;}
+  .card{background:#141414;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:26px 22px;margin-top:26px;}
+  label{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:4px 0 8px;text-align:left;}
+  input{width:100%;padding:13px;background:#0f0f0f;border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#fff;font-size:15px;font-family:'Inter',sans-serif;}
+  #btn{width:100%;margin-top:16px;padding:14px;background:#e8a849;border:none;border-radius:9px;font-family:'Oswald';font-weight:700;font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:#111;cursor:pointer;}
+  #btn:disabled{opacity:.45;cursor:default;}
+  #msg{margin-top:12px;font-size:14px;min-height:1.3em;color:rgba(255,255,255,.75);}
+  .win{display:none;margin-top:26px;background:rgba(232,168,73,.09);border:1px solid rgba(232,168,73,.5);border-radius:14px;padding:26px 22px;}
+  .win h2{font-family:'Oswald';font-size:26px;text-transform:uppercase;letter-spacing:.05em;color:#e8a849;}
+  .win p{margin-top:10px;font-size:15px;line-height:1.65;color:rgba(255,255,255,.85);}
+  .dl{display:inline-block;margin-top:16px;padding:13px 22px;background:#e8a849;border-radius:9px;font-family:'Oswald';font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#111;text-decoration:none;}
+  .fine{margin-top:16px;font-size:12px;color:rgba(255,255,255,.45);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img class="badge" src="/assets/badge.png" alt="Mountain Goats">
+  <h1>Claim Your <span class="gold">Tickets</span></h1>
+  <p class="sub">If you received this link, you were selected in the Mountain Goats ticket giveaway. Enter the email you registered with to claim <b class="gold">2 seats</b> at our private screening and watch party.</p>
+
+  <div class="card" id="form">
+    <label>Your registered email</label>
+    <input id="email" type="email" placeholder="you@example.com" autocomplete="email">
+    <button id="btn">Claim My 2 Seats</button>
+    <div id="msg"></div>
+  </div>
+
+  <div class="win" id="win">
+    <h2>🎟 You're on the list!</h2>
+    <p><b>Sunday, August 9, 2026 · 1:00 PM · The Roxy Theater, Missoula.</b><br>
+    Two seats are locked in under your name. Doors open at 12:45. Download your invitation below, it's your Special Entry pass, and we'll also have you on the list at the door.</p>
+    <a class="dl" href="/assets/invite_special_entry.jpg" download="MountainGoats_SpecialEntry_Invitation.jpg">Download Your Invitation</a>
+    <p class="fine">This is a private, invitation-only screening. Please help us protect the film's festival premiere by keeping the event off social media. Your seats are tied to your registered email at the door.</p>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = window.supabase.createClient('https://nrfiomvamfcrvopynfdf.supabase.co',
+ 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yZmlvbXZhbWZjcnZvcHluZmRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MDY5OTgsImV4cCI6MjA4NDA4Mjk5OH0.J7bEn5YtQ69WbVMsga5oIEewapJV9Nf8OEK2xWefAYU');
+const $=id=>document.getElementById(id);
+$('btn').onclick=async()=>{
+  const email=$('email').value.trim();
+  if(!email||!email.includes('@')){ $('msg').textContent='Enter the email you registered with.'; return; }
+  $('btn').disabled=true; $('msg').textContent='Checking...';
+  const { data, error } = await sb.rpc('claim_tickets',{ p_email: email });
+  $('btn').disabled=false;
+  if(error){ $('msg').textContent='Something went sideways. Try again in a minute.'; console.error(error); return; }
+  if(data==='claimed'||data==='already'){
+    $('form').style.display='none'; $('win').style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else if(data==='not_selected'){
+    $('msg').textContent='This email is registered but was not selected in this round. Hold tight, more chances are coming.';
+  } else if(data==='expired'){
+    $('msg').textContent='The 24-hour claim window for this round has passed and these seats were released.';
+  } else {
+    $('msg').textContent='We could not find that email in the giveaway. Double-check the address you registered with.';
+  }
+};
+</script>
+</body>
+</html>
