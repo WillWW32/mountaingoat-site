@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Mountain Goats Guestbook</title>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0a0a0a;color:#f2ede2;font-family:'Inter',sans-serif;min-height:100vh;padding:34px 18px 70px;}
+  .wrap{max-width:620px;margin:0 auto;text-align:center;}
+  img.badge{height:80px;border-radius:8px;}
+  h1{font-family:'Oswald';text-transform:uppercase;letter-spacing:.05em;font-size:clamp(24px,5vw,34px);margin:14px 0 6px;}
+  .gold{color:#e8a849;}
+  .sub{color:rgba(255,255,255,.65);font-size:15px;line-height:1.65;max-width:540px;margin:0 auto;}
+  .card{background:#141414;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:26px 22px;margin-top:26px;text-align:left;}
+  label{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:14px 0 6px;}
+  input,textarea{width:100%;padding:12px;background:#0f0f0f;border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#fff;font-size:15px;font-family:'Inter',sans-serif;}
+  textarea{min-height:110px;resize:vertical;}
+  .chk{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:13.5px;color:rgba(255,255,255,.75);line-height:1.5;}
+  .chk input{width:auto;margin-top:3px;}
+  #btn{width:100%;margin-top:18px;padding:14px;background:#e8a849;border:none;border-radius:9px;font-family:'Oswald';font-weight:700;font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:#111;cursor:pointer;}
+  #btn:disabled{opacity:.45;}
+  #msg{text-align:center;margin-top:12px;font-size:14px;min-height:1.3em;color:rgba(255,255,255,.75);}
+  .done{display:none;margin-top:26px;background:rgba(232,168,73,.09);border:1px solid rgba(232,168,73,.5);border-radius:14px;padding:26px 22px;}
+  .done h2{font-family:'Oswald';font-size:24px;text-transform:uppercase;color:#e8a849;}
+  .done p{margin-top:10px;font-size:15px;line-height:1.6;color:rgba(255,255,255,.85);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img class="badge" src="/assets/badge.png" alt="Mountain Goats">
+  <h1>Sign the <span class="gold">Guestbook</span></h1>
+  <p class="sub">You just watched Mountain Goats before the rest of the world. Leave a note for the team and the town: what did tonight mean to you?</p>
+
+  <div class="card" id="form">
+    <label>Your name</label>
+    <input id="gname" placeholder="Full name">
+    <label>Your connection to the story (optional)</label>
+    <input id="gconn" placeholder="parent, classmate, coach, neighbor, hooper...">
+    <label>Your note</label>
+    <textarea id="gmsg" placeholder="What did the film mean to you?"></textarea>
+    <div class="chk"><input type="checkbox" id="gquote" checked><span>It's OK to quote me (first name and connection only) when sharing the film with the world.</span></div>
+    <button id="btn">Sign the Guestbook</button>
+    <div id="msg"></div>
+  </div>
+
+  <div class="done" id="done">
+    <h2>🏔 Thank you</h2>
+    <p>Your note is in the book. This film belongs to Missoula, and now a little piece of the record belongs to you. One ask: please keep tonight off social media until our festival premiere. The mountains are patient, and so are we.</p>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = window.supabase.createClient('https://nrfiomvamfcrvopynfdf.supabase.co',
+ 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yZmlvbXZhbWZjcnZvcHluZmRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MDY5OTgsImV4cCI6MjA4NDA4Mjk5OH0.J7bEn5YtQ69WbVMsga5oIEewapJV9Nf8OEK2xWefAYU');
+const $=id=>document.getElementById(id);
+$('btn').onclick=async()=>{
+  const name=$('gname').value.trim(), msg=$('gmsg').value.trim();
+  if(name.length<2){ $('msg').textContent='Tell us your name first.'; return; }
+  if(msg.length<3){ $('msg').textContent='Leave at least a few words.'; return; }
+  $('btn').disabled=true; $('msg').textContent='Signing...';
+  const { error } = await sb.from('guestbook').insert({
+    name, connection: $('gconn').value.trim()||null, message: msg, quote_ok: $('gquote').checked, source:'roxy-2026' });
+  if(error){ console.error(error); $('msg').textContent='That did not go through. Try once more.'; $('btn').disabled=false; return; }
+  $('form').style.display='none'; $('done').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+</script>
+</body>
+</html>
