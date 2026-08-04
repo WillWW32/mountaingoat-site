@@ -38,8 +38,12 @@
   <div class="card" id="form">
     <label>Your name</label>
     <input id="gname" placeholder="Full name">
+    <label>Your email (optional: we'll tell you when the film goes public)</label>
+    <input id="gemail" type="email" placeholder="you@example.com" autocomplete="email">
     <label>Your connection to the story (optional)</label>
     <input id="gconn" placeholder="parent, classmate, coach, neighbor, hooper...">
+    <label>Your favorite part (optional)</label>
+    <input id="gfav" placeholder="a scene, a moment, a line..." maxlength="160">
     <label>Your note</label>
     <textarea id="gmsg" placeholder="Best: write a movie review, or just give us a few thoughts."></textarea>
     <div class="chk"><input type="checkbox" id="gquote" checked><span>It's OK to quote me (first name and connection only) when sharing the film with the world.</span></div>
@@ -58,13 +62,17 @@ const sb = window.supabase.createClient('https://nrfiomvamfcrvopynfdf.supabase.c
  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yZmlvbXZhbWZjcnZvcHluZmRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MDY5OTgsImV4cCI6MjA4NDA4Mjk5OH0.J7bEn5YtQ69WbVMsga5oIEewapJV9Nf8OEK2xWefAYU');
 const $=id=>document.getElementById(id);
 $('btn').onclick=async()=>{
-  const name=$('gname').value.trim(), msg=$('gmsg').value.trim();
+  const name=$('gname').value.trim(), msg=$('gmsg').value.trim(), email=$('gemail').value.trim();
   if(name.length<2){ $('msg').textContent='Tell us your name first.'; return; }
+  if(email && !/^\S+@\S+\.\S+$/.test(email)){ $('msg').textContent='That email looks off. Fix it or leave it blank.'; return; }
   if(msg.length<3){ $('msg').textContent='Leave at least a few words.'; return; }
   $('btn').disabled=true; $('msg').textContent='Signing...';
   const { error } = await sb.from('guestbook').insert({
-    name, connection: $('gconn').value.trim()||null, message: msg, quote_ok: $('gquote').checked, source:'roxy-2026' });
+    name, connection: $('gconn').value.trim()||null, email: email||null,
+    favorite_part: $('gfav').value.trim()||null,
+    message: msg, quote_ok: $('gquote').checked, source:'roxy-2026' });
   if(error){ console.error(error); $('msg').textContent='That did not go through. Try once more.'; $('btn').disabled=false; return; }
+  if(email){ sb.from('signups').insert({ first_name: name, email }).then(()=>{},()=>{}); }
   $('form').style.display='none'; $('done').style.display='block';
   window.scrollTo({top:0,behavior:'smooth'});
 };
