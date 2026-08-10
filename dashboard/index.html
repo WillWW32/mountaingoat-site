@@ -55,6 +55,14 @@
   .rv-filter{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
   .rv-filter input{accent-color:var(--accent);}
   .rv-filter label{font-size:11.5px;color:var(--ink-2);cursor:pointer;}
+  .live{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-3);margin-left:10px;}
+  .live .dot{width:7px;height:7px;border-radius:50%;background:var(--ink-3);}
+  .live.on .dot{background:#7ddf9a;box-shadow:0 0 0 0 rgba(125,223,154,.7);animation:pulse 2s infinite;}
+  .live.on{color:#7ddf9a;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(125,223,154,.6)}70%{box-shadow:0 0 0 7px rgba(125,223,154,0)}100%{box-shadow:0 0 0 0 rgba(125,223,154,0)}}
+  @keyframes flashIn{0%{background:rgba(232,168,73,.22);}100%{background:transparent;}}
+  .rv.new{animation:flashIn 2.6s ease-out;}
   .card h3{font-family:'Oswald';font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:14px;}
   #chart{position:relative;height:180px;}
   #chart .grid{position:absolute;left:34px;right:0;border-top:1px solid var(--line);}
@@ -117,7 +125,7 @@
     </div>
 
     <div class="card">
-      <h3>Reviews &amp; Guestbook <span id="rv-count" style="letter-spacing:0;color:var(--ink-3)"></span>
+      <h3>Reviews &amp; Guestbook <span id="rv-count" style="letter-spacing:0;color:var(--ink-3)"></span><span class="live" id="rv-live"><span class="dot"></span><span id="rv-live-t">connecting</span></span>
         <button class="ghost" id="rv-csv" style="float:right;font-size:11px;padding:4px 10px;">Export CSV</button></h3>
       <div class="rv-filter">
         <input type="checkbox" id="rv-only-q"><label for="rv-only-q">Quotable only</label>
@@ -231,20 +239,44 @@ async function refresh(){
   $('t-seats').textContent = seats;
   $('t-signups').textContent = (signupCount==null?'—':signupCount);
   $('updated').textContent = 'Updated '+new Date().toLocaleTimeString()+' · auto-refreshes every 60s';
-  chart(ROWS); table(ROWS); kit(); teamClaims(); reviews();
+  chart(ROWS); table(ROWS); kit(); teamClaims(); reviews();   // reviews also push live via realtime
 }
 let REVIEWS = [];
 async function reviews(){
   const { data, error } = await sb.from('guestbook').select('*').order('created_at',{ascending:false});
   if (error || !data) { $('rv-list').innerHTML='<div style="color:var(--ink-3);font-size:13px;">Could not load reviews: '+esc(error?error.message:'no data')+'</div>'; return; }
   REVIEWS = data;
-  const today = data.filter(r=>new Date(r.created_at).toDateString()===new Date().toDateString()).length;
-  $('r-total').textContent = data.length;
-  $('r-today').textContent = today+' today';
-  $('r-quote').textContent = data.filter(r=>r.quote_ok).length;
-  $('r-fav').textContent   = data.filter(r=>r.favorite_part).length;
-  $('r-email').textContent = data.filter(r=>r.email).length;
+  reviewTiles();
   renderReviews();
+  subscribeReviews();
+}
+function reviewTiles(){
+  const d = REVIEWS;
+  const today = d.filter(r=>new Date(r.created_at).toDateString()===new Date().toDateString()).length;
+  $('r-total').textContent = d.length;
+  $('r-today').textContent = today+' today';
+  $('r-quote').textContent = d.filter(r=>r.quote_ok).length;
+  $('r-fav').textContent   = d.filter(r=>r.favorite_part).length;
+  $('r-email').textContent = d.filter(r=>r.email).length;
+}
+let RV_CHANNEL=null, NEW_IDS=new Set();
+function subscribeReviews(){
+  if (RV_CHANNEL) return;                       // only once
+  RV_CHANNEL = sb.channel('guestbook-live')
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'guestbook'}, payload=>{
+      const row = payload.new;
+      if (REVIEWS.some(r=>r.id===row.id)) return;   // de-dupe vs a poll that beat us
+      REVIEWS.unshift(row);
+      NEW_IDS.add(row.id);
+      reviewTiles();
+      renderReviews();
+      try{ document.title='(' + NEW_IDS.size + ') Mountain Goats Dashboard'; }catch(e){}
+    })
+    .subscribe(status=>{
+      const el=$('rv-live'), t=$('rv-live-t');
+      if(status==='SUBSCRIBED'){ el.classList.add('on'); t.textContent='live'; }
+      else { el.classList.remove('on'); t.textContent = status==='CLOSED' ? 'reconnecting' : 'connecting'; }
+    });
 }
 function renderReviews(){
   const onlyQ = $('rv-only-q').checked, onlyF = $('rv-only-f').checked;
@@ -253,7 +285,8 @@ function renderReviews(){
   if(!list.length){ $('rv-list').innerHTML='<div style="color:var(--ink-3);font-size:13px;">No reviews yet. They appear here the moment someone scans the QR code.</div>'; return; }
   $('rv-list').innerHTML = list.map(r=>{
     const when = new Date(r.created_at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
-    return '<div class="rv">'+
+    const isNew = NEW_IDS.has(r.id);
+    return '<div class="rv'+(isNew?' new':'')+'">'+
       '<div class="rv-top"><span class="rv-name">'+esc(r.name)+'</span>'+
         (r.connection?'<span class="rv-conn">'+esc(r.connection)+'</span>':'')+
         '<span class="rv-when">'+when+'</span></div>'+
